@@ -1,0 +1,78 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Josefin+Sans:400,600,700,400italic,600italic);
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Poppins:400,500,700');
+
+section {
+    margin-top: 150px;
+    margin-bottom: 150px;
+    background-color: #f0f0f0;
+}
+
+form {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    width: 100%;
+    background-color: white;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 2px;
+    border: 1px solid #dbdbdb;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-shadow: 0px 0px 15px -6px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -6px rgba(0, 0, 0, 0.75);
+}
+
+form h2 {
+    font-weight: 700;
+    font-size: 50px;
+}
+
+form input {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    border: 1px solid #d1d1d1;
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.8;
+    border-radius: 2px;
+}
+
+button {
+    background-color: #222222;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    padding: 10px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #6c7ae0;
+    cursor: pointer;
+}
+
+.box-login {
+    padding: 80px 20px 80px 20px;
+}

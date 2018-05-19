@@ -1,0 +1,217 @@
+<div class="container">
+    <div class="shop-menu">
+        <ul class="myBtnContainer d-flex flex-wrap">
+            <li class="btn active" (click)="filterSelection('all')">All Products</li>
+            <li class="btn" (click)="filterSelection('all')">Women</li>
+            <li class="btn" (click)="filterSelection('all')">Men</li>
+            <li class="btn" (click)="filterSelection('all')">Accesories</li>
+        </ul>
+        <div class="shop-filter">
+            <div class="filter-button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">Filter</div>
+        </div>
+    </div>
+    <div class="collapse" id="footwear">
+        <div class="container">
+            <div class="row">
+                <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <ul>
+                        <li class="sortBy"> Sort By</li>
+                        <li class="sortBy">Default</li>
+                        <li class="sortBy">Popularity</li>
+                        <li class="sortBy">Average rating</li>
+                        <li class="sortBy">Newness</li>
+                        <li class="sortBy">Price: Low to Hight</li>
+                        <li class="sortBy">Price: High to Low</li>
+                    </ul>
+                </div>
+                <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <ul>
+                        <li class="sortBy">Price</li>
+                        <li class="sortBy">All</li>
+                        <li class="sortBy">$0.00 - $50.00</li>
+                        <li class="sortBy">$50.00 - $100.00</li>
+                        <li class="sortBy">$100.00 - $200.00</li>
+                        <li class="sortBy">$200.00+</li>
+                    </ul>
+                </div>
+                <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <ul>
+                        <li class="sortBy">Default</li>
+                        <li class="sortBy">Popularity</li>
+                        <li class="sortBy">Average rating</li>
+                        <li class="sortBy">Newness</li>
+                        <li class="sortBy">Price: Low to Hight</li>
+                        <li class="sortBy">Price: High to Low</li>
+                    </ul>
+                </div>
+                <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <ul>
+                        <li class="collapse-tags">Fashion</li>
+                        <li class="collapse-tags">Lifestyle</li>
+                        <li class="collapse-tags">clothes</li>
+                        <li class="collapse-tags">Street</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="modal-img col-12 col-sm-12 col-md-6">
+                            <div class="container ph-modal">
+                                <div class="row">
+                                    <div class="modal-image-side col-2 col-sm-2 col-md-2">
+                                        <img src="../../../assets/pexels-photo-128206.jpeg" alt="">
+                                        <img src="../../../assets/woman-3046960_640.jpg" alt="">
+                                        <img src="../../../assets/dog-2467149_640.jpg" alt="">
+                                    </div>
+                                    <div class="modal-image-main col-10 col-sm-10 col-md-10">
+                                        <img src="../../../assets/woman-3046960_640.jpg" alt="">
+                                        <div class="modal-image-main-arrow-left"><i class="fas fa-arrow-circle-left"></i></div>
+                                        <div class="modal-image-main-arrow-right"><i class="fas fa-arrow-circle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-describe col-12 col-sm-12 col-md-6">
+                            <div class="modal-describe-title">Lightweight Jacket<span (click)="likebtn($event)" class="like-btn"></span></div>
+                            <div class="modal-describe-price">Price: <span>$19.90</span></div>
+                            <div class="modal-describe-specification">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum, eos accusantium incidunt adipisci at sit aut! Ex reprehenderit libero necessitatibus, saepe, inventore in repudiandae quaerat odio, aperiam quis voluptatem!</div>
+                            <div class="modal-describe-option d-flex flex-column">
+                                <div class="row box-select align-items-center">
+                                    <div class="col-2">Size: </div>
+                                    <div class="select col-6">
+                                        <select>
+                                            <option disabled>Size</option>
+                                            <option>Size M</option>
+                                            <option>Size S</option>
+                                            <option>Size L</option>
+                                            <option>Size XL</option>
+                                        </select>
+                                        <div class="select_arrow"></div>
+                                    </div>
+                                </div>
+                                <div class="row box-select align-items-center">
+                                    <span class="col-2">Color: </span>
+                                    <div class="select col-6">
+                                        <select>
+                                            <option disabled>Color</option>
+                                            <option>Hello 1</option>
+                                            <option>Hello 2</option>
+                                            <option>Hello 3</option>
+                                            <option>Hello 4</option>
+                                        </select>
+                                        <div class="select_arrow"></div>
+                                    </div>
+                                </div>
+                                <div class="row d-flex align-items-center">
+                                    <div class="quantity-item col-2"></div>
+                                    <div class="modal-count-item col-10">
+                                        <div class="quantity d-flex flex-row">
+                                            <button class="plus-btn" type="button" name="button">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <input type="text" name="name" value="1">
+                                            <button class="minus-btn" type="button" name="button">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-button-add-to-chart d-flex justify-content-end">
+                                    <button>Add to chart</button>
+                                </div>
+                            </div>
+                            <div class="modal-describe-social-media"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <!-- START PRODUCT -->
+    <div class="row photos justify-content-center">
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
+            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                <figcaption>
+                    <h3>Pudol Doux</h3>
+                    <p>All this modern technology just makes people try to do everything at once.</p>
+                    <div class="price">
+                        <s>$24.00</s>$19.00
+                    </div>
+                </figcaption><i class="fas fa-cart-plus"></i>
+            </figure>
+        </div>
+        <!-- END PRODUCT -->
+    </div>
+</div>

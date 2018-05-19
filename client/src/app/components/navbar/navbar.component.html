@@ -1,0 +1,69 @@
+<nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand d-flex flex-row justify-content-center align-items-center" href="#">| Michalski <p> <i class="fab fa-connectdevelop"></i> Dev |</p></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link" routerLink="/">Home</a>
+                </li>
+                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link" routerLink="/shop">Shop</a>
+                </li>
+                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link" routerLink="/blog">Blog</a>
+                </li>
+                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link" routerLink="/about-us">About</a>
+                </li>
+                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav d-flex flex-row justify-content-center align-items-center ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"><i id="shopping-cart" class="fa fa-shopping-cart"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-user"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="header-cart fixed-top ml-auto">
+    <div class="container">
+        <ul class="header-cart-wrap">
+            <li class="header-cart-item">
+                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
+                <div class="header-cart-item-describe">
+                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
+                    <div class="header-cart-item-describe-price">1 x $19.90</div>
+                </div>
+            </li>
+            <li class="header-cart-item">
+                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
+                <div class="header-cart-item-describe">
+                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
+                    <div class="header-cart-item-describe-price">1 x $19.90</div>
+                </div>
+            </li>
+            <li class="header-cart-item">
+                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
+                <div class="header-cart-item-describe">
+                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
+                    <div class="header-cart-item-describe-price">1 x $19.90</div>
+                </div>
+            </li>
+        </ul>
+        <div class="header-cart-price">
+            - Total: $75.00
+        </div>
+        <div class="header-cart-buton">
+            <button>View cart</button>
+            <button>Check out</button>
+        </div>
+    </div>
+</div>

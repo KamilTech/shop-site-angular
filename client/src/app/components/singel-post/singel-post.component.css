@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Poppins:400,500,700');
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.blog-main-image {
+    margin-top: 70px;
+    background-image: url(../../../assets/pexels-photo-590493.jpeg);
+    width: 100%;
+    height: 200px;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    background-attachment: fixed;
+}
+
+.blog-main-image::after {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    background-color: rgba(35, 45, 55, 0.7);
+    z-index: -1;
+}
+
+.popis-font {
+    font-family: 'Poppins', sans-serif;
+}
+
+.ma-30 {
+    margin-top: 30px;
+}
+
+.h-100 {
+    height: 100%!important;
+}
+
+.inscryption-image,
+.last-post .inscryption {
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 1.1;
+    color: #f0f0f0;
+}
+
+.snip1295 {
+    width: auto;
+}
+
+.main-post .post-content {
+    padding-left: 7px;
+}
+
+.post-content-info {
+    font-size: 13px;
+}
+
+.post-content-info span {
+    padding-right: 10px;
+    text-align: left;
+    padding-left: 0 !important;
+    color: #888;
+}
+
+.post-content-info span:hover {
+    cursor: pointer;
+    color: #3e3e3e;
+}
+
+.post-content-info i {
+    padding-right: 4px;
+}
+
+.font-weight {
+    font-weight: 500;
+    color: #3e3e3e;
+}
+
+.post-content-title {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.post-content-describe {
+    padding-top: 5px;
+    font-size: 14px;
+    color: #3e3e3e;
+}
+
+.post-main-button button {
+    background-color: #ffffff;
+    border-radius: 20px;
+    color: #888;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.post-main-button button:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.main-post {
+    margin-bottom: 50px;
+}
+
+.tags {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 50px;
+}
+
+.tags span {
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #f0f0f0;
+    color: #888;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+
+.last-post {
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.last-post .inscryption {
+    padding-top: 25px;
+    font-size: 28px;
+    color: #3e3e3e;
+    padding-bottom: 25px;
+}
+
+.last-post img {
+    width: 100%;
+}
+
+.last-post-who,
+.last-post-describe {
+    font-size: 13px;
+    color: #3e3e3e;
+    padding-top: 5px;
+}
+
+.last-post-describe {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.amount-com {
+    font-size: 28px;
+    font-weight: 700;
+    color: #3e3e3e;
+    padding-bottom: 25px;
+}
+
+.comment-section {
+    padding-top: 50px;
+    padding-bottom: 25px;
+}
+
+.singel-com {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+
+.singel-com-img img {
+    max-width: 100%;
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    display: inline-block;
+    z-index: 1;
+    position: relative;
+}
+
+.singel-com-desc-time {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.com-name {
+    font-size: 13px;
+    text-align: center;
+    font-weight: 500;
+    color: #888;
+}
+
+.singel-com-desc {
+    font-size: 16px;
+    font-weight: 400;
+    border-left: 1px solid #f0f0f0;
+}
+
+.write-comment-input textarea {
+    height: 150px;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #f0f0f0;
+}
+
+.write-button button,
+.singel-like button {
+    background-color: #222222;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+.singel-like button {
+    background-color: white;
+    border-radius: 0px;
+    border: 1px solid #f0f0f0;
+    color: #888;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.singel-like button i {
+    padding-right: 7px;
+}
+
+.singel-like button:hover {
+    background-color: #f0f0f0;
+    color: #3e3e3e;
+}
+
+.write-button button:hover {
+    background-color: #6c7ae0;
+    cursor: pointer;
+}
+
+.like-post {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 16px;
+    color: #3e3e3e;
+    font-weight: 700;
+    position: relative;
+}
+
+.like-post-heart {
+    margin-right: 33px;
+}
+
+@media screen and (max-width: 380px) {
+    .singel-com-img img {
+        height: 50px;
+        width: 50px;
+    }
+}
+@media screen and (max-width: 786px) {
+    .singel-com-img img {
+        height: 70px;
+        width: 70px;
+    }
+    .last-post .d-flex {
+        padding-top: 25px;
+    }
+}
+
+.like-btn {
+    position: absolute;
+    bottom: 10px;
+    background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
+    width: 60px;
+    height: 60px;
+    background-size: 3900%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    background-position: left;
+    opacity: 0.6
+}
+
+.is-active {
+    -webkit-animation-name: animate;
+    animation-name: animate;
+    -webkit-animation-duration: .8s;
+    animation-duration: .8s;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: steps(28);
+    animation-timing-function: steps(28);
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    opacity: 1;
+}
+
+@-webkit-keyframes animate {
+    0% {
+        background-position: left;
+    }
+    50% {
+        background-position: right;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+@keyframes animate {
+    0% {
+        background-position: left;
+    }
+    50% {
+        background-position: right;
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+/* Fade in animation */
+@-webkit-keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  -webkit-animation: fadeIn 0.5s ease-in 1 forwards;
+  animation: fadeIn 0.5s ease-in 1 forwards;
+}
