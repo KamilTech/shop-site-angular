@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {trigger, animate, style, group, animateChild, query, stagger, transition} from '@angular/animations';
+import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { Router, NavigationEnd } from '@angular/router';
 
 const slideLeft = [
