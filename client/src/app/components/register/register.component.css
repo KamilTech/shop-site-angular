@@ -52,6 +52,15 @@ form input {
     border-radius: 2px;
 }
 
+form input.input-success {
+    border: 1px solid rgba(0, 128, 0, 0.80);
+    outline: green;
+}
+form input.input-error {
+    border: 1px solid #dc0000;
+    outline: none;
+}
+
 button {
     background-color: #222222;
     border-radius: 20px;
@@ -73,6 +82,26 @@ button:hover {
     cursor: pointer;
 }
 
+button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .box-login {
     padding: 80px 20px 80px 20px;
+    width: 100%;
+}
+
+.help-block {
+    margin: 0;
+    padding-bottom: 0;
+    margin-top: 5px;
+    color: #dc0000;
+    font-size: 14px;
+}
+
+.help-block ul,
+.help-block ul li{
+    margin: 0;
+    padding: 0;
 }
