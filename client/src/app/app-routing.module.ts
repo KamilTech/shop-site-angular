@@ -7,6 +7,7 @@ import { ShopComponent } from './components/shop/shop.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { SingelPostComponent } from './components/singel-post/singel-post.component';
 import { AboutComponent } from './components/about/about.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const appRoutes: Routes = [
   {
@@ -46,6 +47,10 @@ const appRoutes: Routes = [
   {
     path: 'about-us',
     component: AboutComponent // About us
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent // Profile
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route
 ];

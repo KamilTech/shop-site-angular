@@ -161,3 +161,26 @@ li {
     background-color: #6c7ae0;
     cursor: pointer;
 }
+
+.user {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 200px;
+}
+
+.user li {
+    border-top: 1px solid #ebebeb;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.user li:hover {
+    background-color: #ebebeb;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+}
+
+.user li:first-child {
+    border-top: none;
+}

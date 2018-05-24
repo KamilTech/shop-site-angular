@@ -4,18 +4,26 @@
             <div class="col-sm-12 col-md-9 col-lg-7 col-xl-7">
                 <form [formGroup]="form" (submit)="onRegisterSubmit()">
                     <div class="box-login">
+                        <!-- Custom Success/Error Message -->
+                        <div class="show-hide-message">
+                            <div [ngClass]="messageClass">
+                                {{ message }}
+                            </div>
+                        </div>
                         <h2>Register</h2>
-                        <input [ngClass]="{'input-error': (form.controls.username.errors && form.controls.username.dirty), 'input-success': !form.controls.username.errors}" type="text" name="username" formControlName="username" placeholder="Username" autocomplete="off">
+                        <input [ngClass]="{'input-error': (form.controls.username.errors && form.controls.username.dirty) || (!usernameValid && form.controls.username.dirty), 'input-success': !form.controls.username.errors && usernameValid }" type="text" name="username" formControlName="username" placeholder="Username" autocomplete="off" (blur)="checkUsername()">
                         <ul class="help-block">
                             <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
                             <li *ngIf="form.controls.username.errors?.minlength && form.controls.username.dirty || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Minimum characters: 3, Maximum characters: 15</li>
                             <li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">Username must not have any special characters</li>
+                            <li [ngClass]="{'green': usernameMessage === 'Username is available', 'red': usernameMessage !== 'Username is available' || !usernameMessage }" *ngIf="usernameMessage">{{ usernameMessage }}</li>
                         </ul>
-                        <input [ngClass]="{'input-error': (form.controls.email.errors && form.controls.email.dirty), 'input-success': !form.controls.email.errors}" type="email" name="email" formControlName="email" placeholder="E-mail" autocomplete="off">
+                        <input [ngClass]="{'input-error': (form.controls.email.errors && form.controls.email.dirty) || (!emailValid && form.controls.email.dirty), 'input-success': !form.controls.email.errors && emailValid }" type="email" name="email" formControlName="email" placeholder="E-mail" autocomplete="off" (blur)="checkEmail()">
                         <ul class="help-block">
                             <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
                             <li *ngIf="(form.controls.email.errors?.minlength && form.controls.email.dirty || form.controls.email.errors?.maxlength && form.controls.email.dirty ) && form.controls.email.dirty">Minimum characters: 5, Maximum characters: 30</li>
                             <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid e-mail</li>
+                            <li [ngClass]="{'green': emailMessage === 'E-mail is available', 'red': emailMessage !== 'E-mail is available' || !emailMessage }" *ngIf="emailMessage">{{ emailMessage }}</li>
                         </ul>
                         <input [ngClass]="{'input-error': (form.controls.password.errors && form.controls.password.dirty), 'input-success': !form.controls.password.errors}" type="password" name="password" formControlName="password" placeholder="password">
                         <ul class="help-block">
@@ -29,7 +37,7 @@
                             <li *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty">Password do not match</li>
                         </ul>
                         <div class="login-send">
-                            <button [disabled]="!form.valid" [ngClass]="{'disabled': !form.valid }">Login</button>
+                            <button [disabled]="!form.valid || processing || !emailValid || !usernameValid" [ngClass]="{'disabled': !form.valid || processing || !emailValid || !usernameValid }">Register</button>
                         </div>
                         <span>Do have an account? <a routerLink="/login">Sign in</a></span>
                     </div>

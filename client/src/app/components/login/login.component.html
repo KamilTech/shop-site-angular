@@ -1,15 +1,26 @@
-<!--
 <section>
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-sm-12 col-md-9 col-lg-7 col-xl-7">
-                <form >
+                <form [formGroup]="form" (submit)="onLoginSubmit()">
                     <div class="box-login">
+                        <!-- Custom Success/Error Message -->
+                        <div class="show-hide-message">
+                            <div [ngClass]="messageClass">
+                                {{ message }}
+                            </div>
+                        </div>
                         <h2>Login</h2>
-                        <input type="text" placeholder="Login">
-                        <input type="password" placeholder="password">
+                        <input [ngClass]="{'input-error': form.controls.username.errors && form.controls.username.dirty, 'input-success': form.controls.username.valid && form.controls.username.dirty }" type="text" placeholder="Login" formControlName="username">
+                        <ul class="help-block">
+                            <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required.</li>
+                        </ul>
+                        <input [ngClass]="{'input-error': form.controls.password.errors && form.controls.password.dirty, 'input-success': form.controls.password.valid && form.controls.password.dirty }" type="password" placeholder="password" formControlName="password">
+                        <ul class="help-block">
+                            <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is required.</li>
+                        </ul>
                         <div class="login-send">
-                            <button>Login</button>
+                            <button [disabled]="!form.valid || processing" [ngClass]="{'disabled': !form.valid || processing }">Login</button>
                         </div>
                         <span>Don't have an account? <a routerLink="/register">Sign up</a></span>
                     </div>
@@ -18,4 +29,3 @@
         </div>
     </div>
 </section>
--->

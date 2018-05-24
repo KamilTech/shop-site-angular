@@ -23,17 +23,20 @@
                 </li>
             </ul>
             <ul class="navbar-nav d-flex flex-row justify-content-center align-items-center ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link"><i id="shopping-cart" class="fa fa-shopping-cart"></i></a>
+                <li class="nav-item" (click)="smallCard('cart')">
+                    <a class="nav-link"><i class="fa fa-shopping-cart"></i></a>
                 </li>
-                <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                <li *ngIf="authService.loggedIn()" (click)="smallCard('user')" class="nav-item">
+                    <a class="nav-link"><i class="fa fa-user"></i></a>
+                </li>
+                <li *ngIf="!authService.loggedIn()" class="nav-item">
                     <a class="nav-link" routerLink="/login"><i class="fa fa-user"></i></a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="header-cart fixed-top ml-auto">
+<div class="header-cart fixed-top ml-auto cart">
     <div class="container">
         <ul class="header-cart-wrap">
             <li class="header-cart-item">
@@ -65,5 +68,35 @@
             <button>View cart</button>
             <button>Check out</button>
         </div>
+    </div>
+</div>
+<div class="header-cart fixed-top ml-auto user">
+    <div *ngIf="authService.loggedIn()" class="container">
+        <ul>
+            <li class="row d-flex flex-row justify-content-center">
+                <div class="user-icon col-2">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="col-9">
+                    <div class="inscry">Heart</div>
+                </div>
+            </li>
+            <li class="row d-flex flex-row justify-content-center" routerLink="/profile">
+                <div class="user-icon col-2">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="col-9">
+                    <div class="inscry">Profile</div>
+                </div>
+            </li>
+            <li class="row d-flex flex-row justify-content-center" (click)="onLogoutClick()">
+                <div class="user-icon col-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="col-9">
+                    <div class="inscry">Logout</div>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>

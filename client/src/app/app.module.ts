@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -14,7 +15,10 @@ import { BlogComponent } from './components/blog/blog.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { SingelPostComponent } from './components/singel-post/singel-post.component';
 import { AboutComponent } from './components/about/about.component';
+import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,16 +32,32 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BlogComponent,
     SideBarComponent,
     SingelPostComponent,
-    AboutComponent
+    AboutComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        },
+        whitelistedDomains: ['localhost:4200']
+      }
+    })
   ],
-  providers: [],
+  providers: [
+      AuthService,
+      {
+        provide: HTTP_INTERCEPTORS, 
+        useClass: AuthInterceptor, 
+        multi: true 
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -88,7 +88,7 @@ button.disabled {
 }
 
 .box-login {
-    padding: 80px 20px 80px 20px;
+    padding: 40px 20px 40px 20px;
     width: 100%;
 }
 
@@ -104,4 +104,12 @@ button.disabled {
 .help-block ul li{
     margin: 0;
     padding: 0;
+}
+
+.show-hide-message .alert{
+    text-align: center;
+}
+
+.green {
+    color: rgba(0, 128, 0, 0.80);
 }

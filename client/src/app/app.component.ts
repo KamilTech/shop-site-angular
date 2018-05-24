@@ -55,7 +55,6 @@ export class AppComponent {
             if (!(evt instanceof NavigationEnd)) {
                 return;
             }
-            console.log(evt);
             if (!(evt.url === "/post")) window.scrollTo(0, 0)
         });
     }
