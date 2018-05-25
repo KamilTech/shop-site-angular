@@ -19,6 +19,8 @@ import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,9 @@ import { AuthInterceptor } from './services/auth.interceptor';
         provide: HTTP_INTERCEPTORS, 
         useClass: AuthInterceptor, 
         multi: true 
-      }
+      },
+      AuthGuard,
+      NotAuthGuard
   ],
   bootstrap: [AppComponent]
 })
