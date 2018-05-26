@@ -21,6 +21,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { ViewCardComponent } from './components/view-card/view-card.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NotAuthGuard } from './guards/notAuth.guard';
     SideBarComponent,
     SingelPostComponent,
     AboutComponent,
-    ProfileComponent
+    ProfileComponent,
+    ViewCardComponent
   ],
   imports: [
     BrowserModule,

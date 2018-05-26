@@ -159,7 +159,43 @@
                 <div class="team-item-describe">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque saepe voluptatem accusamus praesentium asperiores minima, unde distinctio impedit autem voluptatibus harum similique, cupiditate nulla omnis optio doloribus dolores totam recusandae.</div>
             </div>
             <div class="team-title col-12">THE TEAM</div>
-            
+            <div class="team-describe col-12">
+                <div [ngClass]="{'containers container-selected': isSelected, 'containers container-ready': isReady }" id="app">
+                    <div class="team-container">
+                        <div class="person-list">
+                            <div class="person" *ngFor="let person of persons; let i = index" (click)="selectPerson(i,$event)"><img class="person-img" [src]="person.photo">
+                                <div class="person-details">
+                                    <h2 class="person-title">{{person.name}}</h2>
+                                    <p class="person-desc">{{person.title}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-detail">
+                        <div class="team-detail-inner" *ngIf="isOk">
+                            <div class="team-detail-left" [ngStyle]="{'background-image': 'url(' + selectedPersonData.photo + ')'}">
+                                <div class="team-detail-photo"><img [src]="selectedPersonData.photo" alt="">
+                                </div>
+                            </div>
+                            <div class="team-detail-right">
+                                <div class="team-detail-bio">
+                                    <div class="team-detail-header">
+                                        <h2 class="person-title">{{selectedPersonData.name}}</h2>
+                                        <p class="person-desc colors">{{selectedPersonData.title}}</p>
+                                        <div class="social">
+                                            <a [attr.href]="selectedPersonData.social.facebook" target="_blank" class="ion-social-facebook"></a>
+                                            <a [attr.href]="selectedPersonData.social.twitter" target="_blank" class="ion-social-twitter"></a>
+                                            <a [attr.href]="selectedPersonData.social.linkedin" target="_blank" class="ion-social-linkedin"></a>
+                                        </div>
+                                    </div>
+                                    <div class="team-detail-bio-content" [innerHTML]="selectedPersonData.bio">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

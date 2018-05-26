@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
     private authGuard: AuthGuard
   ) {
     this.createForm(); // Create Login Form when component is constructed
