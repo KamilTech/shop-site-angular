@@ -16,12 +16,14 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { SingelPostComponent } from './components/singel-post/singel-post.component';
 import { AboutComponent } from './components/about/about.component';
 import { AuthService } from './services/auth.service';
+import { BlogService } from './services/blog.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { ViewCardComponent } from './components/view-card/view-card.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ViewCardComponent } from './components/view-card/view-card.component';
     SingelPostComponent,
     AboutComponent,
     ProfileComponent,
-    ViewCardComponent
+    ViewCardComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { ViewCardComponent } from './components/view-card/view-card.component';
   ],
   providers: [
       AuthService,
+      BlogService,
       {
         provide: HTTP_INTERCEPTORS, 
         useClass: AuthInterceptor, 

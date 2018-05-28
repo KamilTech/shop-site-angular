@@ -9,6 +9,7 @@ import { SingelPostComponent } from './components/singel-post/singel-post.compon
 import { AboutComponent } from './components/about/about.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
+import { AddPostComponent } from './components/add-post/add-post.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -60,7 +61,12 @@ const appRoutes: Routes = [
   },
   {
     path: 'view-cart',
-    component: ViewCardComponent,
+    component: ViewCardComponent
+  },
+  {
+    path: 'add-post',
+    component: AddPostComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route
 ];
