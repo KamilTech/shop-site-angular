@@ -42,7 +42,7 @@ module.exports = (router) => {
                             body: req.body.body, // Body field
                             createdBy: req.body.createdBy, // CreatedBy field
                         });
-                        // Function that will be checking if req is array and if return true then "req" will be inserting into array
+                        // Function that will be checking if req is array and if return is true then "req" will be inserting into array
                         if (typeof req.body.tags !== 'undefined' && req.body.tags !== null) {
                             0 < req.body.tags.length && req.body.tags.map(e => blog.tags.push(e));
                         }

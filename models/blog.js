@@ -136,6 +136,7 @@ const tagValidators = [
 
 // Blog Model Definition
 const blogSchema = new Schema({
+  isApproved: { type: Boolean, default: false },
   title: { type: String, required: true, validate: titleValidators },
   body: { type: String, required: true, validate: bodyValidators },
   tags: { type: Array, required: true, validate: tagValidators },
