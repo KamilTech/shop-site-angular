@@ -139,6 +139,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
         validate: passwordValidators
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 });
 

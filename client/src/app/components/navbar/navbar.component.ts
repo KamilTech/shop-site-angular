@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
+    
   constructor(
         private authService: AuthService,
         private router: Router
@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
               cart.classList.remove('cart-active');
               user.classList.toggle('cart-active');
           }
+        console.log(this.authService.isAdmin());
     }
     
   // Function to logout user

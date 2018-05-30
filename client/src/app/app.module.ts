@@ -22,8 +22,11 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { AdminGuard } from './guards/admin.guard';
 import { ViewCardComponent } from './components/view-card/view-card.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
+import { AdminPostComponent } from './components/admin-post/admin-post.component';
+import { EditPostComponent } from './components/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,9 @@ import { AddPostComponent } from './components/add-post/add-post.component';
     AboutComponent,
     ProfileComponent,
     ViewCardComponent,
-    AddPostComponent
+    AddPostComponent,
+    AdminPostComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,8 @@ import { AddPostComponent } from './components/add-post/add-post.component';
         multi: true 
       },
       AuthGuard,
-      NotAuthGuard
+      NotAuthGuard,
+      AdminGuard
   ],
   bootstrap: [AppComponent]
 })

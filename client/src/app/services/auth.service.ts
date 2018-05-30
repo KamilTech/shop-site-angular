@@ -65,8 +65,13 @@ export class AuthService  {
         if (!token) {
           return false
         }
-        const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token)
+        const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token);
         return !tokenExpired
+    }
+
+    isAdmin() {
+        const code = this.jwtHelperService.decodeToken(this.authToken);
+        return code.admin;
     }
 
 }

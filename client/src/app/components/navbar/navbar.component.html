@@ -96,6 +96,14 @@
                 <div class="col-9">
                     <div class="inscry">Profile</div>
                 </div>
+            </li>            
+            <li *ngIf="this.authService.isAdmin()" class="row d-flex flex-row justify-content-center" routerLink="/admin-post">
+                <div class="user-icon col-2">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="col-9">
+                    <div class="inscry">admin</div>
+                </div>
             </li>
             <li class="row d-flex flex-row justify-content-center" (click)="onLogoutClick()">
                 <div class="user-icon col-2">

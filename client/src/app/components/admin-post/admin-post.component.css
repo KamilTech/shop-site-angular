@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Poppins:400,500,700');
+
+section {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.1;
+    color: #3e3e3e;
+}
+
+.admin-content-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #3e3e3e;
+}
+
+.admin-content-describe {
+    padding-top: 15px;
+    font-size: 14px;
+}
+
+.admin-content-info {
+    font-size: 13px;
+}
+
+.admin-content-info span {
+    padding-right: 10px;
+    text-align: left;
+    padding-left: 0 !important;
+    color: #888;
+}
+
+.font-weight {
+    font-weight: 500;
+    color: #3e3e3e;
+}
+
+.admin-main-button button {
+    background-color: #ffffff;
+    border-radius: 20px;
+    color: #888;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    outline: none;
+}
+
+.admin-main-button button:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+.admin-main-button button:last-child {
+    margin-left: 10px;
+}
+
+.bottom-style {
+    padding-bottom: 25px;
+    padding-top: 25px;
+    border-bottom: 1px solid rgba(235, 235, 235, 0.95);
+}
