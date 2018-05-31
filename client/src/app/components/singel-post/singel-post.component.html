@@ -34,8 +34,9 @@
                             </div>
                             <div class="post-content-describe">
                                 {{ blog.body }}
-                                <div class="like-post d-flex flex-wrap">
-                                    <div class="like-post-heart">- Like this article? Give him heart<span (click)="likebtn($event)" class="like-btn"></span></div>
+                                <div class="like-post d-flex flex-wrap" *ngIf="!isOwn">
+                                    <div *ngIf="!isLike" class="like-post-heart">- Like this article? Give him heart<span (click)="likePost($event, blog._id)" class="like-btn"></span></div>
+                                    <div *ngIf="isLike" class="like-post-heart">- Like this article? Give him heart<span class="like-btn is-active" (click)="dislikePost($event, blog._id)"></span></div>
                                 </div>
                             </div>
                         </article>

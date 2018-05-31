@@ -20,7 +20,6 @@ export class BlogComponent implements OnInit {
     // Function to GET all blogs from database
         this.authService.getAllBlogs().subscribe(data => {
           data['blogs'].map(e => e.isApproved === false && this.blogPosts.push(e));
-          console.log(this.blogPosts);
         });
     }
 

@@ -19,4 +19,16 @@ export class BlogService {
         return this.http.post(this.domain + 'blogs/newBlog', blog).pipe(map(res => res));
     }
 
+    // Function to like a blog post
+    likePost(id) {
+        const postData = { id: id };
+        return this.http.put(this.domain + 'blogs/likePost/', postData).pipe(map(res => res));
+    }
+
+    // Function to dislike a blog post
+    dislikePost(id) {
+        const postData = { id: id };
+        return this.http.put(this.domain + 'blogs/dislikePost/', postData).pipe(map(res => res));
+    }
+
 }
