@@ -11,6 +11,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { AdminPostComponent } from './components/admin-post/admin-post.component';
+import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -43,7 +44,7 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'post',
+    path: 'post/:id',
     component: SingelPostComponent,
     data: {
       animation: {
@@ -72,6 +73,10 @@ const appRoutes: Routes = [
   {
     path: 'admin-post',
     component: AdminPostComponent
+  },
+  {
+    path: 'edit-post/:id',
+    component: EditPostComponent
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route
 ];

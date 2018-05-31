@@ -11,7 +11,7 @@
     <div class="container ma-30 popis-font">
         <hr>
         <div class="row align-items-start justify-content-center">
-            <div class="col-12 col-lg-8">
+            <div class="col-12 col-lg-8" *ngIf="blog">
                 <div class="main-post col-12 d-flex flex-column">
                     <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
                         <div class="border one">
@@ -24,39 +24,23 @@
                     <div class="post-content">
                         <article>
                             <div class="post-content-info d-flex flex-row">
-                                <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                                <span class="p-2"><i class="far fa-heart"></i>12</span>
+                                <span class="mr-auto p-2">By <i class="font-weight">{{ blog.createdBy }}</i>{{ blog.createdAt | date:'MMM dd, yyyy' }}</span>
+                                <span class="p-2"><i class="far fa-heart"></i>{{ blog.likes }}</span>
                                 <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>3</span>
+                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.dislikes }}</span>
                             </div>
                             <div class="post-content-title">
-                                Where To Get The Best Sunday Roast In The Cotswolds...
+                                {{ blog.title }}
                             </div>
                             <div class="post-content-describe">
-
-                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.</p>
-
-                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores cumque eveniet placeat aspernatur, porro aperiam. Velit doloremque commodi, natus provident earum, eaque aliquam maxime voluptatum tempora id deserunt voluptas temporibus!</p>
-
-                                <p>Aliquam faucibus scelerisque placerat. Vestibulum vel libero eu nulla varius pretium eget eu magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean dictum faucibus felis, ac vestibulum risus mollis in. Phasellus neque dolor, euismod vitae auctor eget, dignissim a felis. Etiam malesuada elit a nibh aliquam, placerat ultricies nibh dictum. Nam ut egestas velit. Pellentesque viverra tincidunt tellus. Etiam cursus, ligula id vehicula cursus, turpis mauris facilisis massa, eget tincidunt est purus et odio. Nam quis luctus libero, non posuere velit. Ut eu varius diam, eu euismod elit. Donec efficitur, neque eu consectetur consectetur, dui sem consectetur felis, vitae rutrum risus urna vel arcu. Aliquam semper ullamcorper laoreet. Sed arcu lectus, fermentum imperdiet purus eu, ornare ornare libero.</p>
-
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo placeat laudantium quod, iste! Nam tempora accusantium ex voluptate. Inventore doloribus, sequi consequatur quasi temporibus fuga, iusto suscipit sapiente est deleniti. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint quia, quis quisquam quibusdam enim perspiciatis sapiente. Placeat mollitia iure harum. Maiores impedit autem tempore ea ratione perspiciatis libero minima animi.</p>
-
-                                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum dolorem, quibusdam accusantium tempore similique porro id labore odit facilis repellendus, eos voluptate dolorum explicabo, numquam quia autem blanditiis minus expedita!</span>
-                                <span>Officiis aspernatur sit inventore quae aut, deserunt, corporis error optio provident excepturi. Repellat excepturi et illum inventore porro pariatur quibusdam temporibus error aliquid doloribus deserunt aspernatur illo, quo reiciendis! Quidem?</span>
-                                <p> <span>Expedita, cumque. Expedita distinctio eaque incidunt ab temporibus, consequuntur officia, culpa cupiditate totam sequi at. Enim dolor veniam, dignissimos et numquam porro ea accusamus quis quos obcaecati doloremque incidunt ullam!</span></p>
-                                <p><span>Quasi explicabo, voluptate illum quos modi ullam repellat, libero, soluta ut totam eveniet voluptates saepe obcaecati dolorem! Aperiam qui animi facilis ipsum pariatur voluptatum, officia optio eaque eius nobis eligendi.</span></p>
-
+                                {{ blog.body }}
                                 <div class="like-post d-flex flex-wrap">
                                     <div class="like-post-heart">- Like this article? Give him heart<span (click)="likebtn($event)" class="like-btn"></span></div>
                                 </div>
                             </div>
                         </article>
                         <div class="tags d-flex flex-row flex-wrap">
-                            <span>Lorem</span>
-                            <span>Explicabo</span>
-                            <span>Quasi</span>
-                            <span>Expedita</span>
+                            <span *ngFor="let tag of blog?.tags">{{ tag }}</span>
                         </div>
                         <div class="last-post">
                             <div class="inscryption">
@@ -147,14 +131,23 @@
                             </div>
                         </div>
                         <div class="write-comment">
-                            <div class="amount-com">Leave a comment</div>
+                            <div class="amount-com" *ngIf="!authService.loggedIn()">Login to leave comment</div>
+                            <div class="amount-com" *ngIf="authService.loggedIn()">Leave a comment</div>
                             <div class="write-comment-input">
-                                <textarea placeholder="Write message..."></textarea>
+                                <textarea [disabled]="!authService.loggedIn()" placeholder="Write message..."></textarea>
                             </div>
-                            <div class="write-button">
+                            <div class="write-button" *ngIf="authService.loggedIn()">
                                 <button>Send message</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-8" *ngIf="messageClass && message">
+                <!-- Custom Success/Error Message -->
+                <div class="show-hide-message">
+                    <div [ngClass]="messageClass">
+                        {{ message }}
                     </div>
                 </div>
             </div>

@@ -73,5 +73,14 @@ export class AuthService  {
         const code = this.jwtHelperService.decodeToken(this.authToken);
         return code.admin;
     }
+    // Function to get all blogs from the database
+    getAllBlogs() {
+        return this.http.get(this.domain + '/authentication/allBlogs').pipe(map(res => res));
+    }
+
+    // Function to get all blogs from the database
+    getSingelPost(id) {
+        return this.http.get(this.domain + '/authentication/singlePost/' + id).pipe(map(res => res));
+    }
 
 }

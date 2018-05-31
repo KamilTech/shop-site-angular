@@ -18,4 +18,5 @@ export class BlogService {
     newBlog(blog) {
         return this.http.post(this.domain + 'blogs/newBlog', blog).pipe(map(res => res));
     }
+
 }

@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column">
+                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column" *ngFor="let blog of blogPosts">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                             <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
@@ -53,81 +53,19 @@
                         </div>
                         <div class="post-content col-12 col-sm-12 col-md-6 col-lg-7">
                             <div class="post-content-info d-flex flex-row">
-                                <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                                <span class="p-2"><i class="far fa-heart"></i>12</span>
+                                <span class="mr-auto p-2">By <i class="font-weight">{{ blog.createdBy }}</i>{{ blog.createdAt | date:'MMM dd, yyyy' }}</span>
+                                <span class="p-2"><i class="far fa-heart"></i>{{ blog.likes }}</span>
                                 <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>5</span>
+                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.dislikes }}</span>
                             </div>
                             <div class="post-content-title">
-                                Where To Get The Best Sunday Roast In The Cotswolds...
+                                {{ blog.title | shorten: 50 }}...
                             </div>
                             <div class="post-content-describe">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
+                               {{ blog.body | shorten: 200 }}.....
                             </div>
                             <div class="post-main-button d-flex justify-content-end">
-                                <button>Continue Reading</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column">
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-5">
-                            <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
-                                <div class="border one">
-                                    <div></div>
-                                </div>
-                                <div class="border two">
-                                    <div></div>
-                                </div><a href="#"></a>
-                            </figure>
-                        </div>
-                        <div class="post-content col-12 col-sm-12 col-md-6 col-lg-7">
-                            <div class="post-content-info d-flex flex-row">
-                                <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                                <span class="p-2"><i class="far fa-heart"></i>12</span>
-                                <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>5</span>
-                            </div>
-                            <div class="post-content-title">
-                                Where To Get The Best Sunday Roast In The Cotswolds...
-                            </div>
-                            <div class="post-content-describe">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
-                            </div>
-                            <div class="post-main-button d-flex justify-content-end">
-                                <button>Continue Reading</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column">
-                    <div class="row">
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-5">
-                            <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
-                                <div class="border one">
-                                    <div></div>
-                                </div>
-                                <div class="border two">
-                                    <div></div>
-                                </div><a href="#"></a>
-                            </figure>
-                        </div>
-                        <div class="post-content col-12 col-sm-12 col-md-6 col-lg-7">
-                            <div class="post-content-info d-flex flex-row">
-                                <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                                <span class="p-2"><i class="far fa-heart"></i>12</span>
-                                <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>5</span>
-                            </div>
-                            <div class="post-content-title">
-                                Where To Get The Best Sunday Roast In The Cotswolds...
-                            </div>
-                            <div class="post-content-describe">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
-                            </div>
-                            <div class="post-main-button d-flex justify-content-end">
-                                <button>Continue Reading</button>
+                                <button [routerLink]="['/post/', blog._id]">Continue Reading</button>
                             </div>
                         </div>
                     </div>
