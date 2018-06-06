@@ -4,8 +4,12 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'shorten'
 })
 export class SortenPipe implements PipeTransform {
-    transform(value: any, args: number): any {
-        let shorten = value;
-        return shorten.substring(0, args);
+    transform(value: any, args: number, body: boolean = false): any {
+        const shorten = value;
+        if (body) {
+            return shorten.substring(args);
+        } else {
+            return shorten.substring(0, args);
+        }
     }
 }

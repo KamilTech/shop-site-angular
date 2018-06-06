@@ -1,3 +1,38 @@
-<p>
-  edit-post works!
-</p>
+<section>
+    <div class="container">
+        <div class="row d-flex flex-column">
+            <div class="addPost col-12 col-sm-12 col-md-10 col-lg-8 d-flex flex-column align-self-center">
+                <!-- Custom Success/Error Message -->
+                <div class="show-hide-message">
+                    <div [ngClass]="messageClass">
+                        {{ message }}
+                    </div>
+                </div>
+                <div class="blog-head">Create new Post</div>
+                <form [formGroup]="form" (submit)="updateBlogSubmit()" class="d-flex flex-column" *ngIf="!loading">
+                    <label for="blog-title">Title of the blog</label>
+                    <input [ngClass]="{'input-success': form.controls.title.valid, 'input-error': form.controls.title.dirty && form.controls.title.errors}" id="blog-title" class="blog-title" type="text" placeholder="Blog Title" autocomplete="off" formControlName="title">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
+                        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Must be a letter or number</li>
+                    </ul>
+                    <label for="b-message">Describe</label>
+                    <textarea [ngClass]="{'input-success': form.controls.body.valid, 'input-error': form.controls.body.dirty && form.controls.body.errors}" rows="8" id="b-message" class="blog-message" placeholder="Message" formControlName="body"></textarea>
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 10000, Min length: 5</li>
+                    </ul>
+                    <label for="tag">Tags</label>
+                    <input [ngClass]="{'input-success': form.controls.tag.valid, 'input-error': form.controls.tag.dirty && form.controls.tag.errors}" id="tag" type="text" placeholder="first second" autocomplete="off" formControlName="tag">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.tag.dirty && form.controls.tag.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.tag.dirty && form.controls.tag.errors?.minlength) || (form.controls.tag.dirty && form.controls.tag.errors?.maxlength)">Max length: 50, Min length: 3</li>
+                        <li *ngIf="form.controls.tag.dirty && form.controls.tag.errors?.tagValidation">Invaild tags, must be: "example1 example2"</li>
+                    </ul>
+                    <button [disabled]="processing || !form.valid" [ngClass]="{'disabled': !form.valid || processing }" type="submit" name="button" class="ml-auto">Send Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

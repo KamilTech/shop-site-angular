@@ -34,14 +34,17 @@
                             </div>
                             <div class="post-content-describe">
                                 {{ blog.body }}
-                                <div class="like-post d-flex flex-wrap" *ngIf="!isOwn">
+                                <div class="like-post d-flex flex-wrap" *ngIf="!isOwn && this.authService.loggedIn()">
                                     <div *ngIf="!isLike" class="like-post-heart">- Like this article? Give him heart<span (click)="likePost($event, blog._id)" class="like-btn"></span></div>
-                                    <div *ngIf="isLike" class="like-post-heart">- Like this article? Give him heart<span class="like-btn is-active" (click)="dislikePost($event, blog._id)"></span></div>
+                                    <div *ngIf="isLike" class="like-post-heart">- You like this article<span class="like-btn is-active" (click)="dislikePost($event, blog._id)"></span></div>
                                 </div>
                             </div>
                         </article>
                         <div class="tags d-flex flex-row flex-wrap">
                             <span *ngFor="let tag of blog?.tags">{{ tag }}</span>
+                        </div>
+                        <div class="post-main-button d-flex justify-content-end" *ngIf="isOwn && this.authService.loggedIn()">
+                            <button [routerLink]="['/edit-post/', blog._id]">Edit Post</button>
                         </div>
                         <div class="last-post">
                             <div class="inscryption">

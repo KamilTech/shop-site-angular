@@ -7,14 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BlogService {
-    
+
     domain = 'http://localhost:8080/'; // Development Domain - Not Needed in Production
 
     constructor(
         private http: HttpClient
     ) { }
-    
-    
+
+    // Function to create new blog post
     newBlog(blog) {
         return this.http.post(this.domain + 'blogs/newBlog', blog).pipe(map(res => res));
     }
@@ -29,6 +29,16 @@ export class BlogService {
     dislikePost(id) {
         const postData = { id: id };
         return this.http.put(this.domain + 'blogs/dislikePost/', postData).pipe(map(res => res));
+    }
+
+    // Function to update a blog post
+    editBlog(blog) {
+        return this.http.put(this.domain + 'blogs/updatePost/', blog).pipe(map(res => res));
+    }
+    // Function to confirm a blog post
+    confirmBlog(id) {
+        const postData = { id: id };
+        return this.http.put(this.domain + 'blogs/confirm/', postData).pipe(map(res => res));
     }
 
 }

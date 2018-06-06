@@ -72,11 +72,13 @@ const appRoutes: Routes = [
   },
   {
     path: 'admin-post',
-    component: AdminPostComponent
+    component: AdminPostComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-post/:id',
-    component: EditPostComponent
+    component: EditPostComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route
 ];

@@ -1,36 +1,15 @@
-<section>
-    <div class="container">
-        <div class="row bottom-style d-flex flex-column flex-md-row flex-lg-row justify-content-center">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-5">
-                <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
-                    <div class="border one">
-                        <div></div>
-                    </div>
-                    <div class="border two">
-                        <div></div>
-                    </div><a href="#"></a>
-                </figure>
-            </div>
-            <div class="admin-content col-12 col-sm-12 col-md-6 col-lg-5">
-                <div class="admin-content-info d-flex flex-row">
-                    <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                </div>
-                <div class="admin-content-title index1">
-                    Where To Get The Best Sunday Roast In The Cotswolds...
-                </div>
-                <div class="admin-content-describe index2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
-                    <div class="collapse multi-collapse" id="multiCollapseExample1">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi repellendus culpa ad nam, unde dignissimos obcaecati alias voluptatibus, accusamus provident dolorum commodi, quae atque eum officia quos voluptas ab deleniti. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam quis corrupti vero soluta, id similique, suscipit, reprehenderit quibusdam rem architecto deleniti. Accusantium fuga vitae placeat voluptatum, laudantium quibusdam mollitia alias. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus inventore soluta perspiciatis veniam unde dolorem iure at reiciendis recusandae, numquam assumenda, modi totam est quasi minus quam veritatis beatae tenetur!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur vel nesciunt, fugiat, neque vitae vero debitis. Fugit ratione veniam molestias, quos blanditiis non, deleniti dolores atque quibusdam eaque voluptatem suscipit!
-                    </div>
-                </div>
-                <div class="admin-main-button d-flex justify-content-end">
-                    <button type="button" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="true" aria-controls="multiCollapseExample1">Continue Reading</button>
-                    <button>Confirm</button>
-                </div>
+<div class="empty d-flex justify-content-center align-items-center" [ngClass]="{'show': blogPosts?.length === 0 }">
+    NO POST
+</div>
+<section [ngClass]="{'vh': blogPosts?.length === 0 }">
+    <div class="container pad-100" *ngIf="blogPosts?.length > 0">
+        <!-- Custom Success/Error Message -->
+        <div class="show-hide-message">
+            <div [ngClass]="messageClass">
+                {{ message }}
             </div>
         </div>
-        <div class="row bottom-style d-flex flex-column flex-md-row flex-lg-row justify-content-center">
+        <div class="row bottom-style d-flex flex-column flex-md-row flex-lg-row justify-content-center" *ngFor="let blog of blogPosts; let i = index">
             <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                 <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
                     <div class="border one">
@@ -43,20 +22,33 @@
             </div>
             <div class="admin-content col-12 col-sm-12 col-md-6 col-lg-5">
                 <div class="admin-content-info d-flex flex-row">
-                    <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
+                    <span class="mr-auto p-2">By <i class="font-weight">{{ blog.createdBy }}</i> {{ blog.createdAt | date:'MMM dd, yyyy' }}</span>
                 </div>
                 <div class="admin-content-title index1">
-                    Where To Get The Best Sunday Roast In The Cotswolds...
+                    {{ blog.title | shorten: 50 }}...
                 </div>
                 <div class="admin-content-describe index2">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
-                    <div class="collapse multi-collapse" id="multiCollapseExample2">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi repellendus culpa ad nam, unde dignissimos obcaecati alias voluptatibus, accusamus provident dolorum commodi, quae atque eum officia quos voluptas ab deleniti. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam quis corrupti vero soluta, id similique, suscipit, reprehenderit quibusdam rem architecto deleniti. Accusantium fuga vitae placeat voluptatum, laudantium quibusdam mollitia alias. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus inventore soluta perspiciatis veniam unde dolorem iure at reiciendis recusandae, numquam assumenda, modi totam est quasi minus quam veritatis beatae tenetur!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur vel nesciunt, fugiat, neque vitae vero debitis. Fugit ratione veniam molestias, quos blanditiis non, deleniti dolores atque quibusdam eaque voluptatem suscipit!
+                    {{ blog.body | shorten: 200 }}...
+                    <div class="collapse multi-collapse" id="collapse{{ i }}">
+                        {{ blog.body | shorten: 200:true }}
                     </div>
                 </div>
                 <div class="admin-main-button d-flex justify-content-end">
-                    <button type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="true" aria-controls="multiCollapseExample2">Continue Reading</button>
-                    <button>Confirm</button>
+                    <button type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="true">Continue Reading</button>
+                    <button data-toggle="modal" data-target=".bd-example-modal-sm">Confirm</button>
+                </div>
+            </div>
+            <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Are you sure??
+                        </div>
+                        <div class="buttons d-flex flex-row justify-content-center">
+                            <button data-dismiss="modal" (click)="toConfirm(blog._id)" class="btn btn-success">YES</button>
+                            <button data-dismiss="modal" class="btn btn-danger">NO</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

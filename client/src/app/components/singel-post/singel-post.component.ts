@@ -59,8 +59,10 @@ export class SingelPostComponent implements OnInit {
                 this.message = 'Blog not found.'; // Set error message
             } else {
                 this.blog = data['blog']; // Save blog object for use in HTML
-                this.checkLike();
-                this.checkWho();
+                if (this.authService.loggedIn() === true) {
+                    this.checkLike();
+                    this.checkWho();
+                }
             }
         });
     }
