@@ -82,11 +82,6 @@ export class AddPostComponent implements OnInit {
     }    
   }
 
-  // Function to post a new comment on blog post
-  draftComment() {
-
-  }
-
   // Function to submit a new blog post
   onBlogSubmit() {
     this.processing = true; // Disable submit button

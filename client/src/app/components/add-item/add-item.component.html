@@ -1,0 +1,64 @@
+<section>
+    <div class="container">
+        <div class="row d-flex flex-column">
+            <div class="addPost col-12 col-sm-12 col-md-10 col-lg-8 d-flex flex-column align-self-center">
+                <!-- Custom Success/Error Message -->
+                <div class="show-hide-message">
+                    <div [ngClass]="messageClass">
+                        {{ message }}
+                    </div>
+                </div>
+                <div class="blog-head">Create new Item</div>
+                <form [formGroup]="form" (submit)="onBlogSubmit()" class="d-flex flex-column">
+                    <label>Name</label>
+                    <input [ngClass]="{'input-success': form.controls.name.valid, 'input-error': form.controls.name.dirty && form.controls.name.errors}" type="text" placeholder="Name" autocomplete="off" formControlName="name">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.name.dirty && form.controls.name.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.name.dirty && form.controls.name.errors?.minlength) || (form.controls.name.dirty && form.controls.name.errors?.maxlength)">Max length: 50, Min length: 5</li>
+                        <li *ngIf="form.controls.name.dirty && form.controls.name.errors?.alphaNumericValidation">Must be a alphaNumeric</li>
+                    </ul>
+                    <label>Price</label>
+                    <input [ngClass]="{'input-success': form.controls.price.valid, 'input-error': form.controls.price.dirty && form.controls.price.errors}" type="number" placeholder="Price" autocomplete="off" formControlName="price">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.price.dirty && form.controls.price.errors?.required">This field is required.</li>
+                        <li *ngIf="form.controls.price.dirty && form.controls.price.errors?.priceValidation">Invalid characters</li>
+                    </ul>
+                    <label>Quantity</label>
+                    <input [ngClass]="{'input-success': form.controls.quantity.valid, 'input-error': form.controls.quantity.dirty && form.controls.quantity.errors}" type="number" placeholder="Quantity" autocomplete="off" formControlName="quantity">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.quantity.dirty && form.controls.quantity.errors?.required">This field is required.</li>
+                        <li *ngIf="form.controls.quantity.dirty && form.controls.quantity.errors?.quantityValidation">Invalid characters</li>
+                    </ul>
+                    <label>Describe</label>
+                    <textarea [ngClass]="{'input-success': form.controls.describe.valid, 'input-error': form.controls.describe.dirty && form.controls.describe.errors}" rows="8" placeholder="Describe of item" formControlName="describe"></textarea>
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.describe.dirty && form.controls.describe.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.describe.dirty && form.controls.describe.errors?.minlength) || (form.controls.describe.dirty && form.controls.describe.errors?.maxlength)">Max length: 10000, Min length: 5</li>
+                        <li *ngIf="form.controls.describe.dirty && form.controls.describe.errors?.describeValidation">Invalid characters</li>
+                    </ul>
+                    <label>Small Describe</label>
+                    <textarea [ngClass]="{'input-success': form.controls.smallDescribe.valid, 'input-error': form.controls.smallDescribe.dirty && form.controls.smallDescribe.errors}" rows="4" placeholder="Samll describe of item" formControlName="smallDescribe"></textarea>
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.smallDescribe.dirty && form.controls.smallDescribe.errors?.required">This field is required.</li>
+                        <li *ngIf="(form.controls.smallDescribe.dirty && form.controls.smallDescribe.errors?.minlength) || (form.controls.smallDescribe.dirty && form.controls.smallDescribe.errors?.maxlength)">Max length: 75, Min length: 5</li>
+                        <li *ngIf="form.controls.smallDescribe.dirty && form.controls.smallDescribe.errors?.smallDescribeValidation">Invalid characters</li>
+                    </ul>
+                    <label>Size</label>
+                    <ng-multiselect-dropdown name="size" [placeholder]="'Select size'" [data]="size" formControlName="size" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
+                    <label>Color</label>
+                    <ng-multiselect-dropdown name="color" [placeholder]="'Select color'" [data]="color" formControlName="color" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
+                    <label for="tag">Tags</label>
+                    <input [ngClass]="{'input-success': form.controls.tags.valid, 'input-error': form.controls.tags.dirty && form.controls.tags.errors}" id="tag" type="text" placeholder="first second" autocomplete="off" formControlName="tags">
+                    <ul class="help-block">
+                        <li *ngIf="form.controls.tags.dirty && form.controls.tags.errors?.required">This field is required.</li>
+                        <li *ngIf="form.controls.tags.dirty && form.controls.tags.errors?.maxlength">Max length: 200</li>
+                        <li *ngIf="form.controls.tags.dirty && form.controls.tags.errors?.tagValidation">Invaild tags, must be: "example1 example2"</li>
+                    </ul>
+                    <button [disabled]="processing || !form.valid" [ngClass]="{'disabled': !form.valid || processing }" type="submit" name="button" class="ml-auto">Send Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -112,11 +112,13 @@ let tagChecker = (tag) => {
   if (!tag) {
     return false; // Return error
   } else {
-    // Regular expression to test for a valid tag
-    let flag;
+    // Regular expression to test for a valid size
+    let flag = true;
     const regExp = new RegExp(/^(?!.*?\s{2})[A-Za-z ]{1,50}$/);
-    tag.map(e => flag = regExp.test(e)); // Return regular expression test results (true or false)
-    flag === true ? true : false;
+    tag.map(e => {
+        if (regExp.test(e) === false) flag = false;
+    }); // Return regular expression test results (true or false)
+    return flag;
   }
 };
 

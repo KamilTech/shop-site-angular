@@ -27,11 +27,11 @@
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
                     <ul>
                         <li class="sortBy">Price</li>
-                        <li class="sortBy">All</li>
-                        <li class="sortBy">$0.00 - $50.00</li>
-                        <li class="sortBy">$50.00 - $100.00</li>
-                        <li class="sortBy">$100.00 - $200.00</li>
-                        <li class="sortBy">$200.00+</li>
+                        <li class="sortBy" (click)="sortPrice(0,0,true)">All</li>
+                        <li class="sortBy" (click)="sortPrice(0,10)">$0.00 - $10.00</li>
+                        <li class="sortBy" (click)="sortPrice(10,20)">$10.00 - $20.00</li>
+                        <li class="sortBy" (click)="sortPrice(20,30)">$20.00 - $30.00</li>
+                        <li class="sortBy" (click)="sortPrice(30,'end')">$30.00+</li>
                     </ul>
                 </div>
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -82,19 +82,16 @@
                             </div>
                         </div>
                         <div class="modal-describe col-12 col-sm-12 col-md-6">
-                            <div class="modal-describe-title">Lightweight Jacket<span (click)="likebtn($event)" class="like-btn"></span></div>
-                            <div class="modal-describe-price">Price: <span>$19.90</span></div>
-                            <div class="modal-describe-specification">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum harum, eos accusantium incidunt adipisci at sit aut! Ex reprehenderit libero necessitatibus, saepe, inventore in repudiandae quaerat odio, aperiam quis voluptatem!</div>
+                            <div class="modal-describe-title">{{ modalItem?.name }}<span (click)="likebtn($event)" class="like-btn"></span></div>
+                            <div class="modal-describe-price">Price: <span>$ {{ modalItem?.price }}</span></div>
+                            <div class="modal-describe-specification">{{ modalItem?.describe }}</div>
                             <div class="modal-describe-option d-flex flex-column">
                                 <div class="row box-select align-items-center">
                                     <div class="col-2">Size: </div>
                                     <div class="select col-6">
                                         <select>
                                             <option disabled>Size</option>
-                                            <option>Size M</option>
-                                            <option>Size S</option>
-                                            <option>Size L</option>
-                                            <option>Size XL</option>
+                                            <option *ngFor="let size of modalItem?.size">{{ size }}</option>
                                         </select>
                                         <div class="select_arrow"></div>
                                     </div>
@@ -104,10 +101,7 @@
                                     <div class="select col-6">
                                         <select>
                                             <option disabled>Color</option>
-                                            <option>Hello 1</option>
-                                            <option>Hello 2</option>
-                                            <option>Hello 3</option>
-                                            <option>Hello 4</option>
+                                            <option *ngFor="let color of modalItem?.color">{{ color }}</option>
                                         </select>
                                         <div class="select_arrow"></div>
                                     </div>
@@ -116,11 +110,11 @@
                                     <div class="quantity-item col-2"></div>
                                     <div class="modal-count-item col-10">
                                         <div class="quantity d-flex flex-row">
-                                            <button class="plus-btn" type="button" name="button">
+                                            <button class="plus-btn" type="button" name="button" (click)="quantityChange(true)">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                            <input type="text" name="name" value="1">
-                                            <button class="minus-btn" type="button" name="button">
+                                            <input [(ngModel)]="quantity" type="text" name="name">
+                                            <button class="minus-btn" type="button" name="button" (click)="quantityChange(false)">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                         </div>
@@ -140,78 +134,20 @@
     </div>
     <!-- START PRODUCT -->
     <div class="row photos justify-content-center">
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
-        <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4">
-            <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
-                <figcaption>
-                    <h3>Pudol Doux</h3>
-                    <p>All this modern technology just makes people try to do everything at once.</p>
-                    <div class="price">
-                        <s>$24.00</s>$19.00
-                    </div>
-                </figcaption><i class="fas fa-cart-plus"></i>
-            </figure>
-        </div>
+        <ng-container *ngFor="let item of shop">
+            <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4" (click)="checkItem(item._id)">
+                <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                    <figcaption>
+                        <h3>{{ item.name }}</h3>
+                        <p>{{ item.smallDescribe }}</p>
+                        <div class="price">
+                            <s>$24.00</s>{{ item.price }}
+                        </div>
+                    </figcaption><i class="fas fa-cart-plus"></i>
+                </figure>
+            </div>
+        </ng-container>
         <!-- END PRODUCT -->
     </div>
 </div>

@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 import { AuthService } from './services/auth.service';
 import { BlogService } from './services/blog.service';
+import { ShopService } from './services/shop.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 
 import { AuthGuard } from './guards/auth.guard';
@@ -33,6 +35,7 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 import { SortenPipe } from './pipes/shortenDescribe';
+import { AddItemComponent } from './components/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -52,12 +55,14 @@ import { SortenPipe } from './pipes/shortenDescribe';
     AdminPostComponent,
     EditPostComponent,
     SortenPipe,
-    BlogComponent
+    BlogComponent,
+    AddItemComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     JwtModule.forRoot({
@@ -67,11 +72,13 @@ import { SortenPipe } from './pipes/shortenDescribe';
         },
         whitelistedDomains: ['localhost:4200']
       }
-    })
+    }),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
       AuthService,
       BlogService,
+      ShopService,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthInterceptor,

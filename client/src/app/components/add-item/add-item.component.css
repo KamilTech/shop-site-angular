@@ -1,0 +1,90 @@
+section {
+    margin-top: 100px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    margin-bottom: 100px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #3e3e3e;
+    background-color: #f0f0f0;
+    font-size: 14px;
+}
+
+.addPost input,
+.addPost textarea {
+    margin-bottom: 10px;
+    padding: 15px;
+}
+
+.blog-head {
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+button {
+    background-color: #222222;
+    border-radius: 20px;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+    max-width: 150px;
+}
+
+button:hover {
+    background-color: #6c7ae0;
+    cursor: pointer;
+}
+
+.help-block {
+    margin: 0;
+    padding-top: 0px;
+    color: #dc0000;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+.help-block ul,
+.help-block ul li {
+    margin: 0;
+    padding: 0;
+}
+
+.show-hide-message .alert {
+    text-align: center;
+}
+
+.green {
+    color: rgba(0, 128, 0, 0.80);
+}
+
+form input.input-success,
+.addPost textarea.input-success {
+    border: 1px solid rgba(0, 128, 0, 0.80);
+    outline: green;
+}
+
+form input.input-error,
+.addPost textarea.input-error {
+    border: 1px solid #dc0000;
+    outline: none;
+}
+
+button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+ng-multiselect-dropdown{
+    margin-bottom: 15px;
+    background-color: white;
+}

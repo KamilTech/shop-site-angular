@@ -8,7 +8,7 @@ import { BlogService } from '../../services/blog.service';
   styleUrls: ['./admin-post.component.css']
 })
 export class AdminPostComponent implements OnInit {
-    
+
     blogPosts: Array<any> = [];
     messageClass;
     message;
@@ -17,10 +17,13 @@ export class AdminPostComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private blogService: BlogService
-    ) { }
-    
+    ) {
+
+    }
+
     // Function to get all blogs from the database
     getAllBlogs() {
+    this.blogPosts = [];
     // Function to GET all blogs from database
         this.authService.getAllBlogs().subscribe(data => {
           data['blogs'].map(e => e.isApproved === false && this.blogPosts.push(e));

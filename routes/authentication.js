@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
-const Blog = require('../models/blog'); // Import User Model Schema
+const Blog = require('../models/blog'); // Import Blog Model Schema
+const Shop = require('../models/shop'); // Import Shop Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
@@ -298,11 +299,42 @@ module.exports = (router) => {
                             message: 'Blog not found.'
                         });
                     } else {
-                        res.json({ success: true, blog: blog }); // Return success
+                        res.json({
+                            success: true,
+                            blog: blog
+                        }); // Return success
                     }
                 }
             });
         }
+    });
+
+    router.get('/allItems', (req, res) => {
+        // Search database for all items
+        Shop.find({}, (err, items) => {
+            // Check if error was found or not
+            if (err) {
+                res.json({
+                    success: false,
+                    message: err
+                }); // Return error message
+            } else {
+                // Check if items were found in database
+                if (!items) {
+                    res.json({
+                        success: false,
+                        message: 'No items found.'
+                    }); // Return error of no items found
+                } else {
+                    res.json({
+                        success: true,
+                        items: items
+                    }); // Return success and items array
+                }
+            }
+        }).sort({
+            '_id': -1
+        }); // Sort items from newest to oldest
     });
 
     /* ================================================

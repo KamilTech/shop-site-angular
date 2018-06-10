@@ -1,5 +1,7 @@
-<div class="empty d-flex justify-content-center align-items-center" [ngClass]="{'show': blogPosts?.length === 0 }">
-    NO POST
+<div *ngIf="blogPosts">
+    <div class="empty" [ngClass]="{'show': blogPosts?.length === 0 }">
+        NO POST
+    </div>
 </div>
 <section [ngClass]="{'vh': blogPosts?.length === 0 }">
     <div class="container pad-100" *ngIf="blogPosts?.length > 0">

@@ -25,7 +25,6 @@ export class NavbarComponent implements OnInit {
               cart.classList.remove('cart-active');
               user.classList.toggle('cart-active');
           }
-        console.log(this.authService.isAdmin());
     }
     
   // Function to logout user

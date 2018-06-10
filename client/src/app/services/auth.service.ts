@@ -83,4 +83,8 @@ export class AuthService  {
         return this.http.get(this.domain + '/authentication/singlePost/' + id).pipe(map(res => res));
     }
 
+    getAllItems(){
+        return this.http.get(this.domain + '/authentication/allItems').pipe(map(res => res));
+    }
+
 }

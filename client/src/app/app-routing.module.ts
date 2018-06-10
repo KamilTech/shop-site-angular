@@ -12,6 +12,7 @@ import { ViewCardComponent } from './components/view-card/view-card.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { AdminPostComponent } from './components/admin-post/admin-post.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 
@@ -78,6 +79,11 @@ const appRoutes: Routes = [
   {
     path: 'edit-post/:id',
     component: EditPostComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'add-item',
+    component: AddItemComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // The "Catch-All" Route

@@ -321,7 +321,7 @@ module.exports = (router) => {
                     blog.isApproved = true;
                     blog.save((err) => {
                       if (err) {
-                          res.json({ success: false, message: 'Some error occured... Sorry' });
+                          res.json({ success: false, message: 'Some error occured... Sorry' }); // Return error message
                       } else {
                         res.json({ success: true, message: 'Blog Updated!' }); // Return success message
                       }

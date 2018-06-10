@@ -154,6 +154,8 @@
     min-width: 230px;
     max-width: 415px;
     width: 100%;
+    min-height: 440px;
+    max-height: 440px;
     background: #ffffff;
     text-align: center;
     color: #000000;
