@@ -14,6 +14,7 @@ export class AddItemComponent implements OnInit {
     processing = false;
     size;
     color;
+    category;
     dropdownSettings = {};
     username;
     messageClass;
@@ -61,8 +62,11 @@ export class AddItemComponent implements OnInit {
         Validators.maxLength(200),
         this.tagValidation
       ])],
-      size: [],
-      color: []
+      category: ['', Validators.compose([
+        Validators.required
+      ])],
+      color: [],
+      size: []
     });
   }
 
@@ -151,21 +155,29 @@ export class AddItemComponent implements OnInit {
     }
   }
 
-  sizeValidation(controls) {
-    const regExp = new RegExp(/\b(XS|S|M|L|XL|XXL|XXXL|4XL)\b/); // Regular expression to perform test
-    // Check if test returns false or true
-    if (regExp.test(controls.value)) {
-      return null; // Return valid
-    } else {
-      return { 'sizeValidation': true }; // Return error in validation
-    }
-  }
-
   onBlogSubmit() {
-      this.processing = true; // Disable submit button
-      this.disableFormNewItemForm(); // Lock form
+    this.processing = true; // Disable submit button
+    this.disableFormNewItemForm(); // Lock form
       
-      // Create item object from form fields
+    function returnArray(val) {
+        const targetArray = val.split(" ");
+        if (typeof targetArray !== 'undefined' && targetArray !== null) {
+            return 0 < targetArray.length ? targetArray : false;
+        } else { 
+            return false;
+        };
+    }
+      
+    function returnSelect(val) {
+        const array = [];
+        val.map(e => array.push(e.item_text));
+        if (typeof array !== 'undefined' && array !== null) {
+            return 0 < array.length ? array : false;
+        } else { 
+            return false;
+        };
+    }
+    // Create item object from form fields
     const item = {
         name: this.form.get('name').value, // Name field
         price: this.form.get('price').value, // Price field
@@ -173,20 +185,10 @@ export class AddItemComponent implements OnInit {
         quantity: this.form.get('quantity').value, // Quantity field
         smallDescribe: this.form.get('smallDescribe').value, // SmallDescribe field
         createdBy: this.username,
-        tags: ((val) => {
-                let tags = val.split(" ");
-                return tags;
-                })(this.form.get('tags').value), // Tags field    
-        size: ((val) => {
-                const size = [];
-                val.map(e => size.push(e.item_text));
-                return size;
-                })(this.form.get('size').value), // Size field
-        color: ((val) => {
-                const color = [];
-                val.map(e => color.push(e.item_text));
-                return color;
-                })(this.form.get('color').value) // Color field
+        tags: returnArray(this.form.get('tags').value), // Tags field    
+        size: returnSelect(this.form.get('size').value), // Size field
+        color: returnSelect(this.form.get('color').value), // Color field        
+        category: returnSelect(this.form.get('category').value) // Category field
     }
     // Function to save item into database
     this.shopService.newItem(item).subscribe(data => {
@@ -216,7 +218,7 @@ export class AddItemComponent implements OnInit {
     this.authService.getProfile().subscribe(profile => {
       this.username = profile['user'].username; // Used when creating new blog posts and comments
     });
-      
+
     this.size = [
         { item_id: 1, item_text: 'XS' },
         { item_id: 2, item_text: 'S' },
@@ -238,6 +240,11 @@ export class AddItemComponent implements OnInit {
         { item_id: 9, item_text: 'black' },
         { item_id: 10, item_text: 'gold' },
         { item_id: 11, item_text: 'grey' }
+    ];
+    this.category = [
+        { item_id: 1, item_text: 'women' },
+        { item_id: 2, item_text: 'men' },
+        { item_id: 3, item_text: 'accesories' }
     ];
     this.dropdownSettings = {
         singleSelection: false,

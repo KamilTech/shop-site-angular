@@ -336,5 +336,144 @@ module.exports = (router) => {
     }
   });
     
+/* ===============================================================
+     COMMENT ON BLOG POST
+  =============================================================== */
+  router.post('/comment', (req, res) => {
+    // Check if comment was provided in request body
+    if (!req.body.comment) {
+      res.json({ success: false, message: 'No comment provided' }); // Return error message
+    } else {
+      // Check if id was provided in request body
+      if (!req.body.id) {
+        res.json({ success: false, message: 'No id was provided' }); // Return error message
+      } else {
+        // Use id to search for blog post in database
+        Blog.findOne({ _id: req.body.id }, (err, blog) => {
+          // Check if error was found
+          if (err) {
+            res.json({ success: false, message: 'Invalid blog id' }); // Return error message
+          } else {
+            // Check if id matched the id of any blog post in the database
+            if (!blog) {
+              res.json({ success: false, message: 'Blog not found.' }); // Return error message
+            } else {
+              // Grab data of user that is logged in
+              User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                // Check if error was found
+                if (err) {
+                  res.json({ success: false, message: 'Something went wrong' }); // Return error message
+                } else {
+                  // Check if user was found in the database
+                  if (!user) {
+                    res.json({ success: false, message: 'User not found.' }); // Return error message
+                  } else {
+                    // Add the new comment to the blog post's array
+                    blog.comments.push({
+                      comment: req.body.comment, // Comment field
+                      commentator: user.username // Person who commented
+                    });
+                    // Save blog post
+                    blog.save((err) => {
+                      // Check if error was found
+                      if (err) {
+                        res.json({ success: false, message: 'Something went wrong.' }); // Return error message
+                      } else {
+                        res.json({ success: true, message: 'Comment saved' }); // Return success message
+                      }
+                    });
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+    
+    /* ===============================================================
+        LIKE COMMENT
+    =============================================================== */
+    router.put('/likeComment', (req, res) => {
+        // Check if id was passed provided in request body
+        if (!req.body.id) {
+            res.json({ success: false, message: 'No id was provided.' });
+        } else {
+            // Check if id comment was passed provided in request body
+            if (!req.body.commentId) {
+                res.json({ success: false, message: 'No id comment was provided' });
+            } else {
+                //Search the database with id
+                Blog.findOne({ _id: req.body.id }, (err, blog) => {
+                   // Check if error has occurred
+                    if (err) {
+                        res.json({ success: false, message: 'Invalid blog id' });
+                    } else {
+                        // Check if id matched the id of a blog post in the databas
+                        if (!blog) {
+                            res.json({ success: false, message: 'That blog was not found.' });
+                        } else {
+                            // Get data from user that is signed in
+                            User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                                // Check if error has occurred
+                                if (err) {
+                                    res.json({ success: false, message: 'Something went wrong.' });
+                                } else {
+                                    // Check if id of user in session was found in the database
+                                    if (!user) {
+                                        res.json({ success: false, message: 'Could not authenticate user.' });
+                                    } else {
+                                        const target = [];
+                                        // Check if comment exist
+                                        blog.comments.map(comment => {
+                                           if (comment._id.toString() === req.body.commentId) {
+                                               target.push(comment);
+                                               // Check if user who liked comment is the same user that originally created the comment
+                                               if (user.username === comment.commentator) {
+                                                   res.json({ success: false, message: 'Cannot like your own comment...' });
+                                               } else {
+                                                   // Check if the user who liked the comment has already liked the blog post before
+                                                   if (comment.commentLikedBy.includes(user.username)) {
+                                                        comment.commentlikes--; // Decrease likes by one
+                                                        const arrayIndex = comment.commentLikedBy.indexOf(user.username); // Check where username is inside of the array
+                                                        comment.commentLikedBy.splice(arrayIndex, 1); // Remove username from index
+                                                        // Save blog data
+                                                        blog.save((err) => {
+                                                          // Check if error was found
+                                                          if (err) {
+                                                            res.json({ success: false, message: 'Something went wrong.' }); // Return error message
+                                                          } else {
+                                                            res.json({ success: true, message: 'Comment disliked!' }); // Return success message
+                                                          }
+                                                        });
+                                                   } else {
+                                                       comment.commentlikes++; // Incriment likes
+                                                       comment.commentLikedBy.push(user.username); // Add liker's username into array of likedBy
+                                                       // Save blog post
+                                                       blog.save((err) => {
+                                                         if (err) {
+                                                             res.json({ success: false, message: 'Something went wrong.' }); // Return error  message
+                                                         } else {
+                                                             res.json({ success: true, message: 'Comment liked!' }); // Return success message
+                                                         }
+                                                       });
+                                                   }
+                                               }
+                                           }
+                                        });
+                                        if (target.length === 0) {
+                                            res.json({ success: false, message: 'Comment was not found...' });
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        }
+    });
+    
     return router;
 };

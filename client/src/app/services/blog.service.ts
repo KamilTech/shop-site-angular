@@ -40,5 +40,21 @@ export class BlogService {
         const postData = { id: id };
         return this.http.put(this.domain + 'blogs/confirm/', postData).pipe(map(res => res));
     }
+    // Function to post new comment
+    postComment(id, comment) {
+        const postComment = {
+            id: id,
+            comment: comment
+        };
+        return this.http.post(this.domain + 'blogs/comment', postComment).pipe(map(res => res));
+    }
+    // Function to like comment
+    likeComment(id, commentId) {
+        const postLike = {
+            id: id,
+            commentId: commentId
+        };
+        return this.http.put(this.domain + 'blogs/likeComment', postLike).pipe(map(res => res));
+    }
 
 }

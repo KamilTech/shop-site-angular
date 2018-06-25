@@ -8,6 +8,14 @@
             </div>
         </div>
     </div>
+    <div class="col-12" *ngIf="messageClass && message">
+        <!-- Custom Success/Error Message -->
+        <div class="show-hide-message">
+            <div [ngClass]="messageClass">
+                {{ message }}
+            </div>
+        </div>
+    </div>
     <div class="container ma-30 popis-font">
         <hr>
         <div class="row align-items-start justify-content-center">
@@ -27,7 +35,7 @@
                                 <span class="mr-auto p-2">By <i class="font-weight">{{ blog.createdBy }}</i>{{ blog.createdAt | date:'MMM dd, yyyy' }}</span>
                                 <span class="p-2"><i class="far fa-heart"></i>{{ blog.likes }}</span>
                                 <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.dislikes }}</span>
+                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.comments?.length || '0' }}</span>
                             </div>
                             <div class="post-content-title">
                                 {{ blog.title }}
@@ -81,54 +89,20 @@
                             </div>
                         </div>
                         <div class="comment-section">
-                            <div class="amount-com">3 Comments</div>
-                            <div class="singel-com">
+                            <div class="amount-com">{{ blog.comments?.length || '0' }} Comments</div>
+                            <div class="singel-com" *ngFor="let com of blog.comments">
                                 <div class="row">
                                     <div class="singel-com-img col-3 col-sm-3 col-md-2 col-log-2 d-flex flex-column align-items-center">
                                         <img src="../../../assets/pexels-photo-614810.jpeg" alt="">
                                         <div class="com-name">
-                                            Kamil Michalski
+                                            {{ com.commentator }}
                                         </div>
                                     </div>
                                     <div class="singel-com-desc col-9 col-sm-9 col-md-10 col-log-10 d-flex flex-column">
-                                        <div class="singel-com-desc-time">27 MAY 2018</div>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi placeat quae quas numquam repellat saepe autem, ipsam iusto at sapiente hic nihil perspiciatis facere totam ducimus corporis labore cum accusantium. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem quo, at illum corrupti tempora voluptatibus enim libero suscipit ex ea minus animi. recusandae laboriosam, quas, quidem deserunt vero dicta ullam. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        <div class="singel-com-desc-time">{{ com.commentData | date:'MMM dd, yyyy'}}</div>
+                                            {{ com.comment }}
                                         <div class="singel-like">
-                                            <button><i class="fas fa-sign-language"></i>Nice <sup>(8)</sup></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="singel-com">
-                                <div class="row">
-                                    <div class="singel-com-img col-3 col-sm-3 col-md-2 col-log-2 d-flex flex-column align-items-center">
-                                        <img src="../../../assets/pexels-photo-614810.jpeg" alt="">
-                                        <div class="com-name">
-                                            Kamil Michalski
-                                        </div>
-                                    </div>
-                                    <div class="singel-com-desc col-9 col-sm-9 col-md-10 col-log-10 d-flex flex-column">
-                                        <div class="singel-com-desc-time">27 MAY 2018</div>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi placeat quae quas numquam repellat saepe autem, ipsam iusto at sapiente hic nihil perspiciatis facere totam ducimus corporis labore cum accusantium. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem quo, at illum corrupti tempora voluptatibus enim libero suscipit ex ea minus animi. recusandae laboriosam, quas, quidem deserunt vero dicta ullam. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        <div class="singel-like">
-                                            <button><i class="fas fa-sign-language"></i>Nice <sup>(3)</sup></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="singel-com">
-                                <div class="row">
-                                    <div class="singel-com-img col-3 col-sm-3 col-md-2 col-log-2 d-flex flex-column align-items-center">
-                                        <img src="../../../assets/pexels-photo-614810.jpeg" alt="">
-                                        <div class="com-name">
-                                            Kamil Michalski
-                                        </div>
-                                    </div>
-                                    <div class="singel-com-desc col-9 col-sm-9 col-md-10 col-log-10 d-flex flex-column">
-                                        <div class="singel-com-desc-time">27 MAY 2018</div>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi placeat quae quas numquam repellat saepe autem, ipsam iusto at sapiente hic nihil perspiciatis facere totam ducimus corporis labore cum accusantium.
-                                        <div class="singel-like">
-                                            <button><i class="fas fa-sign-language"></i>Nice</button>
+                                            <button (click)="likeComment(blog._id, com._id)" ><i class="fas fa-sign-language"></i>Nice <sup>{{ com.commentlikes }}</sup></button>
                                         </div>
                                     </div>
                                 </div>
@@ -138,20 +112,18 @@
                             <div class="amount-com" *ngIf="!authService.loggedIn()">Login to leave comment</div>
                             <div class="amount-com" *ngIf="authService.loggedIn()">Leave a comment</div>
                             <div class="write-comment-input">
-                                <textarea [disabled]="!authService.loggedIn()" placeholder="Write message..."></textarea>
+                                <form [formGroup]="form">
+                                    <textarea [ngClass]="{'input-success': form.controls.body.valid, 'input-error': form.controls.body.dirty && form.controls.body.errors}" rows="8" placeholder="Write message..." formControlName="body"></textarea>
+                                    <ul class="help-block">
+                                        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+                                        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 200, Min length: 2</li>
+                                    </ul>
+                                </form>
                             </div>
                             <div class="write-button" *ngIf="authService.loggedIn()">
-                                <button>Send message</button>
+                                <button [disabled]="!form.valid || processing" [ngClass]="{'disabled': !form.valid || processing}" (click)="postComment(blog._id)">Send message</button>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-8" *ngIf="messageClass && message">
-                <!-- Custom Success/Error Message -->
-                <div class="show-hide-message">
-                    <div [ngClass]="messageClass">
-                        {{ message }}
                     </div>
                 </div>
             </div>

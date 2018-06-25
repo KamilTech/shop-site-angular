@@ -52,71 +52,79 @@ module.exports = (router) => {
                         if (!req.body.smallDescribe) {
                             res.json({ success: false, message: 'Small describe is required' });
                         } else {
-                            // Create item object for insertion into database
-                            const item = new Shop({
-                                name: req.body.name,
-                                price: req.body.price,
-                                createdBy: req.body.createdBy,
-                                describe: req.body.describe,
-                                quantity: req.body.quantity,
-                                smallDescribe: req.body.smallDescribe
-                            });
-                            const size = req.body.size,
-                                  color = req.body.color,
-                                  tags = req.body.tags;
-                            // Function that will be checking if req is array and if return is true then "req" will be inserting into array
-                            if (typeof size !== 'undefined' && size !== null) {
-                                0 < size.length && size.map(e => item.size.push(e));
-                            }
-                            if (typeof color !== 'undefined' && color !== null) {
-                                0 < color.length && color.map(e => item.color.push(e));
-                            }
-                            if (typeof tags !== 'undefined' && tags !== null) {
-                                0 < tags.length && tags.map(e => item.tags.push(e));
-                            }
-                            // Save item into database
-                            item.save((err) => {
-                                if (err) {
-                                    // Check if error is a validation error
-                                    if (err.errors) {
-                                        // Check if validation error is in the name field
-                                        if (err.errors.name) {
-                                            res.json({ success: false, message: err.errors.name.message });
-                                        } else {
-                                            // Check if validation error is in the price field
-                                            if (err.errors.price) {
-                                                res.json({ success: false, message: err.errors.price.message });
+                            if(!req.body.category) {
+                                res.json({ success: false, message: 'Category is required' });
+                            } else {
+                                // Create item object for insertion into database
+                                const item = new Shop({
+                                    name: req.body.name,
+                                    price: req.body.price,
+                                    createdBy: req.body.createdBy,
+                                    describe: req.body.describe,
+                                    quantity: req.body.quantity,
+                                    smallDescribe: req.body.smallDescribe
+                                }),
+                                reqArray = new Array(
+                                    { name: "size", value: req.body.size },
+                                    { name: "color", value: req.body.color },
+                                    { name: "tags", value: req.body.tags },
+                                    { name: "category", value: req.body.category }
+                                );
+                                // loops through reqArray
+                                reqArray.map(target => {
+                                    // Function that will be checking if req is array and if return is true then "req" will be inserting into array
+                                    if (typeof target.value !== 'undefined' && target.value !== null) {
+                                        0 < target.value.length && target.value.map(e => item[target.name].push(e.trim()));
+                                    }
+                                });
+                                // Save item into database
+                                item.save((err) => {
+                                    if (err) {
+                                        // Check if error is a validation error
+                                        if (err.errors) {
+                                            // Check if validation error is in the name field
+                                            if (err.errors.name) {
+                                                res.json({ success: false, message: err.errors.name.message });
                                             } else {
-                                                if (err.errors.createdBy) {
-                                                    res.json({ success: false, message: err.errors.createdBy.message });
+                                                // Check if validation error is in the price field
+                                                if (err.errors.price) {
+                                                    res.json({ success: false, message: err.errors.price.message });
                                                 } else {
-                                                    if (err.errors.describe) {
-                                                        res.json({ success: false, message: err.errors.describe.message });
+                                                    if (err.errors.createdBy) {
+                                                        res.json({ success: false, message: err.errors.createdBy.message });
                                                     } else {
-                                                        if (err.errors.quantity) {
-                                                            res.json({ success: false, message: err.errors.quantity.message });
+                                                        if (err.errors.describe) {
+                                                            res.json({ success: false, message: err.errors.describe.message });
                                                         } else {
-                                                            if (err.errors.color) {
-                                                                res.json({ success: false, message: err.errors.color.message });
+                                                            if (err.errors.quantity) {
+                                                                res.json({ success: false, message: err.errors.quantity.message });
                                                             } else {
-                                                                if (err.errors.size) {
-                                                                    res.json({ success: false, message: err.errors.size.message });
+                                                                if (err.errors.color) {
+                                                                    res.json({ success: false, message: err.errors.color.message });
                                                                 } else {
-                                                                    res.json({ success: false, message: err });
+                                                                    if (err.errors.size) {
+                                                                        res.json({ success: false, message: err.errors.size.message });
+                                                                    } else {
+                                                                        if (err.errors.category) {
+                                                                            res.json({ success: false, message: err.errors.category.message });
+                                                                        } else {
+                                                                            res.json({ success: false, message: err });
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
+                                        } else {
+                                            res.json({ success: false, message: err }); // Return error
                                         }
                                     } else {
-                                        res.json({ success: false, message: err }); // Return error
+                                        res.json({ success: true, message: 'Item saved!' }); // Return success message
                                     }
-                                } else {
-                                    res.json({ success: true, message: 'Item saved!' }); // Return success message
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                 }

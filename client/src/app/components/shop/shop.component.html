@@ -1,10 +1,16 @@
 <div class="container">
+    <!-- Custom Success/Error Message -->
+    <div class="show-hide-message">
+        <div [ngClass]="messageClass">
+            {{ message }}
+        </div>
+    </div>
     <div class="shop-menu">
         <ul class="myBtnContainer d-flex flex-wrap">
-            <li class="btn active" (click)="filterSelection('all')">All Products</li>
-            <li class="btn" (click)="filterSelection('all')">Women</li>
-            <li class="btn" (click)="filterSelection('all')">Men</li>
-            <li class="btn" (click)="filterSelection('all')">Accesories</li>
+            <li class="btn" [ngClass]="{'active': classActive === 1 }" (click)="filterSelection('all', 1)">All Products</li>
+            <li class="btn" [ngClass]="{'active': classActive === 2 }" (click)="filterSelection('women', 2)">Women</li>
+            <li class="btn" [ngClass]="{'active': classActive === 3 }" (click)="filterSelection('men', 3)">Men</li>
+            <li class="btn" [ngClass]="{'active': classActive === 4 }" (click)="filterSelection('accesories', 4)">Accesories</li>
         </ul>
         <div class="shop-filter">
             <div class="filter-button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">Filter</div>

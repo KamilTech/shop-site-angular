@@ -8,7 +8,7 @@
                         {{ message }}
                     </div>
                 </div>
-                <div class="blog-head">Create new Post</div>
+                <div class="blog-head">Edit post</div>
                 <form [formGroup]="form" (submit)="updateBlogSubmit()" class="d-flex flex-column" *ngIf="!loading">
                     <label for="blog-title">Title of the blog</label>
                     <input [ngClass]="{'input-success': form.controls.title.valid, 'input-error': form.controls.title.dirty && form.controls.title.errors}" id="blog-title" class="blog-title" type="text" placeholder="Blog Title" autocomplete="off" formControlName="title">

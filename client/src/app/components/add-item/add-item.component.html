@@ -49,6 +49,9 @@
                     <label>Color</label>
                     <ng-multiselect-dropdown name="color" [placeholder]="'Select color'" [data]="color" formControlName="color" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
+                    <label>Category</label>
+                    <ng-multiselect-dropdown name="category" [placeholder]="'Select category'" [data]="category" formControlName="category" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
                     <label for="tag">Tags</label>
                     <input [ngClass]="{'input-success': form.controls.tags.valid, 'input-error': form.controls.tags.dirty && form.controls.tags.errors}" id="tag" type="text" placeholder="first second" autocomplete="off" formControlName="tags">
                     <ul class="help-block">

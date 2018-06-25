@@ -267,6 +267,25 @@
     margin-right: 33px;
 }
 
+form textarea.input-success {
+    border: 1px solid rgba(0, 128, 0, 0.80);
+    outline: green;
+}
+
+form textarea.input-error {
+    border: 1px solid #dc0000;
+    outline: none;
+}
+
+.help-block li {
+    color: #dc0000;
+}
+
+button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}
+
 @media screen and (max-width: 380px) {
     .singel-com-img img {
         height: 50px;

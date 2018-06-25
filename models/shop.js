@@ -195,6 +195,30 @@ const smallDescribeValidators = [
   }
 ];
 
+// Validate Function to check if category has valid format
+let categoryChecker = (category) => {
+  // Check if category exists
+  if (!category) {
+    return false; // Return error
+  } else {
+    // Regular expression to test for a valid category
+    let flag = true;
+    const regExp = new RegExp(/\b(women|man|accesories)\b/);
+    category.map(e => {
+        if (regExp.test(e) === false) flag = false;
+    }); // Return regular expression test results (true or false)
+    return flag;
+  }
+};
+
+// Array of size category
+const categoryValidators = [
+  {
+    validator: categoryChecker,
+    message: 'Invalid characters in the category field'
+  }
+];
+
 const shopItem = new Schema({
     name: { type: String, required: true, validate: nameValidators },
     price: { type: String, required: true, validate: priceValidators },
@@ -202,6 +226,7 @@ const shopItem = new Schema({
     createdAt: { type: Date, default: Date.now() },
     describe: { type: String, required: true, validate: describeValidators },
     smallDescribe: { type: String, required: true, validate: smallDescribeValidators },
+    category: { type: Array, required: true, validate: categoryValidators },
     size: { type: Array, validate: sizeValidators },
     color: { type: Array, validate: colorValidators },
     likes: { type: Number, default: 0 },

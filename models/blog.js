@@ -151,7 +151,9 @@ const blogSchema = new Schema({
   comments: [{
     comment: { type: String, validate: commentValidators },
     commentator: { type: String },
-    commentLikedBy: { type: String }
+    commentLikedBy: { type: Array },
+    commentlikes: { type: Number, default: 0 },
+    commentData: { type: Date, default: Date.now() }
   }]
 });
 

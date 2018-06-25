@@ -12,6 +12,9 @@ export class ShopComponent implements OnInit {
     modalItem;
     shopStatic;
     quantity: number = 1;
+    messageClass;
+    message;
+    classActive: number = 1;
 
   constructor(
     private authService: AuthService
@@ -82,6 +85,23 @@ export class ShopComponent implements OnInit {
         modaGallery();
     }
 
+    filterSelection(value: string, isActive: number) {
+        this.shop = this.shopStatic;
+        this.classActive = isActive;
+
+        if (value === "all") {
+            this.getItems();
+        } else {
+            const shopArray = [];
+            for (let i = 0; i < this.shop.length; i++) {
+                this.shop[i].category.map(e => {
+                    if (e === value) shopArray.push(this.shop[i]);
+                });
+            }
+            this.shop = shopArray;
+        }
+    }
+
     likebtn(event: any) {
         event.target.classList.toggle('is-active');
     }
@@ -95,18 +115,18 @@ export class ShopComponent implements OnInit {
             }
         });
     }
-    
+
     sortPrice(start: number, end, ifAll?: boolean) {
         this.shop = this.shopStatic;
         if (ifAll === true) {
             this.getItems();
         } else {
-            let shopArray = [];
+            const shopArray = [];
             if (end === 'end') {
-                this.shop.map(e => if (e.price >= start) shopArray.push(e));
+                this.shop.map(e => { if (e.price >= start) shopArray.push(e) });
             } else {
                 if (start && end) {
-                    this.shop.map(e => if (e.price >= start && e.price <= end) shopArray.push(e));
+                    this.shop.map(e => { if (e.price >= start && e.price <= end) shopArray.push(e) });
                 }
             }
             this.shop = shopArray;
@@ -116,17 +136,25 @@ export class ShopComponent implements OnInit {
     getItems() {
         this.authService.getAllItems().subscribe(data => {
             if (data['success']) {
-                this.shop = data['items'];
-                this.shopStatic = data['items'];
+                this.shop = data['items']; // Return success class
+                this.shopStatic = data['items']; // Return success class
+            } else {
+                this.messageClass = 'alert alert-danger'; // Return error class
+                this.message = data['message']; // Return error message
+
+                setTimeout(() => {
+                    this.messageClass = null;
+                    this.message = null; // Erase error/success message
+                }, 2000);
             }
         });
     }
-    
+
     quantityChange(value) {
        if (value === true) {
-           this.quantity++
+           this.quantity++;
        } else {
-           if (this.quantity !== 0) this.quantity--;
+           if (this.quantity !== 1) { this.quantity--; }
        }
     }
 
