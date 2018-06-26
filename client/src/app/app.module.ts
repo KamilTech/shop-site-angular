@@ -36,6 +36,7 @@ import { AdminGuard } from './guards/admin.guard';
 
 import { SortenPipe } from './pipes/shortenDescribe';
 import { AddItemComponent } from './components/add-item/add-item.component';
+import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { AddItemComponent } from './components/add-item/add-item.component';
     FormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SnotifyModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -76,6 +78,8 @@ import { AddItemComponent } from './components/add-item/add-item.component';
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
+      { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+      SnotifyService,
       AuthService,
       BlogService,
       ShopService,

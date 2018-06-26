@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private snotifyService: SnotifyService
   ) {
     this.createForm(); // Create Login Form when component is constructed
   }
@@ -53,31 +56,46 @@ export class LoginComponent implements OnInit {
       username: this.form.get('username').value,
       password: this.form.get('password').value
     };
-
-    // Function to send login data to API
-    this.authService.login(user).subscribe(data => {
-      // Check if response was a success or error
-      if (!data['success']) {
-        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-        this.message = data['message']; // Set error message
-        this.processing = false; // Enable submit button
-        this.enableForm(); // Enable form for editting
-      } else {
-        this.messageClass = 'alert alert-success'; // Set bootstrap success class
-        this.message = data['message']; // Set success message
-        // Function to store user's token in client local storage
-        this.authService.storeUserData(data['token'], data['user']);
-        // After 2 seconds, redirect to dashboard page
-        setTimeout(() => {
-          // Check if user was redirected or logging in for first time
-          if (this.previousUrl) {
-            this.router.navigate([this.previousUrl]); // Redirect to page they were trying to view before
-          } else {
-            this.router.navigate(['/dashboard']); // Navigate to dashboard view
-          }
-        }, 2000);
-      }
+    // Create observable for notification
+    const sendData = Observable.create(observer => {
+        // Function to send login data to API
+        this.authService.login(user).subscribe(data => {
+          // Check if response was a success or error
+            setTimeout(() => { // SetTimeout only for test
+                if (!data['success']) {
+                    // If false return error notification
+                    observer.error({
+                        title: 'Error',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 5000, showProgressBar: true }
+                    });
+                    this.processing = false; // Enable submit button
+                    this.enableForm(); // Enable form for editting
+                } else {
+                    // If true return success notification
+                    observer.next({
+                        title: 'Success',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    observer.complete();
+                    // Function to store user's token in client local storage
+                    this.authService.storeUserData(data['token'], data['user']);
+                    // After 2 seconds, redirect to dashboard page
+                    setTimeout(() => {
+                        // Check if user was redirected or logging in for first time
+                        if (this.previousUrl) {
+                            this.router.navigate([this.previousUrl]); // Redirect to page they were trying to view before
+                        } else {
+                            this.router.navigate(['/dashboard']); // Navigate to dashboard view
+                        }
+                    }, 2000);
+                }
+            }, 1000);
+        });
     });
+    // Snotify Notifications
+    this.snotifyService.async('Loading', sendData);
   }
 
   ngOnInit() {

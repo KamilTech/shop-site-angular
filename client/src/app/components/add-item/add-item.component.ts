@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ShopService } from '../../services/shop.service';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-add-item',
@@ -9,7 +11,7 @@ import { ShopService } from '../../services/shop.service';
   styleUrls: ['./add-item.component.css']
 })
 export class AddItemComponent implements OnInit {
-    
+
     form;
     processing = false;
     size;
@@ -23,11 +25,12 @@ export class AddItemComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private shopService: ShopService
+    private shopService: ShopService,
+    private snotifyService: SnotifyService
   ) {
     this.createNewBlogForm(); // Create new blog form on start up
   }
-    
+
   // Function to create new blog form
   createNewBlogForm() {
     this.form = this.formBuilder.group({
@@ -158,24 +161,24 @@ export class AddItemComponent implements OnInit {
   onBlogSubmit() {
     this.processing = true; // Disable submit button
     this.disableFormNewItemForm(); // Lock form
-      
+
     function returnArray(val) {
         const targetArray = val.split(" ");
         if (typeof targetArray !== 'undefined' && targetArray !== null) {
             return 0 < targetArray.length ? targetArray : false;
-        } else { 
+        } else {
             return false;
-        };
+        }
     }
-      
+
     function returnSelect(val) {
         const array = [];
         val.map(e => array.push(e.item_text));
         if (typeof array !== 'undefined' && array !== null) {
             return 0 < array.length ? array : false;
-        } else { 
+        } else {
             return false;
-        };
+        }
     }
     // Create item object from form fields
     const item = {
@@ -185,32 +188,45 @@ export class AddItemComponent implements OnInit {
         quantity: this.form.get('quantity').value, // Quantity field
         smallDescribe: this.form.get('smallDescribe').value, // SmallDescribe field
         createdBy: this.username,
-        tags: returnArray(this.form.get('tags').value), // Tags field    
+        tags: returnArray(this.form.get('tags').value), // Tags field
         size: returnSelect(this.form.get('size').value), // Size field
-        color: returnSelect(this.form.get('color').value), // Color field        
+        color: returnSelect(this.form.get('color').value), // Color field
         category: returnSelect(this.form.get('category').value) // Category field
-    }
-    // Function to save item into database
-    this.shopService.newItem(item).subscribe(data => {
-        // Check if item was saved to database or not
-        if (!data['success']) {
-            this.messageClass = 'alert alert-danger'; // Return error class
-            this.message = data['message']; // Return error message
-            this.processing = false; // Enable submit button
-            this.enableFormNewItemForm(); // Enable form
-        } else {
-            this.messageClass = 'alert alert-success'; // Return success class
-            this.message = data['message']; // Return success message
-            // Clear form data after two seconds
-            setTimeout(() => {
-                this.messageClass = null;
-                this.processing = false; // Enable submit button
-                this.message = null; // Erase error/success message
-                this.form.reset(); // Reset all form fields
-                this.enableFormNewItemForm(); // Enable the form fields
-            }, 2000);
-        }
+    };
+
+    // Create observable for notification
+    const sendData = Observable.create(observer => {
+        // Function to save item into database
+        this.shopService.newItem(item).subscribe(data => {
+            // Check if item was saved to database or not
+            setTimeout(() => { // SetTimeout only for test
+                if (!data['success']) {
+                    // If false return error notification
+                    observer.error({
+                        title: 'Error',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 5000, showProgressBar: true }
+                    });
+                    this.processing = false; // Enable submit button
+                    this.enableFormNewItemForm(); // Enable form
+                } else {
+                    // If true return success notification
+                    observer.next({
+                        title: 'Success',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    observer.complete();
+                    // Clear form
+                    this.processing = false; // Enable submit button
+                    this.form.reset(); // Reset all form fields
+                    this.enableFormNewItemForm(); // Enable the form fields
+                }
+            }, 1000);
+        });
     });
+    // Snotify Notifications
+    this.snotifyService.async('Loading', sendData);
   }
 
   ngOnInit() {

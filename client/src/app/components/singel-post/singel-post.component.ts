@@ -3,6 +3,8 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-singel-post',
@@ -24,7 +26,8 @@ export class SingelPostComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private blogService: BlogService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private snotifyService: SnotifyService
     ) {
             this.createNewCommentForm(); // Create new comment form on start up
         }
@@ -39,7 +42,7 @@ export class SingelPostComponent implements OnInit {
             ])]
         });
     }
-    
+
     // Function to like a blog post
     likePost(event: any, id: any) {
         // Service to like a blog post
@@ -71,37 +74,74 @@ export class SingelPostComponent implements OnInit {
     // Function to submit a new comment
     postComment(id) {
         this.processing = true;
+        this.form.get('body').disable(); // Disable body field
         const comment = this.form.get('body').value; // Comment field
 
-        this.blogService.postComment(id, comment).subscribe(data => {
-           // Check if GET request was success or not
-           if (!data['success']) {
-                this.processing = false;
-                this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-                this.message = data['message']; // Set error message
-           } else {
-                this.processing = false;
-                this.form.reset(); // Reset all form fields
-                this.getPost();
-                this.messageClass = 'alert alert-success'; // Return success class
-                this.message = data['message']; // Return success message
-           }
+        // Create observable for notification
+        const sendData = Observable.create(observer => {
+            // Function to save comment into database
+            this.blogService.postComment(id, comment).subscribe(data => {
+               // Check if GET request was success or not
+                setTimeout(() => { // SetTimeout only for test
+                    if (!data['success']) {
+                        this.processing = false;
+                        this.form.get('body').enable(); // Enable body field
+                        // If false return error notification
+                        observer.error({
+                            title: 'Error',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                    } else {
+                        // If true return success notification
+                        observer.next({
+                            title: 'Success',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                        observer.complete();
+                        this.form.get('body').enable();
+                        this.processing = false;
+                        this.form.reset(); // Reset all form fields
+                        this.getPost();
+                    }
+                }, 1000);
+            });
         });
+        // Snotify Notifications
+        this.snotifyService.async('Loading', sendData);
     }
 
     // Function to like comment
     likeComment(id, commentId) {
-        this.blogService.likeComment(id, commentId).subscribe(data => {
-            // Check if GET request was success or not
-           if (!data['success']) {
-                this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-                this.message = data['message']; // Set error message
-           } else {
-                this.getPost();
-                this.messageClass = 'alert alert-success'; // Return success class
-                this.message = data['message']; // Return success message
-           }
+        // Create observable for notification
+        const sendData = Observable.create(observer => {
+            // Function to save like into database
+            this.blogService.likeComment(id, commentId).subscribe(data => {
+                // Check if GET request was success or not
+                setTimeout(() => { // SetTimeout only for test
+                    if (!data['success']) {
+                        // If false return error notification
+                        observer.error({
+                            title: 'Error',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                   } else {
+                        this.getPost();
+                        // If true return success notification
+                        observer.next({
+                            title: 'Success',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                        observer.complete();
+                   }
+                }, 500);
+            });
         });
+        // Snotify Notifications
+        this.snotifyService.async('Loading', sendData);
     }
 
     getPost() {

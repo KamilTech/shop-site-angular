@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-admin-post',
@@ -10,16 +12,13 @@ import { BlogService } from '../../services/blog.service';
 export class AdminPostComponent implements OnInit {
 
     blogPosts: Array<any> = [];
-    messageClass;
-    message;
     loading = true;
 
     constructor(
         private authService: AuthService,
-        private blogService: BlogService
-    ) {
-
-    }
+        private blogService: BlogService,
+        private snotifyService: SnotifyService
+    ) {}
 
     // Function to get all blogs from the database
     getAllBlogs() {
@@ -32,19 +31,38 @@ export class AdminPostComponent implements OnInit {
 
     toConfirm(blogId) {
         this.loading = true;
-        this.blogService.confirmBlog(blogId).subscribe(data => {
-          // Check if GET request was success or not
-          if (!data['success']) {
-            this.messageClass = 'alert alert-danger'; // Set bootstrap error class
-            this.message = data['message']; // Set error message
-          } else {
-            this.messageClass = 'alert alert-success'; // Set success bootstrap class
-            this.message = data['message']; // Set success message
-            this.loading = false; // Allow loading of blog form
-            this.blogPosts = [];
-            this.getAllBlogs();
-          }
+
+        // Create observable for notification
+        const sendData = Observable.create(observer => {
+            setTimeout(() => { // SetTimeout only for test
+                this.blogService.confirmBlog(blogId).subscribe(data => {
+                  // Check if GET request was success or not
+                  setTimeout(() => { // SetTimeout only for test
+                      if (!data['success']) {
+                        // If false return error notification
+                        observer.error({
+                            title: 'Error',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                      } else {
+                        // If true return success notification
+                        observer.next({
+                            title: 'Success',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                        observer.complete();
+                        this.loading = false; // Allow loading of blog form
+                        this.blogPosts = [];
+                        this.getAllBlogs();
+                      }
+                  }, 500);
+                });
+            });
         });
+        // Snotify Notifications
+        this.snotifyService.async('Loading', sendData);
     }
 
     ngOnInit() {

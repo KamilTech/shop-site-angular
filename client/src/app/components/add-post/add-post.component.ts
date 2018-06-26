@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-add-post',
@@ -10,8 +12,6 @@ import { BlogService } from '../../services/blog.service';
 })
 export class AddPostComponent implements OnInit {
 
-  messageClass;
-  message;
   form;
   processing = false;
   username;
@@ -19,7 +19,8 @@ export class AddPostComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private snotifyService: SnotifyService
   ) {
     this.createNewBlogForm(); // Create new blog form on start up
   }
@@ -44,7 +45,7 @@ export class AddPostComponent implements OnInit {
         Validators.minLength(3),
         this.tagValidation
       ])]
-    })
+    });
   }
 
   // Enable new blog form
@@ -68,7 +69,7 @@ export class AddPostComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; // Return valid
     } else {
-      return { 'alphaNumericValidation': true } // Return error in validation
+      return { 'alphaNumericValidation': true }; // Return error in validation
     }
   }
 
@@ -78,47 +79,57 @@ export class AddPostComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; // Return valid
     } else {
-      return { 'tagValidation': true } // Return error in validation
-    }    
+      return { 'tagValidation': true }; // Return error in validation
+    }
   }
 
   // Function to submit a new blog post
-  onBlogSubmit() {
-    this.processing = true; // Disable submit button
-    this.disableFormNewBlogForm(); // Lock form
-    // Create blog object from form fields
-    const blog = {
-      title: this.form.get('title').value, // Title field
-      body: this.form.get('body').value, // Body field
-      createdBy: this.username, // CreatedBy field
-      tags: ((val) => {
-          var tags = val.split(" ");
-          return tags;
-      })(this.form.get('tag').value)
+    onBlogSubmit() {
+        this.processing = true; // Disable submit button
+        this.disableFormNewBlogForm(); // Lock form
+        // Create blog object from form fields
+        const blog = {
+          title: this.form.get('title').value, // Title field
+          body: this.form.get('body').value, // Body field
+          createdBy: this.username, // CreatedBy field
+          tags: ((val) => {
+              let tags = val.split(" ");
+              return tags;
+          })(this.form.get('tag').value)
+        };
+        // Create observable for notification
+        const sendData = Observable.create(observer => {
+            // Function to save blog into database
+            this.blogService.newBlog(blog).subscribe(data => {
+                // Check if blog was saved to database or not
+                setTimeout(() => { // SetTimeout only for test
+                    if (!data['success']) {
+                        // If false return error notification
+                        observer.error({
+                            title: 'Error',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                        this.processing = false; // Enable submit button
+                        this.enableFormNewBlogForm(); // Enable form
+                    } else {
+                        // If true return success notification
+                        observer.next({
+                            title: 'Success',
+                            body: data['message'],
+                            config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        });
+                        observer.complete();
+                        this.processing = false; // Enable submit button
+                        this.form.reset(); // Reset all form fields
+                        this.enableFormNewBlogForm(); // Enable the form fields
+                    }
+                }, 1000);
+            });
+        });
+        // Snotify Notifications
+        this.snotifyService.async('Loading', sendData);
     }
-
-    // Function to save blog into database
-    this.blogService.newBlog(blog).subscribe(data => {
-      // Check if blog was saved to database or not
-      if (!data['success']) {
-        this.messageClass = 'alert alert-danger'; // Return error class
-        this.message = data['message']; // Return error message
-        this.processing = false; // Enable submit button
-        this.enableFormNewBlogForm(); // Enable form
-      } else {
-        this.messageClass = 'alert alert-success'; // Return success class
-        this.message = data['message']; // Return success message
-        // Clear form data after two seconds
-        setTimeout(() => {
-          this.messageClass = null;
-          this.processing = false; // Enable submit button
-          this.message = null; // Erase error/success message
-          this.form.reset(); // Reset all form fields
-          this.enableFormNewBlogForm(); // Enable the form fields
-        }, 2000);
-      }
-    });
-  }
 
   ngOnInit() {
     // Get profile username on page load

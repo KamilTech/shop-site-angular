@@ -203,7 +203,7 @@ let categoryChecker = (category) => {
   } else {
     // Regular expression to test for a valid category
     let flag = true;
-    const regExp = new RegExp(/\b(women|man|accesories)\b/);
+    const regExp = new RegExp(/\b(women|men|accesories)\b/);
     category.map(e => {
         if (regExp.test(e) === false) flag = false;
     }); // Return regular expression test results (true or false)

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-navbar',
@@ -8,10 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-    
+
   constructor(
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private snotifyService: SnotifyService
     ) { }
 
     smallCard(info) {
@@ -26,10 +28,16 @@ export class NavbarComponent implements OnInit {
               user.classList.toggle('cart-active');
           }
     }
-    
+
   // Function to logout user
   onLogoutClick() {
     this.authService.logout(); // Logout user
+     this.snotifyService.success('Logout success', {
+        timeout: 2000,
+        showProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true
+    });
     this.router.navigate(['/']); // Navigate back to home page
   }
 

@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ng-snotify/styles/material.css",
               "src/styles.css",
               "src/assets/css/slick.css",
               "src/assets/css/slick-theme.css"

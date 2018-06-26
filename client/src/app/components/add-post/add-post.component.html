@@ -2,12 +2,6 @@
     <div class="container">
         <div class="row d-flex flex-column">
             <div class="addPost col-12 col-sm-12 col-md-10 col-lg-8 d-flex flex-column align-self-center">
-                <!-- Custom Success/Error Message -->
-                <div class="show-hide-message">
-                    <div [ngClass]="messageClass">
-                        {{ message }}
-                    </div>
-                </div>
                 <div class="blog-head">Create new Post</div>
                 <form [formGroup]="form" (submit)="onBlogSubmit()" class="d-flex flex-column">
                     <label for="blog-title">Title of the blog</label>
