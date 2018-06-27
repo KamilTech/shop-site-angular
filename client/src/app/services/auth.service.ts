@@ -63,10 +63,10 @@ export class AuthService  {
         const token: string = this.jwtHelperService.tokenGetter();
 
         if (!token) {
-          return false
+          return false;
         }
         const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(token);
-        return !tokenExpired
+        return !tokenExpired;
     }
 
     isAdmin() {
@@ -83,7 +83,7 @@ export class AuthService  {
         return this.http.get(this.domain + '/authentication/singlePost/' + id).pipe(map(res => res));
     }
 
-    getAllItems(){
+    getAllItems() {
         return this.http.get(this.domain + '/authentication/allItems').pipe(map(res => res));
     }
 

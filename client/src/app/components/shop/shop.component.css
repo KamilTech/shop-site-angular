@@ -529,6 +529,10 @@
     animation-fill-mode: forwards;
 }
 
+.pagination {
+    margin-bottom: 20px;
+}
+
 @-webkit-keyframes animate {
     0% {
         background-position: left;

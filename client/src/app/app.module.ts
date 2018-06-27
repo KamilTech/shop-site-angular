@@ -37,6 +37,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { SortenPipe } from './pipes/shortenDescribe';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
         whitelistedDomains: ['localhost:4200']
       }
     }),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [
       { provide: 'SnotifyToastConfig', useValue: ToastDefaults },

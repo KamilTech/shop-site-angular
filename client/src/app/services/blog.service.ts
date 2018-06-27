@@ -56,5 +56,9 @@ export class BlogService {
         };
         return this.http.put(this.domain + 'blogs/likeComment', postLike).pipe(map(res => res));
     }
+    // Function to get user post
+    getUserPost() {
+        return this.http.get(this.domain + 'blogs/getUserPost').pipe(map(res => res));
+    }
 
 }

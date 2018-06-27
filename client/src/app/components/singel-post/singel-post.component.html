@@ -37,10 +37,10 @@
                                 <span class="p-2">|</span>
                                 <span class="p-2"><i class="far fa-comments"></i>{{ blog.comments?.length || '0' }}</span>
                             </div>
-                            <div class="post-content-title">
+                            <div class="post-content-title text-wrap">
                                 {{ blog.title }}
                             </div>
-                            <div class="post-content-describe">
+                            <div class="post-content-describe text-wrap">
                                 {{ blog.body }}
                                 <div class="like-post d-flex flex-wrap" *ngIf="!isOwn && this.authService.loggedIn()">
                                     <div *ngIf="!isLike" class="like-post-heart">- Like this article? Give him heart<span (click)="likePost($event, blog._id)" class="like-btn"></span></div>

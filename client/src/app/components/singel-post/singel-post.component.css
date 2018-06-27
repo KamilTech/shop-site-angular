@@ -329,6 +329,10 @@ button.disabled {
     opacity: 1;
 }
 
+.text-wrap {
+    word-wrap: break-word;
+}
+
 @-webkit-keyframes animate {
     0% {
         background-position: left;

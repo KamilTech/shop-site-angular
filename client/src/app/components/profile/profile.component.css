@@ -172,3 +172,31 @@ section {
     border-bottom: 1px solid #e8e8e8;
     padding-top: 25px;
 }
+
+.noPost {
+    margin-top: 20px;
+}
+
+.text-wrap {
+    word-wrap: break-word;
+}
+
+.Status {
+    font-size: 13px; 
+    margin-top: -12px;
+    text-align: left;
+    margin-left: -7px;
+    color: #888;
+}
+
+.isAppr {
+    font-weight: bold;
+}
+
+button {
+    margin-left: 5px;
+}
+.pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

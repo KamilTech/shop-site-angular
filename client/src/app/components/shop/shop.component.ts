@@ -15,6 +15,7 @@ export class ShopComponent implements OnInit {
     messageClass;
     message;
     classActive: number = 1;
+    p: number = 1;
 
   constructor(
     private authService: AuthService

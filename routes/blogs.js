@@ -393,6 +393,42 @@ module.exports = (router) => {
   });
     
     /* ===============================================================
+        GET USER POST
+    =============================================================== */
+    router.get('/getUserPost', (req,res) => {
+        // Get data from user that is signed in
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            // Check if error has occured
+            if (err) {
+                res.json({ success: false, message: 'Something went wrong.' });
+            } else {
+                // Check if id of user in session was found in the database
+                if (!user) {
+                    res.json({ success: false, message: 'Could not authenticate user.' });
+                } else {
+                    // Get all post which belonging to this user
+                    Blog.find({ createdBy: user.username }, (err, items) => {
+                        // Check if error has occured
+                        if (err) {
+                            res.json({ success: false, message: 'Something went wrong.' });
+                        } else {
+                            // Check if any post was found
+                            if (items.length === 0) {
+                                res.json({ success: false, message: 'You do not have any post.' });
+                            } else {
+                                res.json({ success: true, posts: items });
+                            }
+                        }
+                    }).sort({
+                        '_id': -1
+                    }); // Sort blogs from newest to oldest;
+                }
+            }
+        });
+    });
+    
+    
+    /* ===============================================================
         LIKE COMMENT
     =============================================================== */
     router.put('/likeComment', (req, res) => {
@@ -410,7 +446,7 @@ module.exports = (router) => {
                     if (err) {
                         res.json({ success: false, message: 'Invalid blog id' });
                     } else {
-                        // Check if id matched the id of a blog post in the databas
+                        // Check if id matched the id of a blog post in the database
                         if (!blog) {
                             res.json({ success: false, message: 'That blog was not found.' });
                         } else {

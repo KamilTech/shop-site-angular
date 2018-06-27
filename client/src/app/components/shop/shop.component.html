@@ -140,7 +140,7 @@
     </div>
     <!-- START PRODUCT -->
     <div class="row photos justify-content-center">
-        <ng-container *ngFor="let item of shop">
+        <ng-container *ngFor="let item of shop | paginate: { itemsPerPage: 12, currentPage: p }">
             <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4" (click)="checkItem(item._id)">
                 <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
@@ -155,5 +155,8 @@
             </div>
         </ng-container>
         <!-- END PRODUCT -->
+    </div>
+    <div class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

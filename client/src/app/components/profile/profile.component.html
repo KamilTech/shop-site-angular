@@ -28,7 +28,7 @@
                 <div class="profile-right-title">
                     Your Post
                 </div>
-                <div class="article-profile row d-flex flex-lg-row flex-sd-column flex-md-column">
+                <div class="article-profile row d-flex flex-lg-row flex-sd-column flex-md-column" *ngFor="let post of posts | paginate: { itemsPerPage: 10, currentPage: p }">
                     <div class="profile-image-article col-12 col-sm-12 col-md-12 col-lg-5">
                         <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
                             <div class="border one">
@@ -36,55 +36,50 @@
                             </div>
                             <div class="border two">
                                 <div></div>
-                            </div><a href="#"></a>
+                            </div><a *ngIf="post.isApproved" [routerLink]="['/post/', post._id]"></a>
                         </figure>
                     </div>
                     <div class="profile-image-describe col-12 col-sm-12 col-md-12 col-lg-7">
                         <div class="post-content-info d-flex flex-row">
-                            <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                            <span class="p-2"><i class="far fa-heart"></i>12</span>
+                            <span class="mr-auto p-2">By <i class="font-weight">{{ post.createdBy }}</i>{{ post.createdAt | date:'MMM dd, yyyy' }}</span>
+                            <span class="p-2"><i class="far fa-heart"></i>{{ post.likes }}</span>
                             <span class="p-2">|</span>
-                            <span class="p-2"><i class="far fa-comments"></i>5</span>
+                            <span class="p-2"><i class="far fa-comments"></i>{{ post.dislikes }}</span>
+                        </div>
+                        <div class="Status d-flex flex-row ">
+                            <span class="mr-auto p-2">Status: <i class="isAppr" [ngStyle]="{ 'color': (post.isApproved ? 'green' : 'red') }">{{ post.isApproved ? 'Accepted' : 'Pending' }}</i></span>
                         </div>
                         <div class="post-content-title">
-                            Where To Get The Best Sunday Roast In The Cotswolds...
+                            {{ post.title | shorten: 50 }}
                         </div>
-                        <div class="post-content-describe">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
+                        <div class="post-content-describe text-wrap">
+                            {{ post.body | shorten: 200 }}.....
                         </div>
                         <div class="post-main-button d-flex justify-content-end">
-                            <button>Continue Reading</button>
+                            <button *ngIf="post.isApproved" [routerLink]="['/post/', post._id]">Continue Reading</button>
+                            <button [routerLink]="['/edit-post/', post._id]">Edit</button>
+                            <button data-toggle="modal" data-target=".bd-example-modal-sm">Delete</button>
                         </div>
                     </div>
                 </div>
-                <div class="article-profile row d-flex flex-lg-row flex-sd-column flex-md-column">
-                    <div class="profile-image-article col-12 col-sm-12 col-md-12 col-lg-5">
-                        <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
-                            <div class="border one">
-                                <div></div>
-                            </div>
-                            <div class="border two">
-                                <div></div>
-                            </div><a href="#"></a>
-                        </figure>
-                    </div>
-                    <div class="profile-image-describe col-12 col-sm-12 col-md-12 col-lg-7">
-                        <div class="post-content-info d-flex flex-row">
-                            <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                            <span class="p-2"><i class="far fa-heart"></i>12</span>
-                            <span class="p-2">|</span>
-                            <span class="p-2"><i class="far fa-comments"></i>5</span>
-                        </div>
-                        <div class="post-content-title">
-                            Where To Get The Best Sunday Roast In The Cotswolds...
-                        </div>
-                        <div class="post-content-describe">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
-                        </div>
-                        <div class="post-main-button d-flex justify-content-end">
-                            <button>Continue Reading</button>
-                        </div>
-                    </div>
+                <div class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+                <div class="noPost col-12 col-sm-12 col-md-12 col-lg-12 text-center" *ngIf="posts?.length === 0">
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Are you sure??
+                </div>
+                <div class="buttons d-flex flex-row justify-content-center">
+                    <button data-dismiss="modal" class="btn btn-success">YES</button>
+                    <button data-dismiss="modal" class="btn btn-danger">NO</button>
                 </div>
             </div>
         </div>
