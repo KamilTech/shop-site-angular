@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { Observable } from 'rxjs';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +19,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
    private authService: AuthService,
-   private blogService: BlogService
+   private blogService: BlogService,
+   private snotifyService: SnotifyService
   ) { }
 
   getUserPost() {
@@ -30,6 +33,36 @@ export class ProfileComponent implements OnInit {
               this.posts = data['posts'];
           }
       });
+  }
+
+  deletePost(id) {
+    // Create observable for notification
+    const sendData = Observable.create(observer => {
+        this.blogService.deletePost(id).subscribe(data => {
+            // Check if GET request was success or not
+            setTimeout(() => { // SetTimeout only for test
+                if (!data['success']) {
+                    // If false return error notification
+                    observer.error({
+                        title: 'Error',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                } else {
+                    // If true return success notification
+                    observer.next({
+                        title: 'Success',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    observer.complete();
+                    this.getUserPost();
+                }
+            }, 500);
+        });
+    });
+    // Snotify Notifications
+    this.snotifyService.async('Loading', sendData);
   }
 
   ngOnInit() {

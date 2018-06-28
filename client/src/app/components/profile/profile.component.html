@@ -58,28 +58,28 @@
                         <div class="post-main-button d-flex justify-content-end">
                             <button *ngIf="post.isApproved" [routerLink]="['/post/', post._id]">Continue Reading</button>
                             <button [routerLink]="['/edit-post/', post._id]">Edit</button>
-                            <button data-toggle="modal" data-target=".bd-example-modal-sm">Delete</button>
+                            <button *ngIf="username === post.createdBy" data-toggle="modal" data-target=".bd-example-modal-sm">Delete</button>
+                        </div>
+                    </div>
+                    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    Are you sure??
+                                </div>
+                                <div class="buttons d-flex flex-row justify-content-center">
+                                    <button data-dismiss="modal" (click)="deletePost(post._id)" class="btn btn-success">YES</button>
+                                    <button data-dismiss="modal" class="btn btn-danger">NO</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+                <div *ngIf="posts?.length > 0" class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
                     <pagination-controls (pageChange)="p = $event"></pagination-controls>
                 </div>
                 <div class="noPost col-12 col-sm-12 col-md-12 col-lg-12 text-center" *ngIf="posts?.length === 0">
                     {{ message }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    Are you sure??
-                </div>
-                <div class="buttons d-flex flex-row justify-content-center">
-                    <button data-dismiss="modal" class="btn btn-success">YES</button>
-                    <button data-dismiss="modal" class="btn btn-danger">NO</button>
                 </div>
             </div>
         </div>

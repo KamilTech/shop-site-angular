@@ -15,6 +15,7 @@ import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { AddItemComponent } from './components/add-item/add-item.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 const appRoutes: Routes = [
   {
@@ -74,7 +75,7 @@ const appRoutes: Routes = [
   {
     path: 'admin-post',
     component: AdminPostComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AdminGuard],
   },
   {
     path: 'edit-post/:id',

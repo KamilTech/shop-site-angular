@@ -12,7 +12,8 @@ import { SnotifyService } from 'ng-snotify';
 export class AdminPostComponent implements OnInit {
 
     blogPosts: Array<any> = [];
-    loading = true;
+    loading: boolean = true;
+    showMe: boolean = false;
 
     constructor(
         private authService: AuthService,
@@ -22,10 +23,11 @@ export class AdminPostComponent implements OnInit {
 
     // Function to get all blogs from the database
     getAllBlogs() {
-    this.blogPosts = [];
-    // Function to GET all blogs from database
+        this.blogPosts = [];
+        // Function to GET all blogs from database
         this.authService.getAllBlogs().subscribe(data => {
           data['blogs'].map(e => e.isApproved === false && this.blogPosts.push(e));
+          this.blogPosts.length === 0 ? this.showMe = true : this.showMe = false;
         });
     }
 

@@ -60,5 +60,9 @@ export class BlogService {
     getUserPost() {
         return this.http.get(this.domain + 'blogs/getUserPost').pipe(map(res => res));
     }
+    // Function to delete blog
+    deletePost(id) {
+        return this.http.delete(this.domain + 'blogs/deletePost/' + id).pipe(map(res => res));
+    }
 
 }

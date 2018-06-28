@@ -58,11 +58,6 @@ section {
     font-family: 'Poppins', sans-serif;
 }
 
-.profile-content {
-    position: relative;
-    z-index: 11;
-}
-
 .profile-left {
     margin-top: 100px;
     height: 100%;
@@ -197,6 +192,5 @@ button {
     margin-left: 5px;
 }
 .pagination {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 40px;
 }

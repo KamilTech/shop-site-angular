@@ -1,16 +1,10 @@
-<div *ngIf="blogPosts">
-    <div class="empty" [ngClass]="{'show': blogPosts?.length === 0 }">
+<div *ngIf="showMe">
+    <div class="empty" [ngClass]="{'show': showMe }">
         NO POST
     </div>
 </div>
-<section [ngClass]="{'vh': blogPosts?.length === 0 }">
-    <div class="container pad-100" *ngIf="blogPosts?.length > 0">
-        <!-- Custom Success/Error Message -->
-        <div class="show-hide-message">
-            <div [ngClass]="messageClass">
-                {{ message }}
-            </div>
-        </div>
+<section [ngClass]="{'vh': showMe }">
+    <div class="container pad-100" *ngIf="!showMe">
         <div class="row bottom-style d-flex flex-column flex-md-row flex-lg-row justify-content-center" *ngFor="let blog of blogPosts; let i = index">
             <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                 <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
