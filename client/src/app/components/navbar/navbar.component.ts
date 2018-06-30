@@ -9,6 +9,10 @@ import { SnotifyService } from 'ng-snotify';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+    
+    storageItems: Array<any> = [];
+    p: number = 1;
+    totalPrice: number;
 
   constructor(
         private authService: AuthService,
@@ -29,19 +33,39 @@ export class NavbarComponent implements OnInit {
           }
     }
 
-  // Function to logout user
-  onLogoutClick() {
-    this.authService.logout(); // Logout user
-     this.snotifyService.success('Logout success', {
-        timeout: 2000,
-        showProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true
-    });
-    this.router.navigate(['/']); // Navigate back to home page
-  }
+    // Function to logout user
+    onLogoutClick() {
+        this.authService.logout(); // Logout user
+        this.snotifyService.success('Logout success', {
+            timeout: 2000,
+            showProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true
+        });
+        this.router.navigate(['/']); // Navigate back to home page
+    }
 
-  ngOnInit() {
-  }
+    sumPrice() {
+        if (this.storageItems !== null && this.storageItems.length > 0) {
+            this.storageItems.map(e => this.totalPrice += (parseInt(e.price) * parseInt(e.quantity)));
+        }
+    }
 
+    getItems() {
+        this.storageItems = JSON.parse(localStorage.getItem('items'));
+        this.sumPrice();
+    }
+
+    checkEmmit() {
+        this.authService.change.subscribe(data => {
+            this.storageItems = data;
+            this.totalPrice = 0;
+            this.sumPrice();
+        });
+    }
+
+    ngOnInit() {
+        this.getItems();
+        this.checkEmmit();
+    }
 }

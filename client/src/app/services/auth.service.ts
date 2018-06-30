@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -13,11 +13,19 @@ export class AuthService  {
     authToken;
     user;
     options;
+    storageItem;
 
   constructor(
     private http: HttpClient,
     private jwtHelperService: JwtHelperService
   ) { }
+
+    @Output() change: EventEmitter<boolean> = new EventEmitter();
+
+    getItem() {
+        this.storageItem = JSON.parse(localStorage.getItem("items"));
+        this.change.emit(this.storageItem);
+    }
 
     // Function to get token from client local storage
     loadToken() {

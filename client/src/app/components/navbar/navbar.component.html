@@ -38,35 +38,32 @@
 </nav>
 <div class="header-cart fixed-top ml-auto cart">
     <div class="container">
-        <ul class="header-cart-wrap">
-            <li class="header-cart-item">
-                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-                <div class="header-cart-item-describe">
-                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
-                    <div class="header-cart-item-describe-price">1 x $19.90</div>
-                </div>
-            </li>
-            <li class="header-cart-item">
-                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-                <div class="header-cart-item-describe">
-                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
-                    <div class="header-cart-item-describe-price">1 x $19.90</div>
-                </div>
-            </li>
-            <li class="header-cart-item">
-                <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-                <div class="header-cart-item-describe">
-                    <div class="header-cart-item-describe-name">White Shirt With Pleat Detail Back</div>
-                    <div class="header-cart-item-describe-price">1 x $19.90</div>
-                </div>
-            </li>
-        </ul>
-        <div class="header-cart-price">
-            - Total: $75.00
-        </div>
+        <div *ngIf="storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0;then print else no_print"></div>
+        <ng-template #print>
+            <ul class="header-cart-wrap" *ngFor="let item of storageItems | paginate: { itemsPerPage: 3, currentPage: p }">
+                <li class="header-cart-item">
+                    <div class="header-cart-item-img"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
+                    <div class="header-cart-item-describe">
+                        <div class="header-cart-item-describe-name">{{ item.name }} asd asd as das da s as</div>
+                        <div class="header-cart-item-describe-price">{{ item.quantity }} X ${{ item.price }}</div>
+                    </div>
+                </li>
+            </ul>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center" *ngIf="storageItems?.length > 3">
+                <pagination-controls [maxSize]="5" (pageChange)="p = $event"></pagination-controls>
+            </div>
+            <div class="header-cart-price">
+                - Total: ${{ totalPrice }}
+            </div>
+        </ng-template>
+        <ng-template #no_print>
+            <div class="no-item col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
+                NO ITEM
+            </div>
+        </ng-template>
         <div class="header-cart-buton">
-            <button routerLink="/view-cart">View cart</button>
-            <button>Check out</button>
+            <button [disabled]="!(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0)" [ngClass]="{'disabled': !(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0) }" routerLink="/view-cart">View cart</button>
+            <button [disabled]="!(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0)" [ngClass]="{'disabled': !(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0) }">Check out</button>
         </div>
     </div>
 </div>

@@ -95,9 +95,9 @@
                                 <div class="row box-select align-items-center">
                                     <div class="col-2">Size: </div>
                                     <div class="select col-6">
-                                        <select>
+                                        <select [ngModel]="selectedSize" (ngModelChange)="onChangeSize($event)">
                                             <option disabled>Size</option>
-                                            <option *ngFor="let size of modalItem?.size">{{ size }}</option>
+                                            <option *ngFor="let size of modalItem?.size" [ngValue]="size">{{ size }}</option>
                                         </select>
                                         <div class="select_arrow"></div>
                                     </div>
@@ -105,9 +105,9 @@
                                 <div class="row box-select align-items-center">
                                     <span class="col-2">Color: </span>
                                     <div class="select col-6">
-                                        <select>
+                                        <select [ngModel]="selectedColor" (ngModelChange)="onChangeColor($event)">
                                             <option disabled>Color</option>
-                                            <option *ngFor="let color of modalItem?.color">{{ color }}</option>
+                                            <option *ngFor="let color of modalItem?.color" [ngValue]="color">{{ color }}</option>
                                         </select>
                                         <div class="select_arrow"></div>
                                     </div>
@@ -127,7 +127,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-button-add-to-chart d-flex justify-content-end">
-                                    <button>Add to chart</button>
+                                    <button data-dismiss="modal" (click)="addItem()">Add to chart</button>
                                 </div>
                             </div>
                             <div class="modal-describe-social-media"></div>

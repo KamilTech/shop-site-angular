@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-shop',
@@ -7,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-    
+
     shop;
     modalItem;
     shopStatic;
@@ -16,11 +17,22 @@ export class ShopComponent implements OnInit {
     message;
     classActive: number = 1;
     p: number = 1;
+    selectedSize;
+    selectedColor;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private snotifyService: SnotifyService
   ) { }
 
+    onChangeSize(value) {
+        this.selectedSize = value;
+    }
+    
+    onChangeColor(value) {
+        this.selectedColor = value
+    }
+    
     galleryStart() {
         function modaGallery() {
             'use strict';
@@ -115,6 +127,33 @@ export class ShopComponent implements OnInit {
                 return;
             }
         });
+        this.selectedSize = this.modalItem.size[0];
+        this.selectedColor = this.modalItem.color[0];
+    }
+
+    addItem() {
+        const object = {
+                itemId: this.modalItem._id,
+                name: this.modalItem.name,
+                price: parseInt(this.modalItem.price),
+                quantity: this.quantity,
+                selectSize: this.selectedSize,
+                selectColor: this.selectedColor
+            },
+            items = JSON.parse(localStorage.getItem('items'));
+
+        if (items) {
+            items.push(object);
+            localStorage.setItem('items', JSON.stringify(items));
+            this.snotifyService.success('Item was added', 'Success');
+            this.authService.getItem();
+        } else {
+            const array = [];
+            array[0] = object;
+            localStorage.setItem('items', JSON.stringify(array));
+            this.snotifyService.success('Item was added', 'Success');
+            this.authService.getItem();
+        }
     }
 
     sortPrice(start: number, end, ifAll?: boolean) {

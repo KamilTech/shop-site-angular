@@ -184,3 +184,22 @@ li {
 .user li:first-child {
     border-top: none;
 }
+
+pagination-controls {
+    font-size: 13px !important;
+    margin-left: -40px;
+}
+
+.no-item {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #333;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+button.disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}

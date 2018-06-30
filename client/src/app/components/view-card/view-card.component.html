@@ -8,8 +8,8 @@
                             <div class="title">
                                 Shopping cart
                             </div>
-                            <div class="current-product">
-                                You currently have 3 item(s) in your cart.
+                            <div class="current-product" *ngIf="storageItems?.length > 0">
+                                You currently have {{ storageItems.length }} item{{ storageItems.length > 1 ? 's' : '' }} in your cart.
                             </div>
                             <div class="shopping-cart-product">
                                 <table class="table">
@@ -22,48 +22,32 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <tr *ngFor="let item of storageItems">
                                             <td scope="row">
                                                 <img src="../../../assets/clock-3350289_640.jpg" alt="">
                                             </td>
-                                            <td>Blue Watches</td>
-                                            <td><input type="number" value="2"></td>
-                                            <td>Otto</td>
-                                            <td>$ 100<i class="fas fa-trash-alt"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">
-                                                <img src="../../../assets/clock-3350289_640.jpg" alt="">
-                                            </td>
-                                            <td>Blue Watches</td>
-                                            <td><input type="number" value="2"></td>
-                                            <td>Otto</td>
-                                            <td>$ 100<i class="fas fa-trash-alt"></i></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row">
-                                                <img src="../../../assets/clock-3350289_640.jpg" alt="">
-                                            </td>
-                                            <td>Blue Watches</td>
-                                            <td><input type="number" value="2"></td>
-                                            <td>Otto</td>
-                                            <td>$ 100<i class="fas fa-trash-alt"></i></td>
+                                            <td>{{ item.name }}</td>
+                                            <td><input type="number" [value]="item.quantity" (input)="quantityChange(item.itemId, $event.target.value)"></td>
+                                            <td>$ {{ item.price }}</td>
+                                            <td>$ {{ item.price * item.quantity }}<i (click)="deleteItem(item.itemId)" class="fas fa-trash-alt"></i></td>
                                         </tr>
                                         <tr class="sum">
                                             <td colspan="4">TOTAL:</td>
-                                            <td colspan="1">$446.00</td>
+                                            <td colspan="1">$ {{ totalPrice }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="cart-button ml-auto">
-                                <button>Proccesed to checout</button>
+                                <button [disabled]="!(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0)" [ngClass]="{'disabled': !(storageItems !== 'undefined' && storageItems !== null && storageItems.length > 0) }">Proccesed to checout</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="pad-10 may-like">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia voluptatem, voluptates veritatis? Quis vel nostrum, molestias consectetur, nesciunt et amet nobis aspernatur ducimus provident reprehenderit quibusdam facere error doloremque! Ipsa.
+                <div class="pad-10 may-like">                    
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, ipsam architecto neque nulla incidunt vitae excepturi, debitis quisquam suscipit explicabo doloremque maiores fuga culpa officiis temporibus quis. Autem, voluptate accusantium. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, error, sit. Ipsam expedita, quis dolores, nam necessitatibus dolorum aliquid repudiandae amet, deserunt perspiciatis obcaecati dicta dolor assumenda accusantium non molestiae!<br><br>
+                    
+                    <i>*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia voluptatem, voluptates veritatis? Quis vel nostrum, molestias consectetur, nesciunt et amet nobis aspernatur ducimus provident reprehenderit quibusdam facere error doloremque! Ipsa.</i>
                 </div>
             </div>
             <div class="view-cart-right col-12 col-sm-12 col-md-12 col-lg-4">
@@ -81,19 +65,19 @@
                                     <tbody>
                                         <tr>
                                             <td>Order subtotal</td>
-                                            <td>$446.00</td>
+                                            <td>${{ totalPrice }}</td>
                                         </tr>
                                         <tr>
                                             <td>Shipping and handling</td>
-                                            <td>$10.00</td>
+                                            <td>${{ storageItems !== null && storageItems.length > 0 ? '$10.00' : 0 }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tax</td>
-                                            <td>$0.00</td>
+                                            <td>${{ storageItems !== null && storageItems.length > 0 ? '$2.00' : 0 }}</td>
                                         </tr>
                                         <tr class="bold">
                                             <td>Total: </td>
-                                            <td>$456.00</td>
+                                            <td>${{ storageItems !== null && storageItems.length > 0 ? totalPrice + 10 + 2 : '0' }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
