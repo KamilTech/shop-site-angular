@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class BlogComponent implements OnInit {
 
     blogPosts: Array<any> = [];
-    p: number = 1;
+    page: number = 1;
 
   constructor(
     private authService: AuthService

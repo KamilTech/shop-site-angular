@@ -140,8 +140,18 @@ export class SingelPostComponent implements OnInit {
                 }, 500);
             });
         });
-        // Snotify Notifications
-        this.snotifyService.async('Loading', sendData);
+        
+        if (this.authService.loggedIn()) {
+            // Snotify Notifications
+            this.snotifyService.async('Loading', sendData);
+        } else {
+            this.snotifyService.warning('Login to like', {
+                timeout: 2000,
+                showProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true
+            });
+        }
     }
 
     getPost() {

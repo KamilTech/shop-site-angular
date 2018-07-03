@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column" *ngFor="let blog of blogPosts | paginate: { itemsPerPage: 6, currentPage: p }">
+                <div class="side-post col-12 d-flex flex-lg-row flex-sd-column flex-md-column" *ngFor="let blog of blogPosts | paginate: { id: 'blog-pagination', itemsPerPage: 6, currentPage: page }">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                             <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
-                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    <pagination-controls id="blog-pagination" (pageChange)="page = $event"></pagination-controls>
                 </div>
             </div>
             <div class="col-10 col-sm-8 col-md-6 col-lg-4 ma-30 d-flex flex-column">

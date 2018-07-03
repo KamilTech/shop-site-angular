@@ -16,7 +16,17 @@ export class BlogService {
 
     // Function to create new blog post
     newBlog(blog) {
-        return this.http.post(this.domain + 'blogs/newBlog', blog).pipe(map(res => res));
+        return this.http.post(this.domain + 'blogs/post', blog).pipe(map(res => res));
+    }
+
+    // Function to delete blog
+    deletePost(id) {
+        return this.http.delete(this.domain + 'blogs/post/' + id).pipe(map(res => res));
+    }
+
+    // Function to update a blog post
+    editBlog(blog) {
+        return this.http.put(this.domain + 'blogs/post/', blog).pipe(map(res => res));
     }
 
     // Function to like a blog post
@@ -31,10 +41,6 @@ export class BlogService {
         return this.http.put(this.domain + 'blogs/dislikePost/', postData).pipe(map(res => res));
     }
 
-    // Function to update a blog post
-    editBlog(blog) {
-        return this.http.put(this.domain + 'blogs/updatePost/', blog).pipe(map(res => res));
-    }
     // Function to confirm a blog post
     confirmBlog(id) {
         const postData = { id: id };
@@ -60,9 +66,4 @@ export class BlogService {
     getUserPost() {
         return this.http.get(this.domain + 'blogs/getUserPost').pipe(map(res => res));
     }
-    // Function to delete blog
-    deletePost(id) {
-        return this.http.delete(this.domain + 'blogs/deletePost/' + id).pipe(map(res => res));
-    }
-
 }

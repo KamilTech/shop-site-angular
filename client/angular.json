@@ -24,14 +24,11 @@
             ],
             "styles": [
               "node_modules/ng-snotify/styles/material.css",
-              "src/styles.css",
-              "src/assets/css/slick.css",
-              "src/assets/css/slick-theme.css"
+              "src/styles.css"
             ],
             "scripts": [
                 "src/assets/js/home.js",
-                "src/assets/js/jQuery-mousewhel.js",
-                "src/assets/js/slick.js"
+                "src/assets/js/jQuery-mousewhel.js"
             ]
           },
           "configurations": {

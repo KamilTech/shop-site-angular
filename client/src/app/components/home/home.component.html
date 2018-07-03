@@ -18,6 +18,11 @@
             <h1>Choose category</h1>
         </div>
     </div>
+    <!-- Custom Success/Error Message -->
+    <div class="show-hide-message">
+        <div [ngClass]="messageClass">
+            {{ message }}
+        </div>
     <div class="container">
         <ul class="cards">
             <li class="cards__item">
@@ -62,27 +67,22 @@
                 <a>Top Rate</a>
             </div>
         </div>
-        <div class="slider">
-            <div class="slide">
-                <div class="child-element">
-                    <img src="../../../assets/woman-3046960_640.jpg" alt="">
-                    <div class="slider-describe">
-                        <div class="product-name">Front Pocket Jumper</div>
-                        <div class="product-price">- $34.75</div>
+        <div class="container">
+            <div *ngIf="shop?.length > 0" class="swiper-container" [swiper]="config" [(index)]="index">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let item of shop">
+                        <div class="box-swip">
+                            <img src="../../../assets/woman-3046960_640.jpg" alt="">
+                            <div class="swip-desc">
+                                <div class="swip-desc-name">{{ item?.name }}</div>
+                                <div class="swip-desc-price">$ {{ item?.price }} -</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="slide">
-                <div class="child-element"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-            </div>
-            <div class="slide">
-                <div class="child-element"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-            </div>
-            <div class="slide">
-                <div class="child-element"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
-            </div>
-            <div class="slide">
-                <div class="child-element"><img src="../../../assets/woman-3046960_640.jpg" alt=""></div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
         </div>
     </div>
@@ -100,18 +100,18 @@
                         </div>
                         <div class="border two">
                             <div></div>
-                        </div><a href="#"></a>
+                        </div><a routerLink="/shop"></a>
                     </figure>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 justify-content-md-center">
                     <figure class="snip1295"><img src="../../../assets/pexels-photo-128206.jpeg" alt="">
-                       <div class="center-ins">SALES</div>
+                        <div class="center-ins">SALES</div>
                         <div class="border one">
                             <div></div>
                         </div>
                         <div class="border two">
                             <div></div>
-                        </div><a href="#"></a>
+                        </div><a routerLink="/shop"></a>
                     </figure>
                 </div>
             </div>
@@ -119,11 +119,11 @@
                 <div class="sales-desc-bottom col-12">
                     <h1>- Sale only today -</h1>
                     <div class="countdown d-flex flex-row justify-content-center">
-                        <div class="countdown-num"><span>12</span><span>days</span></div>
-                        <div class="countdown-num"><span>12</span><span>hrs</span></div>
-                        <div class="countdown-num"><span>12</span><span>min</span></div>
-                        <div class="countdown-num"><span>12</span><span>sec</span></div>
-                    </div> 
+                        <div class="countdown-num"><span>0</span><span>days</span></div>
+                        <div class="countdown-num"><span>{{ timer.hours }}</span><span>hrs</span></div>
+                        <div class="countdown-num"><span>{{ timer.minutes }}</span><span>min</span></div>
+                        <div class="countdown-num"><span>{{ timer.seconds }}</span><span>sec</span></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,8 +131,8 @@
     <div class="container">
         <div id="blogs" class="overview">
             <h1>Our Blogs</h1>
-            <div class="row">
-                <div class="col-sm-6 col-md-4 pad">
+            <div class="row" *ngIf="blogs?.length > 0">
+                <div class="col-sm-6 col-md-4 pad" *ngFor="let blog of blogs">
                     <div class="blog-element">
                         <div class="blog-image">
                             <a href="#">
@@ -142,56 +142,14 @@
                                     </div>
                                     <div class="border two">
                                         <div></div>
-                                    </div><a href="#"></a>
+                                    </div><a [routerLink]="['/post/', blog._id]"></a>
                                 </figure>
                             </a>
                         </div>
                         <div class="blog-describe">
-                            <div class="blog-describe-time main-time">By <i>Kamil Michalski</i> on <i>March 22, 2017</i></div>
+                            <div class="blog-describe-time main-time">By <i>{{ blog.createdBy }}</i> on <i>{{ blog.createdAt | date:'MMM dd, yyyy' }}</i></div>
                             <div class="blog-describe-element main-describe">
-                                <a href="#"><span>The Great Big List of Men’s Gifts for the Holidays</span></a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, deserunt, voluptatem. Corporis, sapiente, autem. Fugit distinctio numquam sit maiores at neque, dolorum quaerat doloremque voluptate quas. Sequi eaque enim tempore.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 pad">
-                    <div class="blog-element">
-                        <div class="blog-image">
-                            <a href="#">
-                                <figure class="snip1295"><img src="../../../assets/clock-3350289_640.jpg" alt="">
-                                    <div class="border one">
-                                        <div></div>
-                                    </div>
-                                    <div class="border two">
-                                        <div></div>
-                                    </div><a href="#"></a>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="blog-describe">
-                            <div class="blog-describe-time main-time">By <i>Kamil Michalski</i> on <i>March 22, 2017</i></div>
-                            <div class="blog-describe-element main-describe">
-                                <a href="#"><span>The Great Big List of Men’s Gifts for the Holidays</span></a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, deserunt, voluptatem. Corporis, sapiente, autem. Fugit distinctio numquam sit maiores at neque, dolorum quaerat doloremque voluptate quas. Sequi eaque enim tempore.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 pad">
-                    <div class="blog-element">
-                        <div class="blog-image">
-                            <a href="#">
-                                <figure class="snip1295"><img src="../../../assets/clock-3350289_640.jpg" alt="">
-                                    <div class="border one">
-                                        <div></div>
-                                    </div>
-                                    <div class="border two">
-                                        <div></div>
-                                    </div><a href="#"></a>
-                                </figure>
-                            </a>
-                        </div>
-                        <div class="blog-describe">
-                            <div class="blog-describe-time main-time">By <i>Kamil Michalski</i> on <i>March 22, 2017</i></div>
-                            <div class="blog-describe-element main-describe">
-                                <a href="#"><span>The Great Big List of Men’s Gifts for the Holidays</span></a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, deserunt, voluptatem. Corporis, sapiente, autem. Fugit distinctio numquam sit maiores at neque, dolorum quaerat doloremque voluptate quas. Sequi eaque enim tempore.</div>
+                                <a href="#"><span>The Great Big List of Men’s Gifts for the Holidays</span></a>{{ blog.body | shorten: 90 }}.....</div>
                         </div>
                     </div>
                 </div>

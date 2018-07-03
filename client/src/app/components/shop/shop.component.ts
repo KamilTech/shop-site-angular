@@ -16,7 +16,7 @@ export class ShopComponent implements OnInit {
     messageClass;
     message;
     classActive: number = 1;
-    p: number = 1;
+    pageShop: number = 1;
     selectedSize;
     selectedColor;
 

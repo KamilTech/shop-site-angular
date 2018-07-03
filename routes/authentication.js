@@ -346,7 +346,7 @@ module.exports = (router) => {
         if (!token) {
             res.json({
                 success: false,
-                message: 'No token provided'
+                message: 'No token provided or http request do not exist'
             }); // Return error
         } else {
             // Verify the token is valid
@@ -355,7 +355,7 @@ module.exports = (router) => {
                 if (err) {
                     res.json({
                         success: false,
-                        message: 'Token invalid: ' + err
+                        message: 'Token invalid'
                     }); // Return error for token validation
                 } else {
                     req.decoded = decoded; // Create global variable to use in any request beyond

@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
                     observer.next({
                         title: 'Success',
                         body: data['message'],
-                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                        config: { closeOnClick: true, timeout: 1000, showProgressBar: true }
                     });
                     observer.complete();
                     // Function to store user's token in client local storage
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
                         } else {
                             this.router.navigate(['/dashboard']); // Navigate to dashboard view
                         }
-                    }, 2000);
+                    }, 1000);
                 }
             }, 1000);
         });

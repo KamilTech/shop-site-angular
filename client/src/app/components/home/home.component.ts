@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-declare var jquery:any;
-declare var $:any;
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { AuthService } from '../../services/auth.service';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators';
+declare var jquery: any;
+declare var $: any;
 
 
 @Component({
@@ -10,9 +14,44 @@ declare var $:any;
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { 
-  }
-    
+    shop: Array<any> = [];
+    blogs: Array<any> = [];
+    timer = {};
+    messageClass;
+    message;
+    counterEnd;
+    public index = 5;
+    public config: SwiperConfigInterface = {
+        a11y: true,
+        direction: 'horizontal',
+        slidesPerView: 3,
+        keyboard: true,
+        mousewheel: true,
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets'
+        },
+        navigation: true,
+        spaceBetween: 15,
+        centeredSlides: true,
+        breakpoints: {
+            // when window width is <= 480px
+            480: {
+                slidesPerView: 1
+            },
+            640: {
+                slidesPerView: 2
+            },
+            1024: {
+                slidesPerView: 2
+            }
+        }
+    };
+
+    constructor(
+        private authService: AuthService
+    ) {}
+
     header() {
         $('.sd').click(function () {
             $('.hero, .content').addClass('scrolled');
@@ -32,68 +71,68 @@ export class HomeComponent implements OnInit {
             }
         });
     }
-    
-    slick() {
-        $('.slider').slick({
-          dots: true,
-          infinite: true,
-          speed: 300,
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          centerMode: true,
-          responsive: [
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true
-              }
-            },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
+
+    getItems() {
+        this.shop = [];
+        this.authService.getAllItems().subscribe(data => {
+            if (data['success']) {
+                for (let i = 0; i < 12; i++) {
+                    this.shop.push(data['items'][i]);
+                }
+            } else {
+                this.messageClass = 'alert alert-danger'; // Return error class
+                this.message = data['message']; // Return error message
             }
-          ]
+        }, (err) => {
+                this.messageClass = 'alert alert-danger'; // Return error class
+                this.message = err.message; // Return error message
+        });
+
+        this.authService.getAllBlogs().subscribe(data => {
+            if (data['success']) {
+                for (let i = 0; i < 3; i++) {
+                    this.blogs.push(data['blogs'][i]);
+                }
+            } else {
+                this.messageClass = 'alert alert-danger'; // Return error class
+                this.message = data['message']; // Return error message
+            }
+        }, (err) => {
+                this.messageClass = 'alert alert-danger'; // Return error class
+                this.message = err.message; // Return error message
         });
     }
-//    
-//    countTimer() {
-//        let day = new Date(),
-//            countDownDate = new Date(day);
-//        countDownDate.setDate(day.getDate()+1);
-//
-//        let x = setInterval(function() {
-//            let now = new Date().getTime(),
-//                distance = countDownDate - now,
-//                days = Math.floor(distance / (1000 * 60 * 60 * 24)),
-//                hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-//                minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-//                seconds = Math.floor((distance % (1000 * 60)) / 1000);
-//
-//            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-//            + minutes + "m " + seconds + "s ";
-//            if (distance < 0) {
-//                clearInterval(x);
-//                document.getElementById("demo").innerHTML = "EXPIRED";
-//            }
-//        }, 1000);
-//    }
+
+    getCounter() {
+        let endDate = new Date(),
+            diff,
+            currentDate = new Date();
+        endDate.setDate(endDate.getDate() + 1);
+
+        interval(1000).pipe(
+            map(() => { diff = Date.parse(endDate.toString()) - Date.parse(new Date().toString())})).subscribe(() => {
+            this.timer['hours'] = getHours(diff);
+            this.timer['minutes'] = getMinutes(diff);
+            this.timer['seconds'] = getSeconds(diff);
+        });
+
+        function getHours(t) {
+            return Math.floor( (t / (1000 * 60 * 60)) % 24 );
+        }
+
+        function getMinutes(t) {
+            return Math.floor( (t / 1000 / 60) % 60 );
+        }
+
+        function getSeconds(t) {
+            return Math.floor( (t / 1000) % 60 );
+        }
+    }
 
   ngOnInit() {
       this.header();
-      this.slick();
+      this.getItems();
+      this.getCounter();
   }
 
 }

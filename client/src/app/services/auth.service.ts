@@ -91,6 +91,7 @@ export class AuthService  {
         return this.http.get(this.domain + '/authentication/singlePost/' + id).pipe(map(res => res));
     }
 
+    // Function to get all items from the databse
     getAllItems() {
         return this.http.get(this.domain + '/authentication/allItems').pipe(map(res => res));
     }

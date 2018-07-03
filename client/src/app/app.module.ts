@@ -24,6 +24,7 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 import { AdminPostComponent } from './components/admin-post/admin-post.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AddItemComponent } from './components/add-item/add-item.component';
 
 import { AuthService } from './services/auth.service';
 import { BlogService } from './services/blog.service';
@@ -35,9 +36,13 @@ import { NotAuthGuard } from './guards/notAuth.guard';
 import { AdminGuard } from './guards/admin.guard';
 
 import { SortenPipe } from './pipes/shortenDescribe';
-import { AddItemComponent } from './components/add-item/add-item.component';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { NgxPaginationModule } from 'ngx-pagination'; 
+
+//Angular Swiper Wrapper
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @NgModule({
   declarations: [
@@ -68,6 +73,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BrowserAnimationsModule,
     HttpClientModule,
     SnotifyModule,
+    SwiperModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
