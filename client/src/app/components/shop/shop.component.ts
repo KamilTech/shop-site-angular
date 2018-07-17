@@ -28,11 +28,11 @@ export class ShopComponent implements OnInit {
     onChangeSize(value) {
         this.selectedSize = value;
     }
-    
+
     onChangeColor(value) {
-        this.selectedColor = value
+        this.selectedColor = value;
     }
-    
+
     galleryStart() {
         function modaGallery() {
             'use strict';
@@ -85,7 +85,7 @@ export class ShopComponent implements OnInit {
             // Adding click event to each imgs
             imgs.forEach(img => {
                 img.addEventListener('click', imgClick);
-                checkOpacity();        
+                checkOpacity();
             });
 
             function imgClick(e) {
@@ -179,14 +179,20 @@ export class ShopComponent implements OnInit {
                 this.shop = data['items']; // Return success class
                 this.shopStatic = data['items']; // Return success class
             } else {
-                this.messageClass = 'alert alert-danger'; // Return error class
-                this.message = data['message']; // Return error message
-
-                setTimeout(() => {
-                    this.messageClass = null;
-                    this.message = null; // Erase error/success message
-                }, 2000);
+                this.snotifyService.error(data['message'], {
+                    timeout: 10000,
+                    showProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true
+                });
             }
+        }, err => { 
+            this.snotifyService.error("Can't get item... :(", {
+                timeout: 10000,
+                showProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true
+            });
         });
     }
 

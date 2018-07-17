@@ -245,9 +245,9 @@ module.exports = (router) => {
     /* ===============================================================
      GET ALL BLOGS
   =============================================================== */
-    router.get('/allBlogs', (req, res) => {
+    router.get('/allBlogs/:check', (req, res) => {
         // Search database for all blog posts
-        Blog.find({}, (err, blogs) => {
+        Blog.find({ isApproved: req.params.check }, (err, blogs) => {
             // Check if error was found or not
             if (err) {
                 res.json({

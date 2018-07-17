@@ -59,31 +59,13 @@
                                 Latest post
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column">
+                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column" *ngFor="let post of blogPosts" [routerLink]="['/post/', post._id]">
                                     <img src="../../../assets/pexels-photo-590493.jpeg" alt="">
                                     <div class="last-post-who">
-                                        Kamil Michalski | 19 May 2018
+                                        {{ post.createdBy }} | {{ post.createdAt | date:'MMM dd, yyyy' }}
                                     </div>
                                     <div class="last-post-describe">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column">
-                                    <img src="../../../assets/pexels-photo-590493.jpeg" alt="">
-                                    <div class="last-post-who">
-                                        Kamil Michalski | 19 May 2018
-                                    </div>
-                                    <div class="last-post-describe">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-10 col-md-4 col-log-4 d-flex flex-column">
-                                    <img src="../../../assets/pexels-photo-590493.jpeg" alt="">
-                                    <div class="last-post-who">
-                                        Kamil Michalski | 19 May 2018
-                                    </div>
-                                    <div class="last-post-describe">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        {{ post.body | shorten: 50 }}
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +84,7 @@
                                         <div class="singel-com-desc-time">{{ com.commentData | date:'MMM dd, yyyy'}}</div>
                                             {{ com.comment }}
                                         <div class="singel-like">
-                                            <button (click)="likeComment(blog._id, com._id)" ><i class="fas fa-sign-language"></i>Nice <sup>{{ com.commentlikes }}</sup></button>
+                                            <button [ngClass]="{'green': ifLike(com) === 'like', 'disabled': ifLike(com) === 'own'}" [disabled]="ifLike(com) === 'own'" (click)="likeComment(blog._id, com._id)" ><i class="fas fa-sign-language"></i>Nice <sup>{{ com.commentlikes }}</sup></button>
                                         </div>
                                     </div>
                                 </div>

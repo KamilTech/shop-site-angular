@@ -105,6 +105,7 @@ button {
     font-weight: 400;
     margin-top: 20px;
 }
+
 button:hover {
     background-color: #6c7ae0;
     cursor: pointer;

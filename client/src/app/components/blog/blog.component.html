@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="border two">
                                     <div></div>
-                                </div><a href="#"></a>
+                                </div><a [routerLink]="['/post/', blog._id]"></a>
                             </figure>
                         </div>
                         <div class="post-content col-12 col-sm-12 col-md-6 col-lg-7">
@@ -56,7 +56,7 @@
                                 <span class="mr-auto p-2">By <i class="font-weight">{{ blog.createdBy }}</i>{{ blog.createdAt | date:'MMM dd, yyyy' }}</span>
                                 <span class="p-2"><i class="far fa-heart"></i>{{ blog.likes }}</span>
                                 <span class="p-2">|</span>
-                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.dislikes }}</span>
+                                <span class="p-2"><i class="far fa-comments"></i>{{ blog.comments.length }}</span>
                             </div>
                             <div class="post-content-title">
                                 {{ blog.title | shorten: 50 }}...

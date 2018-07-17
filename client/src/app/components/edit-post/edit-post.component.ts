@@ -3,6 +3,8 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
+import { SnotifyService } from 'ng-snotify';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-post',
@@ -24,7 +26,8 @@ export class EditPostComponent implements OnInit {
     private authService: AuthService,
     private blogService: BlogService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snotifyService: SnotifyService
   ) {
     this.createNewBlogForm(); // Create new blog form on start up
   }
@@ -49,7 +52,7 @@ export class EditPostComponent implements OnInit {
         Validators.minLength(3),
         this.tagValidation
       ])]
-    })
+    });
   }
 
   // Enable new blog form
@@ -73,7 +76,7 @@ export class EditPostComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; // Return valid
     } else {
-      return { 'alphaNumericValidation': true } // Return error in validation
+      return { 'alphaNumericValidation': true }; // Return error in validation
     }
   }
 
@@ -83,8 +86,8 @@ export class EditPostComponent implements OnInit {
     if (regExp.test(controls.value)) {
       return null; // Return valid
     } else {
-      return { 'tagValidation': true } // Return error in validation
-    }    
+      return { 'tagValidation': true }; // Return error in validation
+    }
   }
 
   // Function to Submit Update
@@ -96,26 +99,45 @@ export class EditPostComponent implements OnInit {
       title: this.form.get('title').value, // Title field
       body: this.form.get('body').value, // Body field
       tags: ((val) => {
-          var tags = val.split(" ");
+          const tags = val.split(' ');
           return tags;
       })(this.form.get('tag').value)
-    }
-    
-    this.blogService.editBlog(blog).subscribe(data => {
-      // Check if PUT request was a success or not
-      if (!data['success']) {
-        this.messageClass = 'alert alert-danger'; // Set error bootstrap class
-        this.message = data['message']; // Set error message
-        this.processing = false; // Unlock form fields
-      } else {
-        this.messageClass = 'alert alert-success'; // Set success bootstrap class
-        this.message = data['message']; // Set success message
-        // After two seconds, navigate back to blog page
-        setTimeout(() => {
-          this.router.navigate(['/blog']); // Navigate back to route page
-        }, 2000);
-      }
+    };
+
+    // Create observable for notification
+    const sendData = Observable.create(observer => {
+        this.blogService.editBlog(blog).subscribe(data => {
+          // Check if PUT request was a success or not
+            setTimeout(() => { // SetTimeout only for test
+                if (!data['success']) {
+                    // If false return error notification
+                    observer.error({
+                        title: 'Error',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    this.processing = false; // Unlock form fields
+                } else {
+                    // If true return success notification
+                    observer.next({
+                        title: 'Success',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    observer.complete();
+                    // After two seconds, navigate back to blog page
+                    setTimeout(() => {
+                      this.router.navigate(['/blog']); // Navigate back to route page
+                    }, 2000);
+                }
+            }, 500);
+        }, err => {
+            this.messageClass = 'alert alert-danger'; // Set bootstrap error class
+            this.message = 'Something went wrong.'; // Set error message
+        });
     });
+    // Snotify Notifications
+    this.snotifyService.async('Loading', sendData);
   }
 
   ngOnInit() {
@@ -133,7 +155,10 @@ export class EditPostComponent implements OnInit {
         this.form.controls['tag'].setValue(this.blog.tags.join().replace(/,/g , " "));
         this.loading = false; // Allow loading of blog form
       }
+    }, err => {
+        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
+        this.message = 'Something went wrong.'; // Set error message
     });
   }
-    
+
 }

@@ -87,8 +87,8 @@ export class HomeComponent implements OnInit {
                 this.messageClass = 'alert alert-danger'; // Return error class
                 this.message = err.message; // Return error message
         });
-
-        this.authService.getAllBlogs().subscribe(data => {
+        this.authService.getAllBlogs(true).subscribe(data => {
+            console.log(data);
             if (data['success']) {
                 for (let i = 0; i < 3; i++) {
                     this.blogs.push(data['blogs'][i]);
@@ -104,9 +104,9 @@ export class HomeComponent implements OnInit {
     }
 
     getCounter() {
-        let endDate = new Date(),
-            diff,
+        const endDate = new Date(),
             currentDate = new Date();
+        let diff;
         endDate.setDate(endDate.getDate() + 1);
 
         interval(1000).pipe(

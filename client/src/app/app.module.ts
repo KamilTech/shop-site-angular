@@ -37,9 +37,10 @@ import { AdminGuard } from './guards/admin.guard';
 
 import { SortenPipe } from './pipes/shortenDescribe';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
-import { NgxPaginationModule } from 'ngx-pagination'; 
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ClickOutsideModule } from 'ng4-click-outside';
 
-//Angular Swiper Wrapper
+// Angular Swiper Wrapper
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
@@ -83,7 +84,8 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
       }
     }),
     NgMultiSelectDropDownModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    ClickOutsideModule
   ],
   providers: [
       { provide: 'SnotifyToastConfig', useValue: ToastDefaults },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
@@ -9,7 +9,7 @@ import { SnotifyService } from 'ng-snotify';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-    
+
     storageItems: Array<any> = [];
     p: number = 1;
     totalPrice: number;
@@ -17,12 +17,13 @@ export class NavbarComponent implements OnInit {
   constructor(
         private authService: AuthService,
         private router: Router,
-        private snotifyService: SnotifyService
+        private snotifyService: SnotifyService,
+        private e: ElementRef
     ) { }
 
     smallCard(info) {
-        const cart = document.getElementsByClassName('header-cart fixed-top ml-auto cart')[0],
-              user = document.getElementsByClassName('header-cart fixed-top ml-auto user')[0];
+        const cart = this.e.nativeElement.getElementsByClassName('header-cart fixed-top ml-auto cart')[0],
+              user = this.e.nativeElement.getElementsByClassName('header-cart fixed-top ml-auto user')[0];
 
           if (info === 'cart') {
               user.classList.remove('cart-active');

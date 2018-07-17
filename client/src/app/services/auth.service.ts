@@ -82,8 +82,8 @@ export class AuthService  {
         return code.admin;
     }
     // Function to get all blogs from the database
-    getAllBlogs() {
-        return this.http.get(this.domain + '/authentication/allBlogs').pipe(map(res => res));
+    getAllBlogs(info) {
+        return this.http.get(this.domain + '/authentication/allBlogs/' + info).pipe(map(res => res));
     }
 
     // Function to get all blogs from the database

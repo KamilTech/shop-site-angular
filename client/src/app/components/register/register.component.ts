@@ -136,6 +136,9 @@ export class RegisterComponent implements OnInit {
                     this.router.navigate(['/login']); // Redirect to login view
                 }, 2000);
             }
+        }, err => {
+            this.messageClass = 'alert alert-success'; // Set a success class
+            this.message = 'Something went wrong :('; // Set a success message
         });
     }
 
@@ -172,7 +175,7 @@ export class RegisterComponent implements OnInit {
                 this.usernameValid = true; // Return username as valid
                 this.usernameMessage = data['message']; // Return success message
               }
-            });   
+            });
         } else {
             this.usernameMessage = null;
         }

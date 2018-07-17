@@ -92,6 +92,13 @@ export class LoginComponent implements OnInit {
                     }, 1000);
                 }
             }, 1000);
+        }, err => {
+            this.snotifyService.error("Something went wrong :(", {
+                timeout: 10000,
+                showProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true
+            });
         });
     });
     // Snotify Notifications

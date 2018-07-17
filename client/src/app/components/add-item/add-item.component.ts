@@ -223,6 +223,13 @@ export class AddItemComponent implements OnInit {
                     this.enableFormNewItemForm(); // Enable the form fields
                 }
             }, 1000);
+        }, err => {
+            this.snotifyService.error("Can't get item... :(", {
+                timeout: 10000,
+                showProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true
+            });
         });
     });
     // Snotify Notifications
@@ -232,7 +239,7 @@ export class AddItemComponent implements OnInit {
   ngOnInit() {
     // Get profile username on page load
     this.authService.getProfile().subscribe(profile => {
-      this.username = profile['user'].username; // Used when creating new blog posts and comments
+      this.username = profile['user'].username;
     });
 
     this.size = [

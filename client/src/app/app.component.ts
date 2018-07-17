@@ -47,14 +47,22 @@ export class AppComponent {
         const animation = outlet.activatedRouteData['animation'] || {};
         return animation['value'] || null;
     }
-    
+
     constructor(private router: Router) { }
+
+    onClickedOutside() {
+        const cart = document.getElementsByClassName('header-cart fixed-top ml-auto cart')[0],
+              user = document.getElementsByClassName('header-cart fixed-top ml-auto user')[0];
+        
+              user.classList.remove('cart-active');
+              cart.classList.remove('cart-active');
+    }
 
     ngOnInit() {
         this.router.events.subscribe((evt) => {
             if (!(evt instanceof NavigationEnd)) {
-                return;
-            }
+            return;
+        }
             if (!(evt.url === "/post")) window.scrollTo(0, 0)
         });
     }

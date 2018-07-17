@@ -21,6 +21,7 @@ export class SingelPostComponent implements OnInit {
     isOwn: boolean;
     form;
     processing: boolean = false;
+    blogPosts: Array<any> = [];
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -56,6 +57,15 @@ export class SingelPostComponent implements OnInit {
         const user = JSON.parse(localStorage.getItem('user'));
         this.isLike = this.blog.likedBy.includes(user.username);
     }
+
+    ifLike(data) {
+         const user = JSON.parse(localStorage.getItem('user'));
+         if (data.commentator === user.username) {
+             return 'own';
+         } else {
+            return data.commentLikedBy.includes(user.username) ? 'like' : 'nolike';
+         }
+     }
 
     checkWho() {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -170,10 +180,24 @@ export class SingelPostComponent implements OnInit {
         });
     }
 
+    getBlog() {
+        this.authService.getAllBlogs(true).subscribe(data => {
+            if (!data['success']) {
+                this.messageClass = 'alert alert-danger'; // Set bootstrap error class
+                this.message = 'Blog not found.'; // Set error message
+            } else {
+                for (let i = 0; i < 3; i++) { this.blogPosts.push(data['blogs'][i]) };
+                this.messageClass = null;
+                this.message = null;
+            }
+        });
+    }
+
     ngOnInit() {
         this.currentUrl = this.activatedRoute.snapshot.params; // When component loads, grab the id
         // Function to GET current blog with id in params
         this.getPost();
+        this.getBlog();
     }
 
 }

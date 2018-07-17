@@ -240,6 +240,10 @@
     cursor: pointer;
 }
 
+.green {
+    color: green !important;
+}
+
 .singel-like button i {
     padding-right: 7px;
 }

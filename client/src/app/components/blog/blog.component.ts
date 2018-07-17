@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-blog',
@@ -13,14 +14,22 @@ export class BlogComponent implements OnInit {
     page: number = 1;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private snotifyService: SnotifyService
   ) { }
 
     // Function to get all blogs from the database
     getAllBlogs() {
     // Function to GET all blogs from database
-        this.authService.getAllBlogs().subscribe(data => {
-          data['blogs'].map(e => e.isApproved === true && this.blogPosts.push(e));
+        this.authService.getAllBlogs(true).subscribe(data => {
+          this.blogPosts = data['blogs'];
+        }, err => {
+            this.snotifyService.error("Can't get item... :(", {
+                timeout: 10000,
+                showProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true
+            });
         });
     }
 

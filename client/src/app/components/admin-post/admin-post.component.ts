@@ -25,8 +25,8 @@ export class AdminPostComponent implements OnInit {
     getAllBlogs() {
         this.blogPosts = [];
         // Function to GET all blogs from database
-        this.authService.getAllBlogs().subscribe(data => {
-          data['blogs'].map(e => e.isApproved === false && this.blogPosts.push(e));
+        this.authService.getAllBlogs(false).subscribe(data => {
+          this.blogPosts = data['blogs'];
           this.blogPosts.length === 0 ? this.showMe = true : this.showMe = false;
         });
     }
@@ -60,6 +60,13 @@ export class AdminPostComponent implements OnInit {
                         this.getAllBlogs();
                       }
                   }, 500);
+                }, err => {
+                    this.snotifyService.error("Can't get item... :(", {
+                        timeout: 10000,
+                        showProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true
+                    });
                 });
             });
         });
