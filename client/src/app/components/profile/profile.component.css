@@ -36,14 +36,19 @@
 }
 
 .inscryption-image {
+    bottom: -187px;
+    left: 60px;
     position: absolute;
-    left: 0;
+    height: 200px;
+    width: 200px;
 }
 
 .inscryption-image img {
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     border-radius: 50%;
+    width: 100%;
+    height: 100%;
 }
 
 .inscryption-image .profile-name {

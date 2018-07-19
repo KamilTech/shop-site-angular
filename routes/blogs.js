@@ -2,6 +2,11 @@ const User = require('../models/user'); // Import User Model Schema
 const Blog = require('../models/blog'); // Import Blog Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
+const mongoose = require('mongoose'); // Node Tool for MongoDB
+const path = require('path'); // NodeJS Package for file paths
+const multer = require('multer'); // Middleware for handling `multipart/form-data`.
+const GridFsStorage = require('multer-gridfs-storage'); // GridFS storage engine for Multer to store uploaded files directly to MongoDb.
+const Grid = require('gridfs-stream'); // Easily stream files to and from MongoDB GridFS.
 
 module.exports = (router) => {
 
@@ -560,6 +565,144 @@ module.exports = (router) => {
                 });
             }
         }
+    });
+    /* ===============================================================
+        Upload Image
+    =============================================================== */
+    router.post('/image', (req, res) => {
+        // Get data from user that is signed in
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            // Check if errors has occured
+            if (err) {
+                res.json({ success: false, message: 'Something went wrong.' });
+            } else {
+                // Check if user exist
+                if (!user) {
+                    res.json({ success: false, message: 'Could not authenticate user.' });
+                } else {
+                    const conn = mongoose.createConnection(config.uri); // Create mongo connection
+                    let gfs; // init gfs
+                    conn.once('open', () => {
+                        // Init stream
+                        gfs = Grid(conn.db, mongoose.mongo);
+                        checkExist(gfs);
+                    });
+                    
+                    function checkExist(gfs) {
+                        gfs.files.findOne({ filename: user.username }, (err, file) => {
+                            // Check if errors has occured
+                            if (err) {
+                                res.json({ success: false, message: 'Something went wrong.' });
+                            } else {
+                                // Check if file
+                                if (!file || file.length === 0) {
+                                    addItem();
+                                } else {
+                                    // First we have to remove old image
+                                    gfs.remove(file, (err, gridStore) => {
+                                        if (err) {
+                                            // Check if errors has occured
+                                            return res.json({ success: false, message: 'Something went wrong.' });
+                                        } else {
+                                            // Add new image
+                                            addItem();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    
+                    function addItem() {
+                        // Create storage engine
+                        let errors = [];
+                        const storage = new GridFsStorage({
+                            url: config.uri,
+                            file: (req, file) => {
+                                if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+                                    return { filename: user.username };
+                                }
+                            }
+                        });
+                        let upload = multer({
+                            storage,
+                            limits: {
+                                fileSize: 1 * 1024 * 1024
+                            },
+                            fileFilter: function (req, file, cb) {
+                                let filetypes = /jpeg|jpg|png/,
+                                    mimetype = filetypes.test(file.mimetype),
+                                    extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+                                if (mimetype && extname) {
+                                    return cb(null, true);
+                                }
+                                cb("Invaild type - only jpeg,jpg,png");
+                            }
+                        }).single('avatar');
+                        upload(req, res, function (err) {
+                            if (err) {
+                                if (err.code === 'LIMIT_FILE_SIZE') {
+                                    errors.push('The photo can not exceed 1 MB');
+                                } else {
+                                    errors.push(err);
+                                }   
+                            }
+                            if (errors.length === 0) {
+                                res.json({ success: true, message: 'Image has been sent successfully' });
+                            } else {
+                                res.json({ success: false, message: errors });
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    });
+    
+    /* ===============================================================
+        Find and display Image
+    =============================================================== */
+    // I know it's not the best way to do this... if I will have more time I will do it in better way :)
+    router.get('/image', (req, res) => {
+        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: 'Something went wrong.' });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Could not authenticate user.' });
+                } else {
+                    const conn = mongoose.createConnection(config.uri); // Create mongo connection
+                    let gfs;
+                    conn.once('open', () => {
+                        // Init stream
+                        gfs = Grid(conn.db, mongoose.mongo);
+                        display(gfs);
+                    });
+                    function display(gfs) {
+                        gfs.files.findOne({ filename: user.username }, (err, file) => {
+                            // Check if file
+                            if (!file || file.length === 0) {
+                                  gfs.files.findOne({ filename: 'defaultImage' }, (err, file) => {
+                                    // Read output to browser
+                                    const readstream = gfs.createReadStream(file.filename);
+                                    readstream.pipe(res);
+                                  });
+                            } else {
+                                // Check if image
+                                if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+                                  // Read output to browser
+                                  const readstream = gfs.createReadStream(file.filename);
+                                  readstream.pipe(res);
+                                } else {
+                                    res.json({ success: false, message: 'Not an image' });
+                                }   
+                            }
+                        });   
+                    }
+                }    
+            }
+        });
     });
     
     return router;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class BlogService {
     domain = 'http://localhost:8080/'; // Development Domain - Not Needed in Production
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private sanitizer: DomSanitizer
     ) { }
 
     // Function to create new blog post
@@ -65,5 +67,17 @@ export class BlogService {
     // Function to get user post
     getUserPost() {
         return this.http.get(this.domain + 'blogs/getUserPost').pipe(map(res => res));
+    }
+
+    // Function to upload image
+    uploadImage(formData) {
+        return this.http.post(this.domain + 'blogs/image', formData).pipe(map(res => res));
+    }
+    // Function to get image
+    getImage() {
+        return this.http.get(this.domain + 'blogs/image', {responseType: 'blob'}).pipe(map(blob => {
+          let urlCreator = window.URL;
+          return this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(blob));
+        }));
     }
 }

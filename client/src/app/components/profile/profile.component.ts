@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { Observable } from 'rxjs';
@@ -16,24 +17,60 @@ export class ProfileComponent implements OnInit {
   p: number = 1;
   posts: Array<any> = [];
   message;
+  form: FormGroup;
+  info;
+  imageToShow: any;
+  isImageLoading;
 
   constructor(
    private authService: AuthService,
    private blogService: BlogService,
-   private snotifyService: SnotifyService
-  ) { }
-
-  getUserPost() {
-      this.blogService.getUserPost().subscribe(data => {
-          if (!data['success']) {
-              this.posts = [];
-              this.message = data['message'];
-          } else {
-              this.posts = [];
-              this.posts = data['posts'];
-          }
-      });
+   private snotifyService: SnotifyService,
+   private formBuilder: FormBuilder
+  ) { 
+    this.createForm();
   }
+
+    // Function to create login form
+    createForm() {
+        this.form = this.formBuilder.group({
+            file: ['', Validators.required], // Username field
+        });
+    }
+
+    getUserPost() {
+        this.blogService.getUserPost().subscribe(data => {
+            if (!data['success']) {
+                this.posts = [];
+                this.message = data['message'];
+            } else {
+                this.posts = [];
+                this.posts = data['posts'];
+            }
+        });
+    }
+
+    getImageFromService() {
+        this.isImageLoading = true;
+        this.blogService.getImage().subscribe(data => {
+            this.imageToShow = data;
+        });
+    }
+
+    onSubmit() {
+        this.blogService.uploadImage(this.info).subscribe(data => {
+            console.log(data);
+            this.getImageFromService();
+        });
+    }
+
+    fileChangeEvent(event) {
+        const fileList: FileList = event.target.files,
+              file: File = fileList[0],
+              formData: FormData = new FormData();
+        formData.append('avatar', file, file.name);
+        this.info = formData;
+    }
 
   deletePost(id) {
     // Create observable for notification
@@ -72,6 +109,7 @@ export class ProfileComponent implements OnInit {
       this.email = profile['user'].email; // Set e-mail
     });
     this.getUserPost();
+    this.getImageFromService();
   }
 
 }

@@ -10,8 +10,7 @@
 .navbar .navbar-brand {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 20px;
-    padding-right: 50px;
+    font-size: 20x;
 }
 
 .navbar .navbar-brand p {
@@ -22,7 +21,7 @@
 }
 
 .navbar .nav-item {
-    padding: 10px 5px 10px 5px;
+    padding: 10px 0px 10px 5px;
     margin: 0px 4px 0px 14px;
 }
 
@@ -48,7 +47,7 @@
 }
 
 .header-cart {
-    margin-top: 72px;
+    margin-top: 88px;
     width: 310px;
     background-color: white;
     -webkit-box-shadow: -3px 3px 10px -5px rgba(0, 0, 0, 0.75);
@@ -202,4 +201,38 @@ pagination-controls {
 button.disabled {
     opacity: 0.6;
     cursor: not-allowed !important;
+}
+
+/* Navigation
+---------------------------------*/
+
+@media (max-width: 380.98px) {
+    .navbar .nav-item {
+        padding: 10px 0px 10px 0px;
+        margin: 0px 0px 0px 9px;
+    }
+}
+
+@media (max-width: 468.98px) {
+    .navbar .navbar-brand {
+        font-size: 15px !important;
+    }
+}
+
+@media (max-width: 767.98px) {}
+
+@media (max-width: 991.98px) {
+    .navbar > .container {
+        display: block;
+    }
+    
+    .navbar-items {
+        display: none !important;
+    }
+}
+
+@media (min-width: 991.98px) {
+    .navbar-items-res {
+        display: none !important;
+    }
 }
