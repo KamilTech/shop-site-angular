@@ -59,8 +59,9 @@
     visibility: visible;
 }
 
-.nav-item.active {
-    background-color: #ededed;
+.nav-link.active {
+    font-weight: 700;
+    color: #6c7ae0 !important;
 }
 
 .header-cart-wrap {
