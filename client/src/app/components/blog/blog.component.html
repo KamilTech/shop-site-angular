@@ -21,21 +21,21 @@
                             <div></div>
                         </div><a href="#"></a>
                     </figure>
-                    <div class="post-content">
+                    <div class="post-content" *ngIf="biggest">
                         <div class="post-content-info d-flex flex-row">
-                            <span class="mr-auto p-2">By <i class="font-weight">Kamil Michalski</i> on March 22, 2017</span>
-                            <span class="p-2"><i class="far fa-heart"></i>12</span>
+                            <span class="mr-auto p-2">By <i class="font-weight">{{ biggest.createdBy }}</i>{{ biggest.createdAt | date:'MMM dd, yyyy' }}</span>
+                            <span class="p-2"><i class="far fa-heart"></i>{{ biggest.likes }}</span>
                             <span class="p-2">|</span>
-                            <span class="p-2"><i class="far fa-comments"></i>5</span>
+                            <span class="p-2"><i class="far fa-comments"></i>{{ biggest.comments.length }}</span>
                         </div>
                         <div class="post-content-title">
-                            Where To Get The Best Sunday Roast In The Cotswolds...
+                            {{ biggest.title | shorten: 50 }}...
                         </div>
                         <div class="post-content-describe">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et magnam at quibusdam aliquid distinctio ipsa explicabo a amet beatae ducimus, deserunt tempore consectetur quo ut dolorum ad autem qui.
+                            {{ biggest.body | shorten: 90 }}.....
                         </div>
                         <div class="post-main-button d-flex justify-content-end">
-                            <button routerLink="/post">Continue Reading</button>
+                            <button [routerLink]="['/post/', biggest._id]">Continue Reading</button>
                         </div>
                     </div>
                 </div>

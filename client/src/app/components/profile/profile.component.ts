@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { Observable } from 'rxjs';
@@ -17,26 +16,16 @@ export class ProfileComponent implements OnInit {
   p: number = 1;
   posts: Array<any> = [];
   message;
-  form: FormGroup;
   info;
   imageToShow: any;
-  isImageLoading;
+  processing = false;
+  hasValue = false;
 
   constructor(
    private authService: AuthService,
    private blogService: BlogService,
-   private snotifyService: SnotifyService,
-   private formBuilder: FormBuilder
-  ) { 
-    this.createForm();
-  }
-
-    // Function to create login form
-    createForm() {
-        this.form = this.formBuilder.group({
-            file: ['', Validators.required], // Username field
-        });
-    }
+   private snotifyService: SnotifyService
+  ) { }
 
     getUserPost() {
         this.blogService.getUserPost().subscribe(data => {
@@ -51,17 +40,39 @@ export class ProfileComponent implements OnInit {
     }
 
     getImageFromService() {
-        this.isImageLoading = true;
         this.blogService.getImage().subscribe(data => {
             this.imageToShow = data;
+            console.log(this.imageToShow);
         });
     }
 
     onSubmit() {
-        this.blogService.uploadImage(this.info).subscribe(data => {
-            console.log(data);
-            this.getImageFromService();
+        this.processing = true;
+        const sendData = Observable.create(observer => {
+            this.blogService.uploadImage(this.info).subscribe(data => {
+                if (!data['success']) {
+                    // If false return error notification
+                    observer.error({
+                        title: 'Error',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                } else {
+                    // If true return success notification
+                    observer.next({
+                        title: 'Success',
+                        body: data['message'],
+                        config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
+                    });
+                    this.getImageFromService();
+                    this.processing = false;
+                    this.hasValue = false;
+                    observer.complete();
+                }
+            });
         });
+        // Snotify Notifications
+        this.snotifyService.async('Loading', sendData);
     }
 
     fileChangeEvent(event) {
@@ -70,6 +81,7 @@ export class ProfileComponent implements OnInit {
               formData: FormData = new FormData();
         formData.append('avatar', file, file.name);
         this.info = formData;
+        this.hasValue = true;
     }
 
   deletePost(id) {

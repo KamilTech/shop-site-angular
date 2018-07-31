@@ -103,6 +103,9 @@ module.exports = (router) => {
         }
     });
     
+    /* ===============================================================
+        UPDATE BLOG
+    =============================================================== */
     router.put('/post', (req, res) => {
         // Check if id was provided
         if (!req.body._id) {
@@ -344,7 +347,9 @@ module.exports = (router) => {
         }
     });
     
-    
+    /* ===============================================================
+     CONFIRM NEW POST
+    =============================================================== */
   router.put('/confirm', (req, res) => {
     // Check if id was provided
     if (!req.body.id) {

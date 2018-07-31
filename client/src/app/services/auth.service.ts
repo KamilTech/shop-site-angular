@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class AuthService  {
 
   constructor(
     private http: HttpClient,
-    private jwtHelperService: JwtHelperService
+    private jwtHelperService: JwtHelperService,
+    private sanitizer: DomSanitizer
   ) { }
 
     @Output() change: EventEmitter<boolean> = new EventEmitter();
@@ -94,6 +96,14 @@ export class AuthService  {
     // Function to get all items from the databse
     getAllItems() {
         return this.http.get(this.domain + '/authentication/allItems').pipe(map(res => res));
+    }
+
+    // Function to get image
+    getImage(user) {
+        return this.http.get(this.domain + '/authentication/image/' + user, {responseType: 'blob'}).pipe(map(blob => {
+          let urlCreator = window.URL;
+          return this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(blob));
+        }));
     }
 
 }

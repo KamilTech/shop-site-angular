@@ -75,7 +75,7 @@
                             <div class="singel-com" *ngFor="let com of blog.comments">
                                 <div class="row">
                                     <div class="singel-com-img col-3 col-sm-3 col-md-2 col-log-2 d-flex flex-column align-items-center">
-                                        <img src="../../../assets/pexels-photo-614810.jpeg" alt="">
+                                        <img *ngIf="com.img" [src]="com?.img?.img" alt="">
                                         <div class="com-name">
                                             {{ com.commentator }}
                                         </div>

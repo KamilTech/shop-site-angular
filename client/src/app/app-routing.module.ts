@@ -38,21 +38,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'blog',
-    component: BlogComponent, // Blog
-    data: {
-      animation: {
-        value: 'products',
-      }
-    }
+    component: BlogComponent // Blog
   },
   {
     path: 'post/:id',
-    component: SingelPostComponent,
-    data: {
-      animation: {
-        value: 'product-detail',
-      }
-    }// Singel Post
+    component: SingelPostComponent // Singel Post
   },
   {
     path: 'about-us',

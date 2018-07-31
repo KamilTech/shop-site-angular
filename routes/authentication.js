@@ -3,6 +3,9 @@ const Blog = require('../models/blog'); // Import Blog Model Schema
 const Shop = require('../models/shop'); // Import Shop Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
+const mongoose = require('mongoose'); // Node Tool for MongoDB
+const GridFsStorage = require('multer-gridfs-storage'); // GridFS storage engine for Multer to store uploaded files directly to MongoDb.
+const Grid = require('gridfs-stream'); // Easily stream files to and from MongoDB GridFS.
 
 module.exports = (router) => {
     /* ==============
@@ -335,6 +338,51 @@ module.exports = (router) => {
         }).sort({
             '_id': -1
         }); // Sort items from newest to oldest
+    });
+    
+    /* ===============================================================
+        Find and display Image
+    =============================================================== */
+    // I know it's not the best way to do this... if I will have more time I will do it in better way :)
+    router.get('/image/:user', (req, res) => {
+        User.findOne({ username: req.params.user }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: 'Something went wrong.' });
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'Could not authenticate user.' });
+                } else {
+                    const conn = mongoose.createConnection(config.uri); // Create mongo connection
+                    let gfs;
+                    conn.once('open', () => {
+                        // Init stream
+                        gfs = Grid(conn.db, mongoose.mongo);
+                        display(gfs);
+                    });
+                    function display(gfs) {
+                        gfs.files.findOne({ filename: user.username }, (err, file) => {
+                            // Check if file
+                            if (!file || file.length === 0) {
+                                  gfs.files.findOne({ filename: 'defaultImage' }, (err, file) => {
+                                    // Read output to browser
+                                    const readstream = gfs.createReadStream(file.filename);
+                                    readstream.pipe(res);
+                                  });
+                            } else {
+                                // Check if image
+                                if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+                                  // Read output to browser
+                                  const readstream = gfs.createReadStream(file.filename);
+                                  readstream.pipe(res);
+                                } else {
+                                    res.json({ success: false, message: 'Not an image' });
+                                }   
+                            }
+                        });   
+                    }
+                }    
+            }
+        });
     });
 
     /* ================================================

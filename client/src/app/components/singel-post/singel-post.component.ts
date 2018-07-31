@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { BlogService } from '../../services/blog.service';
 import { Observable } from 'rxjs';
 import { SnotifyService } from 'ng-snotify';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-singel-post',
@@ -22,13 +23,15 @@ export class SingelPostComponent implements OnInit {
     form;
     processing: boolean = false;
     blogPosts: Array<any> = [];
+    userImage: Array<any> = [];
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private blogService: BlogService,
         private formBuilder: FormBuilder,
-        private snotifyService: SnotifyService
+        private snotifyService: SnotifyService,
+        private sanitizer: DomSanitizer
     ) {
             this.createNewCommentForm(); // Create new comment form on start up
         }
@@ -49,40 +52,44 @@ export class SingelPostComponent implements OnInit {
         // Service to like a blog post
         event.target.classList.toggle('is-active');
         this.blogService.likePost(id).subscribe(data => {
-            this.getPost(); // Refresh blogs after like
+            this.getPost(false); // Refresh blogs after like
         });
     }
 
-    checkLike() {
+    checkLike(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.isLike = this.blog.likedBy.includes(user.username);
     }
-
+    // Checking if comment belong to the user
     ifLike(data) {
          const user = JSON.parse(localStorage.getItem('user'));
-         if (data.commentator === user.username) {
-             return 'own';
+         if (user) {
+             if (data.commentator === user.username) {
+                 return 'own';
+             } else {
+                return data.commentLikedBy.includes(user.username) ? 'like' : 'nolike';
+             }
          } else {
-            return data.commentLikedBy.includes(user.username) ? 'like' : 'nolike';
+             return null;
          }
      }
-
-    checkWho() {
+    
+    checkWho(): void {
         const user = JSON.parse(localStorage.getItem('user'));
         this.isOwn = user.username === this.blog.createdBy;
     }
 
     // Function to disliked a blog post
-    dislikePost(event: any, id: any) {
+    dislikePost(event: any, id: any): void {
         // Service to dislike a blog post
         event.target.classList.toggle('is-active');
         this.blogService.dislikePost(id).subscribe(data => {
-            this.getPost(); // Refresh blogs after dislike
+            this.getPost(false); // Refresh blogs after dislike
         });
     }
 
     // Function to submit a new comment
-    postComment(id) {
+    postComment(id): void {
         this.processing = true;
         this.form.get('body').disable(); // Disable body field
         const comment = this.form.get('body').value; // Comment field
@@ -113,7 +120,7 @@ export class SingelPostComponent implements OnInit {
                         this.form.get('body').enable();
                         this.processing = false;
                         this.form.reset(); // Reset all form fields
-                        this.getPost();
+                        this.getPost(true);
                     }
                 }, 1000);
             });
@@ -123,7 +130,7 @@ export class SingelPostComponent implements OnInit {
     }
 
     // Function to like comment
-    likeComment(id, commentId) {
+    likeComment(id, commentId): void {
         // Create observable for notification
         const sendData = Observable.create(observer => {
             // Function to save like into database
@@ -138,7 +145,7 @@ export class SingelPostComponent implements OnInit {
                             config: { closeOnClick: true, timeout: 2000, showProgressBar: true }
                         });
                    } else {
-                        this.getPost();
+                        this.getPost(false);
                         // If true return success notification
                         observer.next({
                             title: 'Success',
@@ -164,20 +171,45 @@ export class SingelPostComponent implements OnInit {
         }
     }
 
-    getPost() {
+    getPost(checkAll) {
         this.authService.getSingelPost(this.currentUrl.id).subscribe(data => {
             // Check if GET request was success or not
             if (!data['success']) {
                 this.messageClass = 'alert alert-danger'; // Set bootstrap error class
                 this.message = 'Blog not found.'; // Set error message
             } else {
-                this.blog = data['blog']; // Save blog object for use in HTML
-                if (this.authService.loggedIn() === true) {
-                    this.checkLike();
-                    this.checkWho();
+                if (checkAll === true) {
+                    this.blog = data['blog']; // Save blog object for use in HTML
+                    console.log(this.blog);
+                    this.blog.comments.map((com) => {
+                        this.getImage(com.commentator).then(img => {
+                            com.img = { img };
+                        });
+                    });
+                    if (this.authService.loggedIn() === true) {
+                        this.checkLike();
+                        this.checkWho();
+                    }
+                } else {
+                    this.blog.comments.map((item) => {
+                        for (let i = 0; i < data['blog'].comments.length; i++) { 
+                            if (item._id ===  data['blog'].comments[i]._id) {
+                                item.commentlikes = data['blog'].comments[i].commentlikes;
+                                item.commentLikedBy = data['blog'].comments[i].commentLikedBy;
+                            }
+                        }
+                    }); // Save blog object for use in HTML
                 }
             }
         });
+    }
+
+    getImage(username) {
+        return new Promise(resolve => {
+            this.authService.getImage(username).subscribe(data => {
+                resolve(data);
+            });
+        });        
     }
 
     getBlog() {
@@ -196,7 +228,7 @@ export class SingelPostComponent implements OnInit {
     ngOnInit() {
         this.currentUrl = this.activatedRoute.snapshot.params; // When component loads, grab the id
         // Function to GET current blog with id in params
-        this.getPost();
+        this.getPost(true);
         this.getBlog();
     }
 

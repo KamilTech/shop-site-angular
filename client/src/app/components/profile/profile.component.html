@@ -100,12 +100,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form [formGroup]="form" (submit)="onSubmit()">
+                        <form (submit)="onSubmit()">
                             <div class="custom-file mb-3">
-                                <input type="file" name="avatar" id="file" class="custom-file-input" (change)="fileChangeEvent($event)" formControlName="file">
+                                <input type="file" name="avatar" id="file" class="custom-file-input" (change)="fileChangeEvent($event)">
                                 <label for="file" class="custom-file-label">Choose File</label>
                             </div>
-                            <input type="submit" value="Submit" class="btn btn-primary btn-block">
+                            <input [disabled]="!hasValue || processing" type="submit" value="Submit" class="btn btn-primary btn-block" data-dismiss="modal" (click)="onSubmit()">
                         </form>
                     </div>
                     <div class="modal-footer">

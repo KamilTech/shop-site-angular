@@ -12,6 +12,7 @@ export class BlogComponent implements OnInit {
 
     blogPosts: Array<any> = [];
     page: number = 1;
+    biggest: any;
 
   constructor(
     private authService: AuthService,
@@ -23,6 +24,11 @@ export class BlogComponent implements OnInit {
     // Function to GET all blogs from database
         this.authService.getAllBlogs(true).subscribe(data => {
           this.blogPosts = data['blogs'];
+          this.biggest = 0;
+          this.blogPosts.map((e) => {
+              if (e.likes > this.biggest) { this.biggest = e; }
+          });
+          console.log(this.biggest);
         }, err => {
             this.snotifyService.error("Can't get item... :(", {
                 timeout: 10000,
