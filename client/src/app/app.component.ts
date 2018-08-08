@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { baseAnimation } from './animations';
 
 @Component({
   selector: 'app-root',

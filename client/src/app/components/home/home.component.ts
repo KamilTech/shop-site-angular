@@ -129,6 +129,10 @@ export class HomeComponent implements OnInit {
         }
     }
 
+    convertString(value: string) {
+        return parseFloat(value).toFixed(2);
+    }
+
   ngOnInit() {
       this.header();
       this.getItems();

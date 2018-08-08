@@ -154,8 +154,8 @@
     min-width: 230px;
     max-width: 415px;
     width: 100%;
-    min-height: 440px;
-    max-height: 440px;
+    min-height: 500px;
+    max-height: 500px;
     background: #ffffff;
     text-align: center;
     color: #000000;
@@ -182,6 +182,8 @@
 
 .snip1423 img {
     max-width: 100%;
+    max-height: 270px;
+    min-height: 270px;
     vertical-align: top;
     position: relative;
 }
@@ -282,6 +284,7 @@
 
 .modal-img img {
     width: 100%;
+    max-height: 600px;
 }
 
 .modal-lg {
@@ -501,78 +504,5 @@
 }
 
 .modal-describe-title {
-    max-width: 310px;
-}
-
-.like-btn {
-    position: absolute;
-    right: -13px;
-    top: -5px;
-    background: url(https://cssanimation.rocks/images/posts/steps/heart.png) no-repeat;
-    width: 60px;
-    height: 60px;
-    background-size: 2900%;
-    background-repeat: no-repeat;
-    cursor: pointer;
-}
-
-.is-active {
-    -webkit-animation-name: animate;
-    animation-name: animate;
-    -webkit-animation-duration: .8s;
-    animation-duration: .8s;
-    -webkit-animation-iteration-count: 1;
-    animation-iteration-count: 1;
-    -webkit-animation-timing-function: steps(28);
-    animation-timing-function: steps(28);
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-}
-
-.pagination {
-    margin-bottom: 20px;
-}
-
-@-webkit-keyframes animate {
-    0% {
-        background-position: left;
-    }
-    50% {
-        background-position: right;
-    }
-    100% {
-        background-position: right;
-    }
-}
-
-@keyframes animate {
-    0% {
-        background-position: left;
-    }
-    50% {
-        background-position: right;
-    }
-    100% {
-        background-position: right;
-    }
-}
-
-/* Fade in animation */
-
-@-webkit-keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-.fade-in {
-    opacity: 0;
-    -webkit-animation: fadeIn 0.5s ease-in 1 forwards;
-    animation: fadeIn 0.5s ease-in 1 forwards;
+    max-width: 410px;
 }

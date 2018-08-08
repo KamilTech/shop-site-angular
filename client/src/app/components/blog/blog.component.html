@@ -13,13 +13,13 @@
         <div class="row align-items-start ">
             <div class="col-12 col-lg-8">
                 <div class="main-post col-12 d-flex flex-column">
-                    <figure class="snip1295"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
+                    <figure class="snip1295" *ngIf="biggest"><img src="../../../assets/old-retro-antique-vintage-163182.jpeg" alt="">
                         <div class="border one">
                             <div></div>
                         </div>
                         <div class="border two">
                             <div></div>
-                        </div><a href="#"></a>
+                        </div><a [routerLink]="['/post/', biggest._id]"></a>
                     </figure>
                     <div class="post-content" *ngIf="biggest">
                         <div class="post-content-info d-flex flex-row">
@@ -34,7 +34,7 @@
                         <div class="post-content-describe">
                             {{ biggest.body | shorten: 90 }}.....
                         </div>
-                        <div class="post-main-button d-flex justify-content-end">
+                        <div class="post-main-button d-flex justify-content-end" *ngIf="biggest">
                             <button [routerLink]="['/post/', biggest._id]">Continue Reading</button>
                         </div>
                     </div>

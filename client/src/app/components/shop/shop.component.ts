@@ -114,9 +114,9 @@ export class ShopComponent implements OnInit {
             this.shop = shopArray;
         }
     }
-
-    likebtn(event: any) {
-        event.target.classList.toggle('is-active');
+    
+    convertString(value: string, add) {
+        return add ? (parseFloat(value) + parseFloat(add)).toFixed(2) : parseFloat(value).toFixed(2);
     }
 
     checkItem(id) {
@@ -143,10 +143,15 @@ export class ShopComponent implements OnInit {
             items = JSON.parse(localStorage.getItem('items'));
 
         if (items) {
-            items.push(object);
-            localStorage.setItem('items', JSON.stringify(items));
-            this.snotifyService.success('Item was added', 'Success');
-            this.authService.getItem();
+            if (items.find((items) => items.itemId === object.itemId)) {
+                this.snotifyService.error('Currently you have this item in cart', 'Error');
+                this.authService.getItem();
+            } else {
+                items.push(object);
+                localStorage.setItem('items', JSON.stringify(items));
+                this.snotifyService.success('Item was added', 'Success');
+                this.authService.getItem();
+            }
         } else {
             const array = [];
             array[0] = object;

@@ -118,8 +118,9 @@
 }
 
 .tags {
+    padding-top: 10px;
     border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 50px;
+    padding-bottom: 25px;
 }
 
 .tags span {
@@ -157,6 +158,11 @@
 .last-post-describe {
     font-size: 15px;
     font-weight: 500;
+}
+
+.last {
+    cursor: pointer;
+    outline: none;
 }
 
 .amount-com {

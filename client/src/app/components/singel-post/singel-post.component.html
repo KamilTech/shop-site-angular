@@ -41,7 +41,7 @@
                                 {{ blog.title }}
                             </div>
                             <div class="post-content-describe text-wrap">
-                                {{ blog.body }}
+                                <div [innerHtml]="blog.body"></div>
                                 <div class="like-post d-flex flex-wrap" *ngIf="!isOwn && this.authService.loggedIn()">
                                     <div *ngIf="!isLike" class="like-post-heart">- Like this article? Give him heart<span (click)="likePost($event, blog._id)" class="like-btn"></span></div>
                                     <div *ngIf="isLike" class="like-post-heart">- You like this article<span class="like-btn is-active" (click)="dislikePost($event, blog._id)"></span></div>
@@ -58,8 +58,8 @@
                             <div class="inscryption">
                                 Latest post
                             </div>
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column" *ngFor="let post of blogPosts" [routerLink]="['/post/', post._id]">
+                            <div class="row justify-content-center" *ngIf="blogPosts">
+                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column last" *ngFor="let post of blogPosts" [routerLink]="['/post/', post._id]">
                                     <img src="../../../assets/pexels-photo-590493.jpeg" alt="">
                                     <div class="last-post-who">
                                         {{ post.createdBy }} | {{ post.createdAt | date:'MMM dd, yyyy' }}

@@ -1,9 +1,9 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -101,8 +101,9 @@ export class AuthService  {
     // Function to get image
     getImage(user) {
         return this.http.get(this.domain + '/authentication/image/' + user, {responseType: 'blob'}).pipe(map(blob => {
-          let urlCreator = window.URL;
-          return this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(blob));
+          const urlCreator = window.URL,
+                img64: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(urlCreator.createObjectURL(blob));
+          return img64;
         }));
     }
 

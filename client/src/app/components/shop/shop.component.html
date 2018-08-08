@@ -75,12 +75,12 @@
                             <div class="container ph-modal">
                                 <div class="row">
                                     <div class="modal-image-side col-2 col-sm-2 col-md-2">
-                                        <img src="../../../assets/pexels-photo-128206.jpeg" alt="">
-                                        <img src="../../../assets/woman-3046960_640.jpg" alt="">
-                                        <img src="../../../assets/dog-2467149_640.jpg" alt="">
+                                        <img src="../../../assets/elan-1623085_640.jpg" alt="">
+                                        <img src="../../../assets/elan-1623086_640.jpg" alt="">
+                                        <img src="../../../assets/elan-1623088_640.jpg" alt="">
                                     </div>
                                     <div class="modal-image-main col-10 col-sm-10 col-md-10">
-                                        <img src="../../../assets/woman-3046960_640.jpg" alt="">
+                                        <img src="../../../assets/elan-1623088_640.jpg" alt="">
                                         <div class="modal-image-main-arrow-left"><i class="fas fa-arrow-circle-left"></i></div>
                                         <div class="modal-image-main-arrow-right"><i class="fas fa-arrow-circle-right"></i></div>
                                     </div>
@@ -88,8 +88,8 @@
                             </div>
                         </div>
                         <div class="modal-describe col-12 col-sm-12 col-md-6">
-                            <div class="modal-describe-title">{{ modalItem?.name }}<span (click)="likebtn($event)" class="like-btn"></span></div>
-                            <div class="modal-describe-price">Price: <span>$ {{ modalItem?.price }}</span></div>
+                            <div class="modal-describe-title">{{ modalItem?.name }}</div>
+                            <div class="modal-describe-price">Price: <span>$ {{ convertString(modalItem?.price) }}</span></div>
                             <div class="modal-describe-specification">{{ modalItem?.describe }}</div>
                             <div class="modal-describe-option d-flex flex-column">
                                 <div class="row box-select align-items-center">
@@ -140,15 +140,19 @@
     </div>
     <!-- START PRODUCT -->
     <div class="row photos justify-content-center">
-        <ng-container *ngFor="let item of shop | paginate: { id: 'shop-pagination', itemsPerPage: 12, currentPage: pageShop }">
+        <ng-container *ngFor="let item of shop | paginate: { id: 'shop-pagination', itemsPerPage: 9, currentPage: pageShop }">
             <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4" (click)="checkItem(item._id)">
                 <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample57.jpg" alt="sample57" />
+                   <div [ngSwitch]="item?.category[0]">
+                      <img *ngSwitchCase="'women'" src="../../../assets/woman-3054364_640.jpg" alt="women" />
+                      <img *ngSwitchCase="'men'" src="../../../assets/fashion-601553_640.jpg" alt="men" />
+                      <img *ngSwitchCase="'accesories'" src="../../../assets/fashion-3159006_640.jpg" alt="accesories" />
+                    </div>
                     <figcaption>
                         <h3>{{ item.name }}</h3>
                         <p>{{ item.smallDescribe }}</p>
                         <div class="price">
-                            <s>$24.00</s>{{ item.price }}
+                            <s>${{ convertString(item.price, 15.00) }}</s>${{ convertString(item.price) }}
                         </div>
                     </figcaption><i class="fas fa-cart-plus"></i>
                 </figure>
