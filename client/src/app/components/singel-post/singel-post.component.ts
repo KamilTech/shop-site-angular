@@ -52,7 +52,7 @@ export class SingelPostComponent implements OnInit {
         // Service to like a blog post
         event.target.classList.toggle('is-active');
         this.blogService.likePost(id).subscribe(data => {
-            this.getPost(false); // Refresh blogs after like
+            this.getPost(true); // Refresh blogs after like
         });
     }
 
@@ -84,7 +84,7 @@ export class SingelPostComponent implements OnInit {
         // Service to dislike a blog post
         event.target.classList.toggle('is-active');
         this.blogService.dislikePost(id).subscribe(data => {
-            this.getPost(false); // Refresh blogs after dislike
+            this.getPost(true); // Refresh blogs after dislike
         });
     }
 
@@ -171,8 +171,12 @@ export class SingelPostComponent implements OnInit {
         }
     }
 
-    getPost(checkAll) {
-        this.authService.getSingelPost(this.currentUrl.id).subscribe(data => {
+    getPost(checkAll: boolean ,id?: string) {
+        if (id) {
+            this.getBlog();
+            window.scrollTo(0, 0);
+        }
+        this.authService.getSingelPost(id || this.currentUrl.id).subscribe(data => {
             // Check if GET request was success or not
             if (!data['success']) {
                 this.messageClass = 'alert alert-danger'; // Set bootstrap error class
@@ -180,7 +184,6 @@ export class SingelPostComponent implements OnInit {
             } else {
                 if (checkAll === true) {
                     this.blog = data['blog']; // Save blog object for use in HTML
-                    console.log(this.blog);
                     this.blog.comments.map((com) => {
                         this.getImage(com.commentator).then(img => {
                             com.img = { img };
@@ -218,6 +221,7 @@ export class SingelPostComponent implements OnInit {
                 this.messageClass = 'alert alert-danger'; // Set bootstrap error class
                 this.message = 'Blog not found.'; // Set error message
             } else {
+                this.blogPosts = [];
                 for (let i = 0; i < 3; i++) { this.blogPosts.push(data['blogs'][i]) };
                 this.messageClass = null;
                 this.message = null;

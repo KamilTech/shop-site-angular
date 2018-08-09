@@ -155,8 +155,10 @@
     padding-top: 5px;
 }
 
-.last-post-describe {
+.last-post-title {
     font-size: 15px;
+    color: #3e3e3e;
+    padding-top: 5px;
     font-weight: 500;
 }
 

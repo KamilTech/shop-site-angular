@@ -59,13 +59,16 @@
                                 Latest post
                             </div>
                             <div class="row justify-content-center" *ngIf="blogPosts">
-                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column last" *ngFor="let post of blogPosts" [routerLink]="['/post/', post._id]">
+                                <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex flex-column last" *ngFor="let post of blogPosts" (click)="getPost(true,post._id)">
                                     <img src="../../../assets/pexels-photo-590493.jpeg" alt="">
                                     <div class="last-post-who">
                                         {{ post.createdBy }} | {{ post.createdAt | date:'MMM dd, yyyy' }}
                                     </div>
+                                    <div class="last-post-title">
+                                        {{ post.title.charAt(0).toUpperCase() + post.title.slice(1) | shorten: 50 }}
+                                    </div>                                    
                                     <div class="last-post-describe">
-                                        {{ post.body | shorten: 50 }}
+                                        {{ post.body.charAt(0).toUpperCase() + post.body.slice(1) | shorten: 50 }}
                                     </div>
                                 </div>
                             </div>
