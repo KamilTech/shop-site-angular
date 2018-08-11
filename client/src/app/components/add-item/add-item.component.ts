@@ -183,7 +183,7 @@ export class AddItemComponent implements OnInit {
     // Create item object from form fields
     const item = {
         name: this.form.get('name').value, // Name field
-        price: this.form.get('price').value, // Price field
+        price: parseFloat(this.form.get('price').value), // Price field
         describe: this.form.get('describe').value, // Describe field
         quantity: this.form.get('quantity').value, // Quantity field
         smallDescribe: this.form.get('smallDescribe').value, // SmallDescribe field

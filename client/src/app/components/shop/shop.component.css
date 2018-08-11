@@ -79,6 +79,11 @@
     margin-bottom: 10px;
 }
 
+.pagi {
+    margin-bottom: 50px;
+}
+
+.pagi .filter-button,
 .shop-filter .filter-button {
     border-radius: 20px;
     background-color: white;
@@ -93,10 +98,21 @@
     position: relative;
 }
 
+.pagi .filter-button {
+    padding: 8px 35px;
+    font-size: 20px;
+}
+
+.pagi .filter-button:last-child{
+    margin-left: 15px;
+}
+
+.pagi .filter-button:active,
 .shop-filter .filter-button:active {
     background-color: none;
 }
 
+.pagi .filter-button:hover,
 .shop-filter .filter-button:hover {
     background-color: #f4f4f4;
 }
@@ -124,6 +140,7 @@
     margin: 0;
 }
 
+#footwear li.active,
 #footwear li:hover {
     cursor: pointer;
     text-decoration: underline;

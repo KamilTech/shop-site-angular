@@ -1,9 +1,12 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams  } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+import isUndefined from 'lodash/isUndefined';
+import isNull from 'lodash/isNull';
+import isEmpty from 'lodash/isEmpty';
 
 @Injectable({
   providedIn: 'root'
@@ -94,8 +97,19 @@ export class AuthService  {
     }
 
     // Function to get all items from the databse
-    getAllItems() {
-        return this.http.get(this.domain + '/authentication/allItems').pipe(map(res => res));
+    getAllItems(parameters) {
+        // Initialize params Object
+        let Params = new HttpParams();
+        // Begin assigning parameters
+        if (!isEmpty(parameters)) {
+             for (let i = 0; i < parameters.length; i++) {
+                Params = (isUndefined(parameters[i].name) || isNull(parameters[i].info)) ? Params : Params.append(`${parameters[i].name}`, parameters[i].info);
+             }
+        }
+        // Begin assigning parameters
+        return this.http.get(this.domain + '/authentication/allItems', {
+            params: Params
+        }).pipe(map(res => res));
     }
 
     // Function to get image

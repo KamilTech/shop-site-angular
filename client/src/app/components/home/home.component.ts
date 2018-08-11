@@ -74,21 +74,15 @@ export class HomeComponent implements OnInit {
 
     getItems() {
         this.shop = [];
-        this.authService.getAllItems().subscribe(data => {
-            if (data['success']) {
-                for (let i = 0; i < 12; i++) {
-                    this.shop.push(data['items'][i]);
-                }
-            } else {
-                this.messageClass = 'alert alert-danger'; // Return error class
-                this.message = data['message']; // Return error message
-            }
+        const pagination = { name: 'per_page', info: 12 };
+        this.authService.getAllItems(pagination).subscribe(data => {
+            console.log(data);
+            this.shop = data['message'];
         }, (err) => {
                 this.messageClass = 'alert alert-danger'; // Return error class
                 this.message = err.message; // Return error message
         });
         this.authService.getAllBlogs(true).subscribe(data => {
-            console.log(data);
             if (data['success']) {
                 for (let i = 0; i < 3; i++) {
                     this.blogs.push(data['blogs'][i]);

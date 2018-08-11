@@ -1,6 +1,7 @@
 const User = require('../models/user'); // Import User Model Schema
 const Blog = require('../models/blog'); // Import Blog Model Schema
 const Shop = require('../models/shop'); // Import Shop Model Schema
+const getFilters = require('../filters/shopFilter'); // // Import filters
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 const mongoose = require('mongoose'); // Node Tool for MongoDB
@@ -198,7 +199,7 @@ module.exports = (router) => {
             } else {
                 // Check if username exists in database
                 User.findOne({
-                    username: req.body.username.toLowerCase()
+                    username: req.body.username.toLowerCase().replace(/\s/g, '')
                 }, (err, user) => {
                     // Check if error was found
                     if (err) {
@@ -311,33 +312,30 @@ module.exports = (router) => {
             });
         }
     });
+    
+    /* ===============================================================
+        Find all items in shop
+    =============================================================== */
+    router.get('/allItems', getFilters, async (req, res) => {
+        try {
+            const sort_by = {};
+            sort_by[ req.query.sort_by || 'quantity' ] = req.query.order_by || 'desc';
+            const offset = parseInt(req.query.offset) || 0;
+            const per_page = parseInt(req.query.per_page) || 9;
+            const shopPromise = 
+                  Shop.find(req.filters)
+                    .skip(offset)
+                    .limit(per_page)
+                    .sort(sort_by);
+            
+            const countPromise = Shop.count(req.filters);
+            const [items, count] = await Promise.all([ shopPromise, countPromise ]);
+            return res.json({ success: true, message: items, count, per_page});
+        } catch(err) {
+            console.log(err);
+            res.json({ success: false, message: err });
+        }
 
-    router.get('/allItems', (req, res) => {
-        // Search database for all items
-        Shop.find({}, (err, items) => {
-            // Check if error was found or not
-            if (err) {
-                res.json({
-                    success: false,
-                    message: err
-                }); // Return error message
-            } else {
-                // Check if items were found in database
-                if (!items) {
-                    res.json({
-                        success: false,
-                        message: 'No items found.'
-                    }); // Return error of no items found
-                } else {
-                    res.json({
-                        success: true,
-                        items: items
-                    }); // Return success and items array
-                }
-            }
-        }).sort({
-            '_id': -1
-        }); // Sort items from newest to oldest
     });
     
     /* ===============================================================

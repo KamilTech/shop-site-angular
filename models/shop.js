@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'); // Node Tool for MongoDB
 mongoose.Promise = global.Promise; // Configure Mongoose Promises
 const Schema = mongoose.Schema; // Import Schema from Mongoose
+const MongoPaging = require('mongo-cursor-pagination');
 
 // Validate Function to check name length
 let nameLengthChecker = (name) => {
@@ -221,7 +222,7 @@ const categoryValidators = [
 
 const shopItem = new Schema({
     name: { type: String, required: true, validate: nameValidators },
-    price: { type: String, required: true, validate: priceValidators },
+    price: { type: Number, required: true, validate: priceValidators },
     createdBy: { type: String, required: true },
     createdAt: { type: Date, default: Date.now() },
     describe: { type: String, required: true, validate: describeValidators },
@@ -236,6 +237,8 @@ const shopItem = new Schema({
     quantity: { type: Number, default: 0 },
     lastPurchase: { type: Date }
 });
+
+shopItem.plugin(MongoPaging.mongoosePlugin);
 
 // Export Module/Schema
 module.exports = mongoose.model('Shop', shopItem);

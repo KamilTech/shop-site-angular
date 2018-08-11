@@ -28,7 +28,6 @@ export class BlogComponent implements OnInit {
           this.blogPosts.map((e) => {
               if (e.likes > this.biggest) { this.biggest = e; }
           });
-          console.log(this.biggest);
         }, err => {
             this.snotifyService.error("Can't get item... :(", {
                 timeout: 10000,

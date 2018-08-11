@@ -7,10 +7,10 @@
     </div>
     <div class="shop-menu">
         <ul class="myBtnContainer d-flex flex-wrap">
-            <li class="btn" [ngClass]="{'active': classActive === 1 }" (click)="filterSelection('all', 1)">All Products</li>
-            <li class="btn" [ngClass]="{'active': classActive === 2 }" (click)="filterSelection('women', 2)">Women</li>
-            <li class="btn" [ngClass]="{'active': classActive === 3 }" (click)="filterSelection('men', 3)">Men</li>
-            <li class="btn" [ngClass]="{'active': classActive === 4 }" (click)="filterSelection('accesories', 4)">Accesories</li>
+            <li class="btn" [ngClass]="{'active': category === 1 }" (click)="category = 1" (click)="getItems([{name: 'category', info: null}])">All Products</li>
+            <li class="btn" [ngClass]="{'active': category === 2 }" (click)="category = 2" (click)="getItems([{name: 'category', info: 'women'}])">Women</li>
+            <li class="btn" [ngClass]="{'active': category === 3 }" (click)="category = 3" (click)="getItems([{name: 'category', info: 'men'}])">Men</li>
+            <li class="btn" [ngClass]="{'active': category === 4 }" (click)="category = 4" (click)="getItems([{name: 'category', info: 'accesories'}])">Accesories</li>
         </ul>
         <div class="shop-filter">
             <div class="filter-button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">Filter</div>
@@ -21,13 +21,12 @@
             <div class="row">
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
                     <ul>
-                        <li class="sortBy"> Sort By</li>
-                        <li class="sortBy">Default</li>
-                        <li class="sortBy">Popularity</li>
-                        <li class="sortBy">Average rating</li>
-                        <li class="sortBy">Newness</li>
-                        <li class="sortBy">Price: Low to Hight</li>
-                        <li class="sortBy">Price: High to Low</li>
+                        <li class="sortBy">Sort By</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 1 }" (click)="sortBy = 1" (click)="getItems([{name: 'order_by', info: null},{name: 'sort_by', info: null}])">Default</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 2 }" (click)="sortBy = 2">Popularity</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 3 }" (click)="sortBy = 3" (click)="getItems([{name: 'order_by', info: 'desc'}, {name: 'sort_by', info: 'quantity'}])">Quantity in stock</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 4 }" (click)="sortBy = 4" (click)="getItems([{name: 'order_by', info: 'asc'},{name: 'sort_by', info: 'price'}])">Price: Low to Hight</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 5 }" (click)="sortBy = 5" (click)="getItems([{name: 'order_by', info: 'desc'},{name: 'sort_by', info: 'price'}])">Price: High to Low</li>
                     </ul>
                 </div>
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -143,10 +142,10 @@
         <ng-container *ngFor="let item of shop | paginate: { id: 'shop-pagination', itemsPerPage: 9, currentPage: pageShop }">
             <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4" (click)="checkItem(item._id)">
                 <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
-                   <div [ngSwitch]="item?.category[0]">
-                      <img *ngSwitchCase="'women'" src="../../../assets/woman-3054364_640.jpg" alt="women" />
-                      <img *ngSwitchCase="'men'" src="../../../assets/fashion-601553_640.jpg" alt="men" />
-                      <img *ngSwitchCase="'accesories'" src="../../../assets/fashion-3159006_640.jpg" alt="accesories" />
+                    <div [ngSwitch]="item?.category[0]">
+                        <img *ngSwitchCase="'women'" src="../../../assets/woman-3054364_640.jpg" alt="women" />
+                        <img *ngSwitchCase="'men'" src="../../../assets/fashion-601553_640.jpg" alt="men" />
+                        <img *ngSwitchCase="'accesories'" src="../../../assets/fashion-3159006_640.jpg" alt="accesories" />
                     </div>
                     <figcaption>
                         <h3>{{ item.name }}</h3>
@@ -160,7 +159,13 @@
         </ng-container>
         <!-- END PRODUCT -->
     </div>
-    <div class="pagination col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
-        <pagination-controls id="shop-pagination" (pageChange)="pageShop = $event"></pagination-controls>
+    <div class="pagi d-flex justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+                <ng-container *ngFor="let item of site; let i = index">
+                    <li class="page-item" (click)="getItems([{name: item.name, info: item.data}])"><a class="page-link">{{ i + 1 }}</a></li>
+                </ng-container>
+            </ul>
+        </nav>
     </div>
 </div>

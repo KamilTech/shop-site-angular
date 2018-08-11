@@ -12,13 +12,17 @@ export class ShopComponent implements OnInit {
     shop;
     modalItem;
     shopStatic;
-    quantity: number = 1;
+    quantity = 1;
     messageClass;
     message;
-    classActive: number = 1;
-    pageShop: number = 1;
+    sortBy = 1;
+    pageShop = 1;
     selectedSize;
     selectedColor;
+    paginate = {};
+    site;
+    search = [];
+    category = 1;
 
   constructor(
     private authService: AuthService,
@@ -97,23 +101,6 @@ export class ShopComponent implements OnInit {
         }
         modaGallery();
     }
-
-    filterSelection(value: string, isActive: number) {
-        this.shop = this.shopStatic;
-        this.classActive = isActive;
-
-        if (value === "all") {
-            this.getItems();
-        } else {
-            const shopArray = [];
-            for (let i = 0; i < this.shop.length; i++) {
-                this.shop[i].category.map(e => {
-                    if (e === value) shopArray.push(this.shop[i]);
-                });
-            }
-            this.shop = shopArray;
-        }
-    }
     
     convertString(value: string, add) {
         return add ? (parseFloat(value) + parseFloat(add)).toFixed(2) : parseFloat(value).toFixed(2);
@@ -161,28 +148,43 @@ export class ShopComponent implements OnInit {
         }
     }
 
-    sortPrice(start: number, end, ifAll?: boolean) {
-        this.shop = this.shopStatic;
-        if (ifAll === true) {
-            this.getItems();
-        } else {
-            const shopArray = [];
-            if (end === 'end') {
-                this.shop.map(e => { if (e.price >= start) shopArray.push(e) });
-            } else {
-                if (start && end) {
-                    this.shop.map(e => { if (e.price >= start && e.price <= end) shopArray.push(e) });
+    getItems(pagi? ) {
+        // Here we will create query string and convey to service as array of object
+        if (pagi && typeof pagi === 'object') {
+            for (let j = 0; j < Object.keys(pagi).length; j++) {
+                if (this.search.length === 0) {
+                    this.search.push(pagi[j]);
+                } else {
+                    for (let i = 0; i < this.search.length; i++) {
+                        if (this.search[i].name === pagi[j].name) {
+                            this.search.splice(i, 1);
+                            this.search.push(pagi[j]);
+                        } else {
+                            if (i === this.search.length - 1) {
+                                this.search.push(pagi[j]);
+                            }
+                        }
+                    }
                 }
             }
-            this.shop = shopArray;
         }
-    }
-
-    getItems() {
-        this.authService.getAllItems().subscribe(data => {
+        this.authService.getAllItems(this.search).subscribe(data => {
             if (data['success']) {
-                this.shop = data['items']; // Return success class
-                this.shopStatic = data['items']; // Return success class
+                this.site = [];
+                this.site = ((a, b) => {
+                    const array = [];
+                    let countSite = Math.floor(a / b);
+                    if ((a % b) > 0) countSite++;
+                    for (let i = 0; i < countSite; i++) {
+                        array.push({
+                            name: 'offset',
+                            data: 9 * i
+                        });
+                    }
+                    return array;
+                })(data['count'], data['per_page']);
+                this.shop = data['message'];
+                this.shopStatic = data['message'];
             } else {
                 this.snotifyService.error(data['message'], {
                     timeout: 10000,
@@ -191,7 +193,7 @@ export class ShopComponent implements OnInit {
                     pauseOnHover: true
                 });
             }
-        }, err => { 
+        }, err => {
             this.snotifyService.error("Can't get item... :(", {
                 timeout: 10000,
                 showProgressBar: true,
