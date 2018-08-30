@@ -9,33 +9,24 @@ import { SnotifyService } from 'ng-snotify';
 })
 export class ShopComponent implements OnInit {
 
-    shop;
+    shop: Array<any> = [];
     modalItem;
-    shopStatic;
+    shopStatic: Array<any> = [];
     quantity = 1;
-    messageClass;
-    message;
     sortBy = 1;
     pageShop = 1;
-    selectedSize;
-    selectedColor;
-    paginate = {};
-    site;
+    selectedSize: string;
+    selectedColor: string;
+    site: Array<any> = [];
     search = [];
     category = 1;
+    price = 1;
+    offset: number;
 
   constructor(
     private authService: AuthService,
     private snotifyService: SnotifyService
   ) { }
-
-    onChangeSize(value) {
-        this.selectedSize = value;
-    }
-
-    onChangeColor(value) {
-        this.selectedColor = value;
-    }
 
     galleryStart() {
         function modaGallery() {
@@ -105,7 +96,7 @@ export class ShopComponent implements OnInit {
     convertString(value: string, add) {
         return add ? (parseFloat(value) + parseFloat(add)).toFixed(2) : parseFloat(value).toFixed(2);
     }
-
+    // Get data to modal
     checkItem(id) {
         this.quantity = 1;
         this.shop.map(e => {
@@ -118,7 +109,9 @@ export class ShopComponent implements OnInit {
         this.selectedColor = this.modalItem.color[0];
     }
 
+    // This function adds an elements to localStorage
     addItem() {
+        // Get item
         const object = {
                 itemId: this.modalItem._id,
                 name: this.modalItem.name,
@@ -126,30 +119,37 @@ export class ShopComponent implements OnInit {
                 quantity: this.quantity,
                 selectSize: this.selectedSize,
                 selectColor: this.selectedColor
-            },
-            items = JSON.parse(localStorage.getItem('items'));
-
+            };
+        // Get items from the localStorage
+        const items = JSON.parse(localStorage.getItem('items'));
+        // Check if items exist
         if (items) {
+            // The if statement which will examine if the item is already in the localStorage and if this return true then throw an error
             if (items.find((items) => items.itemId === object.itemId)) {
                 this.snotifyService.error('Currently you have this item in cart', 'Error');
                 this.authService.getItem();
             } else {
+                // Add item to localStorage
                 items.push(object);
                 localStorage.setItem('items', JSON.stringify(items));
                 this.snotifyService.success('Item was added', 'Success');
+                // Update view cart
                 this.authService.getItem();
             }
         } else {
+            // This will create new array, add object to them and initiate the localStorage
             const array = [];
             array[0] = object;
             localStorage.setItem('items', JSON.stringify(array));
             this.snotifyService.success('Item was added', 'Success');
+            // Update view cart
             this.authService.getItem();
         }
     }
 
-    getItems(pagi? ) {
+    getItems(pagi?) {
         // Here we will create query string and convey to service as array of object
+        this.search.map((e) => { if (e.name === 'offset') e.info = 0 });
         if (pagi && typeof pagi === 'object') {
             for (let j = 0; j < Object.keys(pagi).length; j++) {
                 if (this.search.length === 0) {
@@ -168,9 +168,12 @@ export class ShopComponent implements OnInit {
                 }
             }
         }
+
+        // Get data from the database about 'shop item'
         this.authService.getAllItems(this.search).subscribe(data => {
             if (data['success']) {
                 this.site = [];
+                // Create pagination
                 this.site = ((a, b) => {
                     const array = [];
                     let countSite = Math.floor(a / b);
@@ -183,9 +186,12 @@ export class ShopComponent implements OnInit {
                     }
                     return array;
                 })(data['count'], data['per_page']);
+                // Save data to variable
                 this.shop = data['message'];
                 this.shopStatic = data['message'];
+                this.offset = data['offset'];
             } else {
+                // If error occured throw error message
                 this.snotifyService.error(data['message'], {
                     timeout: 10000,
                     showProgressBar: true,
@@ -194,6 +200,7 @@ export class ShopComponent implements OnInit {
                 });
             }
         }, err => {
+            // If error occured throw error message
             this.snotifyService.error("Can't get item... :(", {
                 timeout: 10000,
                 showProgressBar: true,
@@ -203,6 +210,7 @@ export class ShopComponent implements OnInit {
         });
     }
 
+    // Quantity button
     quantityChange(value) {
        if (value === true) {
            this.quantity++;

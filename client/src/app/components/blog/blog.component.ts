@@ -21,7 +21,6 @@ export class BlogComponent implements OnInit {
 
     // Function to get all blogs from the database
     getAllBlogs() {
-    // Function to GET all blogs from database
         this.authService.getAllBlogs(true).subscribe(data => {
           this.blogPosts = data['blogs'];
           this.biggest = 0;

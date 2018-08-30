@@ -318,22 +318,35 @@ module.exports = (router) => {
     =============================================================== */
     router.get('/allItems', getFilters, async (req, res) => {
         try {
-            const sort_by = {};
-            sort_by[ req.query.sort_by || 'quantity' ] = req.query.order_by || 'desc';
-            const offset = parseInt(req.query.offset) || 0;
-            const per_page = parseInt(req.query.per_page) || 9;
-            const shopPromise = 
-                  Shop.find(req.filters)
-                    .skip(offset)
-                    .limit(per_page)
-                    .sort(sort_by);
+            const regExpNumber = new RegExp(/^\d+$/),
+                  reqExpWord = new RegExp(/\b(asc|desc)\b/),
+                  availableFilters = Object.keys(Shop.schema.paths);
             
-            const countPromise = Shop.count(req.filters);
-            const [items, count] = await Promise.all([ shopPromise, countPromise ]);
-            return res.json({ success: true, message: items, count, per_page});
+            if (((typeof req.query.offset !== 'undefined' && req.query.offset !== null) && !regExpNumber.test(req.query.offset))) {
+                return res.json({ success: false, message: 'offset must be number' });
+            } else if ((typeof req.query.per_page !== 'undefined' && req.query.per_page !== null) && !regExpNumber.test(req.query.per_page)) {
+                return res.json({ success: false, message: 'per_page must be number' });
+            } else if ((typeof req.query.sort_by !== 'undefined' && req.query.sort_by !== null) && !availableFilters.includes(req.query.sort_by)) {
+                return res.json({ success: false, message: 'Wrong name in sort_by' });
+            } else if ((typeof req.query.order_by !== 'undefined' && req.query.order_by !== null) && !reqExpWord.test(req.query.order_by)) {
+                return res.json({ success: false, message: 'Wrong name in order_by' }); 
+            } else {
+                const sort_by = {};
+                sort_by[ req.query.sort_by || 'quantity' ] = req.query.order_by || 'desc';
+                const offset = parseInt(req.query.offset) || 0;
+                const per_page = parseInt(req.query.per_page) || 9;
+                const shopPromise = 
+                      Shop.find(req.filters)
+                        .skip(offset)
+                        .limit(per_page)
+                        .sort(sort_by);
+
+                const countPromise = Shop.count(req.filters);
+                const [items, count] = await Promise.all([ shopPromise, countPromise ]);
+                return res.json({ success: true, message: items, count, per_page, offset });           
+            }
         } catch(err) {
-            console.log(err);
-            res.json({ success: false, message: err });
+            return res.json({ success: false, message: err });
         }
 
     });

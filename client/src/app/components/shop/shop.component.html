@@ -23,7 +23,7 @@
                     <ul>
                         <li class="sortBy">Sort By</li>
                         <li class="sortBy" [ngClass]="{'active': sortBy === 1 }" (click)="sortBy = 1" (click)="getItems([{name: 'order_by', info: null},{name: 'sort_by', info: null}])">Default</li>
-                        <li class="sortBy" [ngClass]="{'active': sortBy === 2 }" (click)="sortBy = 2">Popularity</li>
+                        <li class="sortBy" [ngClass]="{'active': sortBy === 2 }" (click)="sortBy = 2" (click)="getItems([{name: 'order_by', info: 'desc'}, {name: 'sort_by', info: 'createdAt'}])">Newness</li>
                         <li class="sortBy" [ngClass]="{'active': sortBy === 3 }" (click)="sortBy = 3" (click)="getItems([{name: 'order_by', info: 'desc'}, {name: 'sort_by', info: 'quantity'}])">Quantity in stock</li>
                         <li class="sortBy" [ngClass]="{'active': sortBy === 4 }" (click)="sortBy = 4" (click)="getItems([{name: 'order_by', info: 'asc'},{name: 'sort_by', info: 'price'}])">Price: Low to Hight</li>
                         <li class="sortBy" [ngClass]="{'active': sortBy === 5 }" (click)="sortBy = 5" (click)="getItems([{name: 'order_by', info: 'desc'},{name: 'sort_by', info: 'price'}])">Price: High to Low</li>
@@ -32,11 +32,11 @@
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
                     <ul>
                         <li class="sortBy">Price</li>
-                        <li class="sortBy" (click)="sortPrice(0,0,true)">All</li>
-                        <li class="sortBy" (click)="sortPrice(0,10)">$0.00 - $10.00</li>
-                        <li class="sortBy" (click)="sortPrice(10,20)">$10.00 - $20.00</li>
-                        <li class="sortBy" (click)="sortPrice(20,30)">$20.00 - $30.00</li>
-                        <li class="sortBy" (click)="sortPrice(30,'end')">$30.00+</li>
+                        <li class="sortBy" [ngClass]="{'active': price === 1 }" (click)="price = 1" (click)="getItems([{name: 'price[$gte]', info: null},{name: 'price[$lte]', info: null}])">All</li>
+                        <li class="sortBy" [ngClass]="{'active': price === 2 }" (click)="price = 2" (click)="getItems([{name: 'price[$gte]', info: 0},{name: 'price[$lte]', info: 10}])">$0.00 - $10.00</li>
+                        <li class="sortBy" [ngClass]="{'active': price === 3 }" (click)="price = 3" (click)="getItems([{name: 'price[$gte]', info: 10},{name: 'price[$lte]', info: 20}])">$10.00 - $20.00</li>
+                        <li class="sortBy" [ngClass]="{'active': price === 4 }" (click)="price = 4" (click)="getItems([{name: 'price[$gte]', info: 20},{name: 'price[$lte]', info: 30}])">$20.00 - $30.00</li>
+                        <li class="sortBy" [ngClass]="{'active': price === 5 }" (click)="price = 5" (click)="getItems([{name: 'price[$gte]', info: 30},{name: 'price[$lte]', info: null}])">$30.00+</li>
                     </ul>
                 </div>
                 <div class="collapse-describe col-6	col-sm-6 col-md-3 col-lg-3 col-xl-3">
@@ -94,7 +94,7 @@
                                 <div class="row box-select align-items-center">
                                     <div class="col-2">Size: </div>
                                     <div class="select col-6">
-                                        <select [ngModel]="selectedSize" (ngModelChange)="onChangeSize($event)">
+                                        <select [ngModel]="selectedSize" (ngModelChange)="selectedSize = $event">
                                             <option disabled>Size</option>
                                             <option *ngFor="let size of modalItem?.size" [ngValue]="size">{{ size }}</option>
                                         </select>
@@ -104,7 +104,7 @@
                                 <div class="row box-select align-items-center">
                                     <span class="col-2">Color: </span>
                                     <div class="select col-6">
-                                        <select [ngModel]="selectedColor" (ngModelChange)="onChangeColor($event)">
+                                        <select [ngModel]="selectedColor" (ngModelChange)="selectedColor = $event">
                                             <option disabled>Color</option>
                                             <option *ngFor="let color of modalItem?.color" [ngValue]="color">{{ color }}</option>
                                         </select>
@@ -139,7 +139,7 @@
     </div>
     <!-- START PRODUCT -->
     <div class="row photos justify-content-center">
-        <ng-container *ngFor="let item of shop | paginate: { id: 'shop-pagination', itemsPerPage: 9, currentPage: pageShop }">
+        <ng-container *ngFor="let item of shop">
             <div class="item-shop-box col-11 col-sm-10 col-md-6 col-lg-4" (click)="checkItem(item._id)">
                 <figure class="snip1423" data-toggle="modal" data-target=".bd-example-modal-lg">
                     <div [ngSwitch]="item?.category[0]">
@@ -163,7 +163,7 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <ng-container *ngFor="let item of site; let i = index">
-                    <li class="page-item" (click)="getItems([{name: item.name, info: item.data}])"><a class="page-link">{{ i + 1 }}</a></li>
+                    <li class="page-item" [ngClass]="{'active': offset === item.data }" (click)="getItems([{name: item.name, info: item.data}])"><a class="page-link">{{ i + 1 }}</a></li>
                 </ng-container>
             </ul>
         </nav>
