@@ -204,6 +204,7 @@ export class SingelPostComponent implements OnInit {
                     }); // Save blog object for use in HTML
                 }
             }
+            this.getBlog();
         });
     }
 
@@ -222,7 +223,11 @@ export class SingelPostComponent implements OnInit {
                 this.message = 'Blog not found.'; // Set error message
             } else {
                 this.blogPosts = [];
-                for (let i = 0; i < 3; i++) { this.blogPosts.push(data['blogs'][i]) };
+                for (let i = 0; this.blogPosts.length < 3; i++) {
+                    if (this.blog._id != data['blogs'][i]._id ) {
+                        this.blogPosts.push(data['blogs'][i]);
+                    }
+                };
                 this.messageClass = null;
                 this.message = null;
             }
@@ -233,7 +238,6 @@ export class SingelPostComponent implements OnInit {
         this.currentUrl = this.activatedRoute.snapshot.params; // When component loads, grab the id
         // Function to GET current blog with id in params
         this.getPost(true);
-        this.getBlog();
     }
 
 }

@@ -710,7 +710,7 @@ Main components
 }
 
 .team-detail-photo img {
-    max-width: 100%;
+    width: 60%;
     -webkit-box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
 }
@@ -809,6 +809,9 @@ Main components
     .person-details {
         padding: 0 10px;
     }
+    .team-detail-photo img {
+        width: 100%;
+    }
 }
 
 @media (max-width: 970px) {
@@ -841,6 +844,9 @@ Main components
     .person {
         width: calc(50% - 20px);
     }
+    .team-detail-photo img {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -851,6 +857,9 @@ Main components
 
     .header {
         margin-top: 50px;
+    }
+    .team-detail-photo img {
+        width: 100%;
     }
 }
 

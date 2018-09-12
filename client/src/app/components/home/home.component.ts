@@ -76,7 +76,6 @@ export class HomeComponent implements OnInit {
         this.shop = [];
         const pagination = { name: 'per_page', info: 12 };
         this.authService.getAllItems(pagination).subscribe(data => {
-            console.log(data);
             this.shop = data['message'];
         }, (err) => {
                 this.messageClass = 'alert alert-danger'; // Return error class
@@ -125,6 +124,10 @@ export class HomeComponent implements OnInit {
 
     convertString(value: string) {
         return parseFloat(value).toFixed(2);
+    }
+
+    getCategory(val) {
+        this.authService.changeMessage(val);
     }
 
   ngOnInit() {

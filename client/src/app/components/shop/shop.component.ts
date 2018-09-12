@@ -19,7 +19,7 @@ export class ShopComponent implements OnInit {
     selectedColor: string;
     site: Array<any> = [];
     search = [];
-    category = 1;
+    category = 'all';
     price = 1;
     offset: number;
 
@@ -220,8 +220,15 @@ export class ShopComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getItems();
         this.galleryStart();
+        const getCategory = this.authService.currentMessage.source['value'];
+        if (getCategory && typeof getCategory === 'object') {
+            this.category = getCategory[0].info;
+            this.getItems(getCategory);
+            this.authService.changeMessage(null);
+        } else {
+            this.getItems();
+        }
     }
 
 }

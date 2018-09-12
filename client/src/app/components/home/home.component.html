@@ -31,7 +31,7 @@
                     <div class="card__content">
                         <div class="card__title">WOMEN</div>
                         <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste numquam vitae blanditiis expedita. Sint praesentium, id nesciunt nostrum magni, quod veritatis, totam nobis possimus vero sunt et tempora blanditiis, ea.</p>
-                        <button class="btn btn--block card__btn" routerLink="/shop">CHECK OUT</button>
+                        <button class="btn btn--block card__btn" routerLink="/shop" (click)="getCategory([{name: 'category', info: 'women'}])">CHECK OUT</button>
                     </div>
                 </div>
             </li>
@@ -41,7 +41,7 @@
                     <div class="card__content">
                         <div class="card__title">MEN</div>
                         <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste numquam vitae blanditiis expedita. Sint praesentium, id nesciunt nostrum magni, quod veritatis.</p>
-                        <button class="btn btn--block card__btn" routerLink="/shop">CHECK OUT</button>
+                        <button class="btn btn--block card__btn" routerLink="/shop" (click)="getCategory([{name: 'category', info: 'men'}])">CHECK OUT</button>
                     </div>
                 </div>
             </li>
@@ -51,7 +51,7 @@
                     <div class="card__content">
                         <div class="card__title">Accessories</div>
                         <p class="card__text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste numquam vitae blanditiis expedita.</p>
-                        <button class="btn btn--block card__btn" routerLink="/shop">CHECK OUT</button>
+                        <button class="btn btn--block card__btn" routerLink="/shop" (click)="getCategory([{name: 'category', info: 'accesories'}])">CHECK OUT</button>
                     </div>
                 </div>
             </li>

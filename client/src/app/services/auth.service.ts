@@ -3,7 +3,7 @@ import { HttpClient, HttpParams  } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import isUndefined from 'lodash/isUndefined';
 import isNull from 'lodash/isNull';
 import isEmpty from 'lodash/isEmpty';
@@ -18,6 +18,8 @@ export class AuthService  {
     user;
     options;
     storageItem;
+    private messageSource = new BehaviorSubject(null);
+    currentMessage = this.messageSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -30,6 +32,10 @@ export class AuthService  {
     getItem() {
         this.storageItem = JSON.parse(localStorage.getItem("items"));
         this.change.emit(this.storageItem);
+    }
+
+    changeMessage(message: string) {
+        this.messageSource.next(message);
     }
 
     // Function to get token from client local storage

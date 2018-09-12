@@ -42,7 +42,6 @@ export class ProfileComponent implements OnInit {
     getImageFromService() {
         this.blogService.getImage().subscribe(data => {
             this.imageToShow = data;
-            console.log(this.imageToShow);
         });
     }
 

@@ -7,10 +7,10 @@
     </div>
     <div class="shop-menu">
         <ul class="myBtnContainer d-flex flex-wrap">
-            <li class="btn" [ngClass]="{'active': category === 1 }" (click)="category = 1" (click)="getItems([{name: 'category', info: null}])">All Products</li>
-            <li class="btn" [ngClass]="{'active': category === 2 }" (click)="category = 2" (click)="getItems([{name: 'category', info: 'women'}])">Women</li>
-            <li class="btn" [ngClass]="{'active': category === 3 }" (click)="category = 3" (click)="getItems([{name: 'category', info: 'men'}])">Men</li>
-            <li class="btn" [ngClass]="{'active': category === 4 }" (click)="category = 4" (click)="getItems([{name: 'category', info: 'accesories'}])">Accesories</li>
+            <li class="btn" [ngClass]="{'active': category === 'all' }" (click)="category = 'all'" (click)="getItems([{name: 'category', info: null}])">All Products</li>
+            <li class="btn" [ngClass]="{'active': category === 'women' }" (click)="category = 'women'" (click)="getItems([{name: 'category', info: 'women'}])">Women</li>
+            <li class="btn" [ngClass]="{'active': category === 'men' }" (click)="category = 'men'" (click)="getItems([{name: 'category', info: 'men'}])">Men</li>
+            <li class="btn" [ngClass]="{'active': category === 'accesories' }" (click)="category = 'accesories'" (click)="getItems([{name: 'category', info: 'accesories'}])">Accesories</li>
         </ul>
         <div class="shop-filter">
             <div class="filter-button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">Filter</div>

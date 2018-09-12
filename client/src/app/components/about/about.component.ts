@@ -25,49 +25,49 @@ export class AboutComponent implements OnInit {
     persons = [
       {
         name: "Amber Gibs",
-        photo: "http://www.designskilz.com/random-users/images/imageF50.jpg",
+        photo: "../../../assets/pexels-photo-1043474.jpeg",
         title: "Developer",
         bio:
           "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet architecto ea blanditiis quo labore esse magnam illum ut quibusdam. Corrupti ratione iure aliquam adipisci! Harum vitae laboriosam temporibus illo suscipit?</p><p>Saepe repudiandae rerum quam ut perferendis, ullam similique nemo quod, assumenda mollitia consectetur. Eveniet optio maxime perferendis odit possimus? Facilis architecto nesciunt doloribus consectetur culpa veritatis accusamus expedita quos voluptate!</p><p>Nisi provident minus possimus optio voluptate rem, perspiciatis, placeat, culpa aperiam quod temporibus.</p>",
         social: {
           facebook: "#",
-          twitter: "https://twitter.com/knyttneve",
+          twitter: "#",
           linkedin: "#"
         }
       },
       {
         name: "Carl Roland",
-        photo: "http://www.designskilz.com/random-users/images/imageM33.jpg",
+        photo: "../../../assets/pexels-photo-1043474.jpeg",
         title: "Developer",
         bio:
           "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet architecto ea blanditiis quo labore esse magnam illum ut quibusdam. Corrupti ratione iure aliquam adipisci! Harum vitae laboriosam temporibus illo suscipit?</p><p>Saepe repudiandae rerum quam ut perferendis, ullam similique nemo quod, assumenda mollitia consectetur. Eveniet optio maxime perferendis odit possimus? Facilis architecto nesciunt doloribus consectetur culpa veritatis accusamus expedita quos voluptate!</p><p>Nisi provident minus possimus optio voluptate rem, perspiciatis, placeat, culpa aperiam quod temporibus.</p>",
         social: {
           facebook: "#",
-          twitter: "https://twitter.com/knyttneve",
+          twitter: "#",
           linkedin: "#"
         }
       },
       {
         name: "Paul Wilson",
-        photo: "http://www.designskilz.com/random-users/images/imageM11.jpg",
+        photo: "../../../assets/pexels-photo-1043474.jpeg",
         title: "UI Designer",
         bio:
           "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet architecto ea blanditiis quo labore esse magnam illum ut quibusdam. Corrupti ratione iure aliquam adipisci! Harum vitae laboriosam temporibus illo suscipit?</p><p>Saepe repudiandae rerum quam ut perferendis, ullam similique nemo quod, assumenda mollitia consectetur. Eveniet optio maxime perferendis odit possimus? Facilis architecto nesciunt doloribus consectetur culpa veritatis accusamus expedita quos voluptate!</p><p>Nisi provident minus possimus optio voluptate rem, perspiciatis, placeat, culpa aperiam quod temporibus.</p>",
         social: {
           facebook: "#",
-          twitter: "https://twitter.com/knyttneve",
+          twitter: "#",
           linkedin: "#"
         }
       },
       {
         name: "Alice Jenkins",
-        photo: "http://www.designskilz.com/random-users/images/imageF38.jpg",
+        photo: "../../../assets/pexels-photo-1043474.jpeg",
         title: "QA Engineer",
         bio:
           "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet architecto ea blanditiis quo labore esse magnam illum ut quibusdam. Corrupti ratione iure aliquam adipisci! Harum vitae laboriosam temporibus illo suscipit?</p><p>Saepe repudiandae rerum quam ut perferendis, ullam similique nemo quod, assumenda mollitia consectetur. Eveniet optio maxime perferendis odit possimus? Facilis architecto nesciunt doloribus consectetur culpa veritatis accusamus expedita quos voluptate!</p><p>Nisi provident minus possimus optio voluptate rem, perspiciatis, placeat, culpa aperiam quod temporibus.</p>",
         social: {
           facebook: "#",
-          twitter: "https://twitter.com/knyttneve",
+          twitter: "#",
           linkedin: "#"
         }
       }
