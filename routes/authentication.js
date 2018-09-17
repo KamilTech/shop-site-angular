@@ -303,7 +303,7 @@ module.exports = (router) => {
                             message: 'Blog not found.'
                         });
                     } else {
-                        res.json({
+                        res.status(200).json({
                             success: true,
                             blog: blog
                         }); // Return success
@@ -356,7 +356,7 @@ module.exports = (router) => {
     =============================================================== */
     // I know it's not the best way to do this... if I will have more time I will do it in better way :)
     router.get('/image/:user', (req, res) => {
-        User.findOne({ username: req.params.user }, (err, user) => {
+        User.findOne({ username: req.params.user }, async (err, user) => {
             if (err) {
                 res.json({ success: false, message: 'Something went wrong.' });
             } else {
@@ -365,32 +365,33 @@ module.exports = (router) => {
                 } else {
                     const conn = mongoose.createConnection(config.uri); // Create mongo connection
                     let gfs;
-                    conn.once('open', () => {
-                        // Init stream
-                        gfs = Grid(conn.db, mongoose.mongo);
-                        display(gfs);
-                    });
-                    function display(gfs) {
-                        gfs.files.findOne({ filename: user.username }, (err, file) => {
-                            // Check if file
-                            if (!file || file.length === 0) {
-                                  gfs.files.findOne({ filename: 'defaultImage' }, (err, file) => {
-                                    // Read output to browser
-                                    const readstream = gfs.createReadStream(file.filename);
-                                    readstream.pipe(res);
-                                  });
-                            } else {
-                                // Check if image
-                                if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
-                                  // Read output to browser
-                                  const readstream = gfs.createReadStream(file.filename);
-                                  readstream.pipe(res);
-                                } else {
-                                    res.json({ success: false, message: 'Not an image' });
-                                }   
-                            }
-                        });   
+                    try {
+                        await conn.once('open', () => {
+                            // Init stream
+                            gfs = Grid(conn.db, mongoose.mongo);
+                        });
+                    } catch(error) {
+                        res.json({ success: false, message: 'Error in init stream' });
                     }
+                    gfs.files.findOne({ filename: user.username }, (err, file) => {
+                        // Check if file
+                        if (!file || file.length === 0) {
+                                gfs.files.findOne({ filename: 'defaultImage' }, (err, file) => {
+                                // Read output to browser
+                                const readstream = gfs.createReadStream(file.filename);
+                                readstream.pipe(res);
+                                });
+                        } else {
+                            // Check if image
+                            if (file.contentType === 'image/jpeg' || file.contentType === 'image/png') {
+                                // Read output to browser
+                                const readstream = gfs.createReadStream(file.filename);
+                                readstream.pipe(res);
+                            } else {
+                                res.json({ success: false, message: 'Not an image' });
+                            }   
+                        }
+                    });   
                 }    
             }
         });

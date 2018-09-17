@@ -576,7 +576,7 @@ module.exports = (router) => {
     =============================================================== */
     router.post('/image', (req, res) => {
         // Get data from user that is signed in
-        User.findOne({ _id: req.decoded.userId }, (err, user) => {
+        User.findOne({ _id: req.decoded.userId }, async (err, user) => {
             // Check if errors has occured
             if (err) {
                 res.json({ success: false, message: 'Something went wrong.' });
@@ -587,36 +587,34 @@ module.exports = (router) => {
                 } else {
                     const conn = mongoose.createConnection(config.uri); // Create mongo connection
                     let gfs; // init gfs
-                    conn.once('open', () => {
-                        // Init stream
-                        gfs = Grid(conn.db, mongoose.mongo);
-                        checkExist(gfs);
-                    });
-                    
-                    function checkExist(gfs) {
-                        gfs.files.findOne({ filename: user.username }, (err, file) => {
-                            // Check if errors has occured
-                            if (err) {
-                                res.json({ success: false, message: 'Something went wrong.' });
-                            } else {
-                                // Check if file
-                                if (!file || file.length === 0) {
-                                    addItem();
-                                } else {
-                                    // First we have to remove old image
-                                    gfs.remove(file, (err, gridStore) => {
-                                        if (err) {
-                                            // Check if errors has occured
-                                            return res.json({ success: false, message: 'Something went wrong.' });
-                                        } else {
-                                            // Add new image
-                                            addItem();
-                                        }
-                                    });
-                                }
-                            }
-                        });
+                    try {
+                        await conn.once('open', () => { gfs = Grid(conn.db, mongoose.mongo); });
+                    } catch(error) {
+                        res.json({ success: false, message: 'Error in init stream' });
                     }
+                    
+                    gfs.files.findOne({ filename: user.username }, (err, file) => {
+                        // Check if errors has occured
+                        if (err) {
+                            res.json({ success: false, message: 'Something went wrong.' });
+                        } else {
+                            // Check if file
+                            if (!file || file.length === 0) {
+                                addItem();
+                            } else {
+                                // First we have to remove old image
+                                gfs.remove(file, (err, gridStore) => {
+                                    if (err) {
+                                        // Check if errors has occured
+                                        return res.json({ success: false, message: 'Something went wrong.' });
+                                    } else {
+                                        // Add new image
+                                        addItem();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     
                     function addItem() {
                         // Create storage engine
