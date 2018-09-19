@@ -1,9 +1,11 @@
 # Responsive shop site with blog and CMS system
 
+[DEMO](https://www.youtube.com/watch?v=My5j6-z561k)
+
 This project was made by me in 100%. It doesn't come from any course or tutorial. Now I will introduce a concise description of the possibilities:
 - First of all you can register new account then login in and do some stuff. For example you will able to write a new blog, leave comment or like other blogs. Also you can like comment other people.
 - When will you have access to the admin account then you will able to choose which post should be shown on an official blog site 
-- Only admin have a right to add a new item to the shop
+- Only admin has the right to add a new item to the shop
 - You can view your entry as well as edit and delete it.
 - You can view your profile add or change image
 - And more...
